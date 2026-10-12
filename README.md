@@ -26,46 +26,43 @@
 
 ## Hands-on Engineering
 
-Icons use Skill Icons; each links to an official learning page. If the icon service is unavailable, the linked image’s alt label remains visible.
+A compact map of technologies represented in verified projects and current study. Each mark links to its official documentation.
 
-### Languages
+<table align="center"><tbody><tr><td align="center">
+<sub><strong>LANGUAGES</strong></sub><br>
+<a href="https://www.python.org/" title="Python"><img src="https://skillicons.dev/icons?i=python&theme=dark" width="48" height="48" alt="Python icon"></a>
+<a href="https://dev.java/learn/" title="Java (learning)"><img src="https://skillicons.dev/icons?i=java&theme=dark" width="48" height="48" alt="Java (learning) icon"></a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="https://skillicons.dev/icons?i=js&theme=dark" width="48" height="48" alt="JavaScript icon"></a>
+<a href="https://www.typescriptlang.org/docs/" title="TypeScript"><img src="https://skillicons.dev/icons?i=ts&theme=dark" width="48" height="48" alt="TypeScript icon"></a>
+</td></tr></tbody></table>
 
-<p align="center">
-<a href="https://www.python.org/" title="Python"><img src="https://skillicons.dev/icons?i=python&theme=dark" width="40" height="40" alt="Python icon"></a>
-<a href="https://dev.java/learn/" title="Java (learning)"><img src="https://skillicons.dev/icons?i=java&theme=dark" width="40" height="40" alt="Java (learning) icon"></a>
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="https://skillicons.dev/icons?i=js&theme=dark" width="40" height="40" alt="JavaScript icon"></a>
-<a href="https://www.typescriptlang.org/docs/" title="TypeScript"><img src="https://skillicons.dev/icons?i=ts&theme=dark" width="40" height="40" alt="TypeScript icon"></a>
-</p>
+<table align="center"><tbody><tr><td align="center">
+<sub><strong>FRAMEWORKS & DEVELOPMENT</strong></sub><br>
+<a href="https://react.dev/" title="React"><img src="https://skillicons.dev/icons?i=react&theme=dark" width="48" height="48" alt="React icon"></a>
+<a href="https://flask.palletsprojects.com/" title="Flask"><img src="https://skillicons.dev/icons?i=flask&theme=dark" width="48" height="48" alt="Flask icon"></a>
+<a href="https://expressjs.com/" title="Express"><img src="https://skillicons.dev/icons?i=express&theme=dark" width="48" height="48" alt="Express icon"></a>
+<a href="https://nodejs.org/en/learn" title="Node.js"><img src="https://skillicons.dev/icons?i=nodejs&theme=dark" width="48" height="48" alt="Node.js icon"></a>
+</td></tr></tbody></table>
 
-### Frameworks & development
+<table align="center"><tbody><tr><td align="center">
+<sub><strong>AI & DATA</strong></sub><br>
+<a href="https://ai.google.dev/gemini-api/docs" title="Generative AI"><img src="https://skillicons.dev/icons?i=ai&theme=dark" width="48" height="48" alt="Generative AI icon"></a>
+</td></tr></tbody></table>
 
-<p align="center">
-<a href="https://react.dev/" title="React"><img src="https://skillicons.dev/icons?i=react&theme=dark" width="40" height="40" alt="React icon"></a>
-<a href="https://flask.palletsprojects.com/" title="Flask"><img src="https://skillicons.dev/icons?i=flask&theme=dark" width="40" height="40" alt="Flask icon"></a>
-<a href="https://expressjs.com/" title="Express"><img src="https://skillicons.dev/icons?i=express&theme=dark" width="40" height="40" alt="Express icon"></a>
-<a href="https://nodejs.org/en/learn" title="Node.js"><img src="https://skillicons.dev/icons?i=nodejs&theme=dark" width="40" height="40" alt="Node.js icon"></a>
-</p>
+<table align="center"><tbody><tr><td align="center">
+<sub><strong>DATABASES</strong></sub><br>
+<a href="https://www.postgresql.org/docs/" title="PostgreSQL"><img src="https://skillicons.dev/icons?i=postgres&theme=dark" width="48" height="48" alt="PostgreSQL icon"></a>
+<a href="https://www.sqlite.org/docs.html" title="SQLite"><img src="https://skillicons.dev/icons?i=sqlite&theme=dark" width="48" height="48" alt="SQLite icon"></a>
+<a href="https://supabase.com/docs" title="Supabase"><img src="https://skillicons.dev/icons?i=supabase&theme=dark" width="48" height="48" alt="Supabase icon"></a>
+</td></tr></tbody></table>
 
-### AI & data
+<table align="center"><tbody><tr><td align="center">
+<sub><strong>CLOUD & TOOLING</strong></sub><br>
+<a href="https://git-scm.com/doc" title="Git"><img src="https://skillicons.dev/icons?i=git&theme=dark" width="48" height="48" alt="Git icon"></a>
+<a href="https://docs.github.com/en/actions" title="GitHub Actions"><img src="https://skillicons.dev/icons?i=githubactions&theme=dark" width="48" height="48" alt="GitHub Actions icon"></a>
+</td></tr></tbody></table>
 
-<p align="center">
-<a href="https://ai.google.dev/gemini-api/docs" title="Generative AI"><img src="https://skillicons.dev/icons?i=ai&theme=dark" width="40" height="40" alt="Generative AI icon"></a>
-</p>
-
-### Databases
-
-<p align="center">
-<a href="https://www.postgresql.org/docs/" title="PostgreSQL"><img src="https://skillicons.dev/icons?i=postgres&theme=dark" width="40" height="40" alt="PostgreSQL icon"></a>
-<a href="https://www.sqlite.org/docs.html" title="SQLite"><img src="https://skillicons.dev/icons?i=sqlite&theme=dark" width="40" height="40" alt="SQLite icon"></a>
-<a href="https://supabase.com/docs" title="Supabase"><img src="https://skillicons.dev/icons?i=supabase&theme=dark" width="40" height="40" alt="Supabase icon"></a>
-</p>
-
-### Cloud & tooling
-
-<p align="center">
-<a href="https://git-scm.com/doc" title="Git"><img src="https://skillicons.dev/icons?i=git&theme=dark" width="40" height="40" alt="Git icon"></a>
-<a href="https://docs.github.com/en/actions" title="GitHub Actions"><img src="https://skillicons.dev/icons?i=githubactions&theme=dark" width="40" height="40" alt="GitHub Actions icon"></a>
-</p>
+<p align="center"><code>SOFTWARE SYSTEMS</code> <code>DATA PIPELINES</code> <code>APPLIED AI</code> <code>API DESIGN</code> <code>OBSERVABLE WORK</code></p>
 
 Project libraries documented in MatrixCore include [MCP](https://modelcontextprotocol.io/docs), [LiveKit](https://docs.livekit.io/), and [Qdrant](https://qdrant.tech/documentation/). Java is shown as a learning focus.
 

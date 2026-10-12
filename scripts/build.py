@@ -208,15 +208,19 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         "<p><strong>Selected repositories</strong><br><a href=\"https://github.com/Sarthaksulkhlan/epoch-software.evolution\">EPOCH</a> · <a href=\"https://github.com/Sarthaksulkhlan/Asset-Sentinel\">Asset Sentinel</a> · <a href=\"https://github.com/Sarthaksulkhlan/Nexis---Starforge\">MatrixCore</a></p>",
         "</td></tr></tbody></table>", "", theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## Hands-on Engineering", "",
-        "Icons use Skill Icons; each links to an official learning page. If the icon service is unavailable, the linked image’s alt label remains visible.", "",
+        "A compact map of technologies represented in verified projects and current study. Each mark links to its official documentation.", "",
     ]
     for category, skills in theme.SKILL_GROUPS:
-        content.extend([f"### {category}", "", '<p align="center">'])
+        content.extend([
+            '<table align="center"><tbody><tr><td align="center">',
+            f"<sub><strong>{category.upper()}</strong></sub><br>",
+        ])
         for label, icon, url in skills:
             src=f"https://skillicons.dev/icons?i={icon}&theme=dark"
-            content.append(f'<a href="{url}" title="{label}"><img src="{src}" width="40" height="40" alt="{label} icon"></a>')
-        content.extend(["</p>", ""])
+            content.append(f'<a href="{url}" title="{label}"><img src="{src}" width="48" height="48" alt="{label} icon"></a>')
+        content.extend(["</td></tr></tbody></table>", ""])
     content.extend([
+        '<p align="center"><code>SOFTWARE SYSTEMS</code> <code>DATA PIPELINES</code> <code>APPLIED AI</code> <code>API DESIGN</code> <code>OBSERVABLE WORK</code></p>', "",
         "Project libraries documented in MatrixCore include [MCP](https://modelcontextprotocol.io/docs), [LiveKit](https://docs.livekit.io/), and [Qdrant](https://qdrant.tech/documentation/). Java is shown as a learning focus.", "",
         theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## Selected Work", "", "Three verified projects, described from their repositories. Titles link to source; demos are shown only for the two deployed project sites.", "",
