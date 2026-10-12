@@ -20,11 +20,27 @@ SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
 WIDTH = 830
 HERO_HEIGHT = 280
-DIVIDER_HEIGHT = 34
+DIVIDER_HEIGHT = 38
 ACTIVITY_HEIGHT = 220
 LANGUAGE_HEIGHT = 250
 LANDSCAPE_HEIGHT = 210
 GRID_STEP = 28
+PANEL_RADIUS = 18
+PANEL_INSET = 18
+PORTRAIT_WIDTH = 480
+PORTRAIT_HEIGHT = 600
+PORTRAIT_SOURCE = "assets/profile-photo-source.jpg"
+PORTRAIT_PNG = "assets/profile-portrait.png"
+PORTRAIT_GIF = "assets/profile-portrait.gif"
+HERO_FRAMES = 18
+MOTION_FRAME_MS = 100
+TYPE_LINES = [
+    "Building practical software",
+    "Learning data and AI engineering",
+    "Tracing behavior through telemetry",
+    "Project study: EPOCH / Asset Sentinel / MatrixCore",
+]
+SKILLS_HEIGHT = 318
 DARK_MODE_MEDIA = "(prefers-color-scheme: dark)"
 LIGHT_MODE_MEDIA = "(prefers-color-scheme: light)"
 
@@ -66,8 +82,7 @@ CAPABILITIES = [
 EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
 EDUCATION_DETAIL = "Studying Computer Science and Engineering (Data Science); building practical software while developing foundations in data and AI engineering."
 CURRENT_FOCUS = "Building practical systems, understanding their behavior through data, and learning how to make AI-enabled software useful and dependable."
-PHOTO_PATH = "assets/profile-photo.jpeg"
-PHOTO_ALT = "Portrait of Sarthak Sulkhlan"
+PHOTO_ALT = "Stylized emerald halftone portrait of Sarthak Sulkhlan"
 ACTIVITY_NOTE = (
     "Activity groups only PushEvents returned by GitHub's public user-events endpoint "
     "(up to 100 recent public events). It is a sample, not a contribution history; "

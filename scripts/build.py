@@ -226,116 +226,24 @@ def _language_summary(data: dict[str, Any]) -> str:
     return " · ".join(f"{name} {size / total:.1%}" for name, size in visible)
 
 
-def render_readme(data: dict[str, Any]) -> str:
+def render_readme(data: dict[str, Any], portrait_available: bool | None = None) -> str:
     repository_snapshot = (
-        f"**Repository snapshot:** {int(data.get('public_repo_count', 0))} original public repositories · "
-        f"{int(data.get('public_repo_stars', 0))} stars across those repositories."
+        f"**Repository snapshot:** {int(data.get('public_repo_count', 0))} original public repositories · {int(data.get('public_repo_stars', 0))} stars across those repositories."
         if data.get("repos_available", "public_repo_count" in data)
         else "**Repository snapshot:** public repository metrics unavailable; cached visuals are labelled accordingly."
     )
-    content = [
-        theme.picture_markup("hero", "Sarthak Sulkhlan — software engineering, data science, and AI systems"),
-        "",
-        "**I build practical software at the intersection of computer science, data, and AI.**",
-        "",
-        "**Explore** · [About](#who-i-am) · [Hands-on engineering](#hands-on-engineering) · [Selected work](#selected-work) · [Education & activity](#education--technical-activity) · [Telemetry](#public-telemetry) · [Contact](#contact--navigation)",
-        "",
-        "<img src=\"assets/signal.gif\" alt=\"Animated emerald signal node moving along a technical trace\" width=\"830\">",
-        "",
-        "[GitHub profile](" + theme.PROFILE_URL + ") · [Browse my repositories](" + theme.PROFILE_URL + "?tab=repositories) · [Jump to selected work](#selected-work)",
-        "",
-        "## Who I am",
-        "",
-        "I’m studying **Computer Science and Engineering (Data Science)** and learning by building. I’m interested in software engineering, data-informed systems, and AI engineering: turning an idea into something people can try, then making its behavior easier to inspect and improve.",
-        "",
-        theme.CURRENT_FOCUS,
-        "",
-    ]
-    if (ROOT / theme.PHOTO_PATH).is_file():
-        content.extend([
-            f'<img src="{theme.PHOTO_PATH}" width="176" alt="{theme.PHOTO_ALT}">',
-            "",
-        ])
-    content.extend([
-        "**Currently learning:** " + " · ".join(f"`{item}`" for item in theme.LEARNING) + ".",
-        "",
-        theme.picture_markup("divider", "Fine emerald systems trace section divider"),
-        "",
-        "## Selected work",
-        "",
-        "Three documented projects, each approaching a different systems problem. Project descriptions and stacks are drawn from their public repository READMEs.",
-        "",
-    ])
-    for index, project in enumerate(theme.PROJECTS, start=1):
-        content.extend(_project_section(project, data, index))
-    content.extend([
-        "## Hands-on engineering",
-        "",
-        "A project-evidence map, not a proficiency ranking. Technologies below are documented in the linked implementations; items marked learning are current study topics.",
-        "",
-    ])
-    for capability in theme.CAPABILITIES:
-        content.extend([
-            f"### {capability['name']}",
-            "",
-            " · ".join(f"`{item}`" for item in capability["items"]),
-            "",
-            capability["evidence"],
-            "",
-        ])
-    content.extend([
-        "**Learning alongside project work:** `Java problem solving` · `generative AI systems`.",
-        "",
-        theme.picture_markup("project-landscape", "Three selected project areas: software evolution, endpoint telemetry, and voice interaction"),
-        "",
-        theme.picture_markup("divider", "Emerald systems trace section divider"),
-        "",
-        "## Education & technical activity",
-        "",
-        f"**{theme.EDUCATION}**",
-        "",
-        theme.EDUCATION_DETAIL,
-        "",
-        "**Project activity:** EPOCH is documented as a team prototype built for the IBM Bob 2.0 hackathon. See [the repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution) for its scope and implementation details.",
-        "",
-        "Internships, certificates, and other leadership or campus roles are not listed here because the current verified profile sources do not establish those details.",
-        "",
-        "## Public telemetry",
-        "",
-        "A compact view of public repository metadata and the limited public event sample. No private activity, contribution totals, or streaks are inferred.",
-        "",
-        _refresh_label(data),
-        "",
-        repository_snapshot,
-        "",
-        (f"**Event sample:** {int(data.get('public_push_event_count', 0))} public PushEvents returned." if data.get("events_available", False) else "**Event sample:** public event data unavailable; cached activity remains labelled accordingly."),
-        "",
-        theme.picture_markup("activity", "Public repository count, combined stars, and weekly buckets of sampled public PushEvents"),
-        "",
-        theme.ACTIVITY_NOTE,
-        "",
-        theme.picture_markup("language-stats", "Language byte composition across original public repositories, excluding forks and this profile repository"),
-        "",
-        f"**Language mix:** {_language_summary(data)}.",
-        "",
-        "Language shares use GitHub’s reported source-byte totals across owned, non-fork public repositories. The profile README repository is excluded.",
-        "",
-        "<details>",
-        "<summary>How to read the telemetry</summary>",
-        "",
-        "Repository counts and stars are a cached snapshot from GitHub’s public repository API. Language shares are weighted by source bytes. The activity plot groups PushEvents in the latest public user-events response (up to 100 events) into 12 week buckets; GitHub’s feed is sampled and capped, so this view is not a complete contribution history. A missing bar does not prove no work happened.",
-        "",
-        "</details>",
-        "",
-        "## Contact & navigation",
-        "",
-        f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)",
-        "",
-        "[Back to introduction](#who-i-am)",
-        "",
-        "---",
-        "<sub>Portfolio telemetry is generated from public GitHub repository metadata and a limited recent event sample. Visual instruments are self-hosted. The signal trace is an animated GIF; SVG illustrations are static with no essential information conveyed by motion.</sub>",
-    ])
+    if portrait_available is None:
+        portrait_available = (ROOT / theme.PORTRAIT_SOURCE).is_file() and (ROOT / theme.PORTRAIT_PNG).is_file()
+    alt = theme.PHOTO_ALT if portrait_available else "Portrait placeholder; add the supplied image at assets/profile-photo-source.jpg"
+    hero = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif"><img src="assets/hero.svg" alt="Sarthak Sulkhlan: software and data systems"></picture>'
+    typing = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif"><img src="assets/typing.svg" alt="Building software, learning data and AI, and tracing system behavior"></picture>'
+    divider = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/signal.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/signal-light.gif"><img src="assets/divider.svg" alt="Emerald signal trace divider"></picture>'
+    portrait = f'<picture><source type="image/gif" srcset="assets/profile-portrait.gif"><img src="assets/profile-portrait.png" alt="{alt}" width="240"></picture>'
+    content = [hero, "", typing, "", "**Explore** · [About](#who-i-am) · [Hands-on engineering](#hands-on-engineering) · [Selected work](#selected-work) · [Education](#education--technical-activity) · [Telemetry](#public-telemetry) · [Contact](#contact--navigation) · [How this profile is built](SETUP.md)", "", divider, "", "[GitHub profile](" + theme.PROFILE_URL + ") · [Browse my repositories](" + theme.PROFILE_URL + "?tab=repositories)", "", "## Who I am", "", '<table width="100%"><tbody><tr><td width="32%" valign="top" align="center">', portrait, "", "<sub>COMPUTER SCIENCE / DATA SCIENCE</sub>", "</td><td width=\"68%\" valign=\"top\">", "", "### sarthak@build — profile", "", "| Field | Details |", "|:--|:--|", f"| study | {theme.EDUCATION} |", "| interests | Software engineering · data science · applied AI |", "| project stack | TypeScript · Python · React · Flask · SQL |", "| learning | Java problem solving · generative AI systems |", "| focus | Practical systems whose behavior can be observed and improved |", "", "I’m studying computer science and learning by building useful software. I’m interested in turning ideas into working systems, understanding their behavior through data, and making AI-enabled tools more dependable.", "", "**Current focus:** " + theme.CURRENT_FOCUS, "", "**Projects:** [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)", "", "</td></tr></tbody></table>", "", divider, "", "## Hands-on engineering", "", "Organized by project evidence and current study; not a proficiency ranking.", "", theme.picture_markup("skills", "Evidence-based groups for programming, AI, backend and data, frontend tools, and systems integration"), ""]
+    for item in theme.CAPABILITIES: content.extend([f"### {item['name']}", "", " · ".join(item["items"]), "", item["evidence"], ""])
+    content.extend(["<details><summary>Learning focus</summary>", "", "Java problem solving and generative AI systems are current learning topics.", "", "</details>", "", "## Selected work", "", "Three documented projects, each approaching a different systems problem. Descriptions and stacks are based on their public repository READMEs.", ""])
+    for index, project in enumerate(theme.PROJECTS, start=1): content.extend(_project_section(project, data, index))
+    content.extend([theme.picture_markup("project-landscape", "Three selected project areas: software evolution, endpoint telemetry, and voice interaction"), "", divider, "", "## Education & technical activity", "", f"**{theme.EDUCATION}**", "", theme.EDUCATION_DETAIL, "", "**Project activity:** EPOCH is documented as a team prototype built for the IBM Bob 2.0 hackathon. See [the repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution).", "", "## Public telemetry", "", "Public repository metadata and a limited public event sample. No private activity or contribution totals are inferred.", "", _refresh_label(data), "", repository_snapshot, "", f"**Event sample:** {int(data.get('public_push_event_count', 0))} public PushEvents returned." if data.get("events_available", False) else "**Event sample:** public event data unavailable; cached activity remains labelled accordingly.", "", "<details><summary>Expand recent public activity visualization</summary>", "", '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/activity-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/activity-motion-light.gif"><img src="assets/activity.svg" alt="Cached public activity bars with an animated focus marker"></picture>', "", "</details>", "", theme.picture_markup("activity", "Public repository count, combined stars, and weekly buckets of sampled public PushEvents"), "", theme.ACTIVITY_NOTE, "", theme.picture_markup("language-stats", "Language byte composition across original public repositories, excluding forks and this profile repository"), "", f"**Language mix:** {_language_summary(data)}.", "", "Language shares use GitHub-reported source-byte totals across owned, non-fork public repositories; the profile repository is excluded.", "", "<details><summary>How to read the telemetry</summary>", "", "The activity plot groups PushEvents in GitHub’s latest public user-events response (up to 100 events) into 12 week buckets. It is a sample, not a full contribution history.", "", "</details>", "", "## Contact & navigation", "", f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)", "", "[Back to introduction](#who-i-am) · [How this profile is built](SETUP.md)", "", "<sub>Self-hosted GIFs add subtle motion in GitHub’s rendered README; static SVG or PNG fallbacks retain the information. Telemetry uses public GitHub data and a limited event sample.</sub>"])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""
     if START in existing and END in existing:
@@ -353,8 +261,8 @@ def build(offline: bool = False, use_token: bool = True) -> None:
     if not offline:
         data = fetch_data(data, os.environ.get("GITHUB_TOKEN") if use_token else None)
         _write_atomic(DATA_FILE, json.dumps(data, indent=2, sort_keys=True) + "\n")
-    write_assets(ROOT / "assets", data)
-    _write_atomic(README_FILE, render_readme(data))
+    portrait_available = write_assets(ROOT / "assets", data)
+    _write_atomic(README_FILE, render_readme(data, portrait_available))
     print("Built profile README and SVG assets.")
 
 

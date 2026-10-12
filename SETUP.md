@@ -1,8 +1,8 @@
 # Profile system setup
 
-This repository builds the profile README and self-hosted visual instruments from a single Python configuration. Static SVG families have dark and light variants; `assets/signal.gif` is a small looping emerald signal trace. `scripts/theme.py` owns the graphite/emerald palette, typography, dimensions, theme media rules, profile copy, project descriptions, and learning map. `scripts/build.py` optionally retrieves public GitHub repository metadata, language byte totals, repository stars, and a sample of recent public PushEvents; `scripts/build_assets.py` renders the SVGs and GIF; the builder updates only the README content between `PROFILE:GENERATED` markers. The last response is cached in `assets/profile-data.json`, so an offline build can use the last successful data.
+This repository builds the profile README and self-hosted visuals from one Python configuration. `scripts/theme.py` defines the graphite/emerald palette, typography, dimensions, profile copy, projects, and learning map. `scripts/build_assets.py` generates theme variants, activity graphics, and restrained animated GIFs; every animated composition has a static SVG or PNG fallback. `scripts/build.py` refreshes public GitHub repository, language, and recent-event data when online and updates only content between the README's generated markers. Cached data in `assets/profile-data.json` supports reproducible offline builds.
 
-The supplied portrait is stored at `assets/profile-photo.jpeg` (1072×992px, about 1.08:1; displayed at 176px wide without stretching). If you replace it, use your own clear head-and-shoulders image around 800×740px at the same aspect ratio; if the file is absent, the build omits the photo block without failing.
+The source portrait belongs at `assets/profile-photo-source.jpg`. It is ignored by Git and processed locally into published `assets/profile-portrait.png` and `assets/profile-portrait.gif`. The derived 480x600 portrait uses a limited emerald palette, subtle halftone texture, framing, and restrained scanlines. The supplied image was available during generation. If you replace it, use your own clear head-and-shoulders photo; the build never substitutes a generated face. If the source is absent on a fresh checkout, the build creates an explicit PHOTO SOURCE REQUIRED placeholder instead.
 
 The public REST API needs no personal access token. The scheduled workflow passes its built-in `GITHUB_TOKEN`; the same public endpoints work unauthenticated locally. A token is optional and should be stored as a local environment variable or GitHub Actions secret, never written into the repository. No private contribution data is requested, so no elevated scopes or PAT are needed.
 
@@ -18,11 +18,11 @@ py -3 scripts/build.py
 py -3 scripts/verify_readme.py
 ```
 
-Only the Python standard library is used; `requirements.txt` intentionally has no third-party packages. To regenerate SVGs using the cached snapshot without network access, run `py -3 scripts/build.py --offline`. To refresh public data without using a token in the environment, run `py -3 scripts/build.py --no-token`.
+Install the pinned Pillow image-processing and PyYAML verification dependencies with `py -3 -m pip install -r requirements.txt`. To regenerate assets using the cached snapshot without network access, run `py -3 scripts/build.py --offline`. To refresh public data without using a token in the environment, run `py -3 scripts/build.py --no-token`.
 
 ## Theme, projects, and generated copy
 
-Edit the palette, typography, dimensions, theme media rules, name, project descriptions, capability map, or introductory profile copy in `scripts/theme.py`. Generated README layout is in `scripts/build.py`; the hero, systems landscape, telemetry, language composition, divider illustrations, and signal animation are in `scripts/build_assets.py`. The README uses GitHub's `<picture>` theme pattern to select separate static light/dark SVG files, with a normal image fallback. GitHub supports GIF images and does not support inline SVG animation, so the moving signal is a self-hosted GIF; the static SVG divider remains available as the clear non-motion design fallback. The hero and charts themselves remain static.
+Edit the palette, typography, dimensions, name, project descriptions, capability map, and profile copy in `scripts/theme.py`. README layout is in `scripts/build.py`; the hero, skills map, project landscape, telemetry, portrait treatment, and motion frames are generated in `scripts/build_assets.py`. GitHub README images support animated GIFs; inline SVG animation is not relied upon. Self-hosted hero, typing, divider, portrait, and activity GIFs have complete static fallbacks. Motion is subtle, and the activity graphic moves only its focus marker over fixed cached data.
 
 ```powershell
 py -3 scripts/build.py --offline

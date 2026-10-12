@@ -1,1 +1,2 @@
-# The profile generator uses only the Python standard library.
+Pillow==12.3.0
+PyYAML==6.0.3
