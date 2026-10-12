@@ -7,22 +7,22 @@ USERNAME = "Sarthaksulkhlan"
 NAME = "Sarthak Sulkhlan"
 PROFILE_URL = f"https://github.com/{USERNAME}"
 PALETTE = {
-    "bg": "#101014", "bg_deep": "#0B0A10", "panel": "#181520",
-    "panel_alt": "#211C2D", "text": "#F1EEF6", "muted": "#BBB2C9",
-    "silver": "#DDD6E8", "mint": "#A9DEC8", "emerald": "#63C59A",
-    "emerald_deep": "#2D745B", "violet": "#B79CFF", "plum": "#382854",
-    "border": "#40364F", "grid": "#292432",
-    "light_bg": "#F7F5FA", "light_panel": "#FFFFFF", "light_panel_alt": "#EEE9F5",
-    "light_text": "#221D2B", "light_muted": "#61576E", "light_silver": "#534B60",
-    "light_mint": "#2B8664", "light_emerald": "#216E52", "light_violet": "#6848B5",
-    "light_border": "#D8D0E0", "light_grid": "#E5DFEA", "track_dark": "#342B42", "track_light": "#E4DDEB",
+    "bg": "#0D1214", "bg_deep": "#080D0F", "panel": "#101B1D",
+    "panel_alt": "#14272A", "text": "#F0F3EE", "muted": "#B3C3BE",
+    "silver": "#D9E0DA", "mint": "#8DE0C1", "emerald": "#47B68D",
+    "emerald_deep": "#236B59", "violet": "#55D1B0", "plum": "#123C38",
+    "border": "#285047", "grid": "#1B3937",
+    "light_bg": "#F4F8F6", "light_panel": "#FFFFFF", "light_panel_alt": "#E2F0EA",
+    "light_text": "#11231F", "light_muted": "#466058", "light_silver": "#385249",
+    "light_mint": "#147B61", "light_emerald": "#0D604B", "light_violet": "#087A67",
+    "light_border": "#BAD6CB", "light_grid": "#D9E8E1", "track_dark": "#1C3633", "track_light": "#D5E5DE",
 }
 SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
 WIDTH = 830
 HERO_HEIGHT = 260
 DIVIDER_HEIGHT = 38
-ACTIVITY_HEIGHT = 300
+ACTIVITY_HEIGHT = 390
 LANGUAGE_HEIGHT = 242
 CONTRIBUTION_HEIGHT = 190
 LANDSCAPE_HEIGHT = 210
@@ -34,9 +34,9 @@ PORTRAIT_HEIGHT = 600
 PORTRAIT_SOURCE = "assets/profile-photo-source.jpg"
 PORTRAIT_PNG = "assets/profile-portrait.png"
 TYPE_LINES = [
-    "Building practical software.",
+    "From ideas to practical software, end to end.",
     "Learning data science and applied AI.",
-    "Turning ideas into working systems.",
+    "Building useful, reliable systems.",
 ]
 SKILLS_HEIGHT = 318
 DARK_MODE_MEDIA = "(prefers-color-scheme: dark)"

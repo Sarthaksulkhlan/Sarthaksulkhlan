@@ -70,8 +70,8 @@ def verify() -> None:
     require("## About" in readme and 'width="34%"' in readme and 'width="66%"' in readme, "Portrait and profile facts need the two-column layout")
     require("## Experience" in readme and theme.EXPERIENCE["employer"] in readme and theme.EXPERIENCE["duration"] in readme, "Provided experience is missing")
     require(theme.EDUCATION in readme and theme.EDUCATION_DETAIL in readme and all(item in readme for item in theme.COURSEWORK), "Provided education facts are incomplete")
-    require(readme.count("type=\"image/gif\"") == 6, "README should contain dark/light sources for three compact animations")
-    require("Pac-Man" in readme and "decorative" in readme.lower(), "Contribution art must clearly distinguish the decorative character from data")
+    require(readme.count("type=\"image/gif\"") == 8, "README should contain dark/light sources for four compact animations")
+    require("Pac-Man" in readme and "Snake" in readme and "decorative" in readme.lower(), "Contribution art must clearly distinguish decorative paths from data")
     require("profile-portrait.gif" not in readme and "assets/profile-photo-source.jpg" not in readme, "Private or obsolete portrait asset is referenced")
     require(not (ROOT / "assets/profile-photo.jpeg").exists(), "Raw source photo must not be published")
     require(theme.PORTRAIT_SOURCE.split("/")[-1] in (ROOT/".gitignore").read_text(encoding="utf-8"), "Source photo is not ignored")
@@ -98,7 +98,7 @@ def verify() -> None:
     for source in external_sources:
         require(source.startswith("assets/") and (ROOT/source).is_file(), f"Missing picture source: {source}")
 
-    expected_gifs = {"hero-motion": 260, "telemetry-motion": 300, "contribution-motion": 190}
+    expected_gifs = {"hero-motion": 260, "telemetry-motion": 390, "contribution-snake-motion": 190, "contribution-pacman-motion": 190}
     gifs = sorted(p.name for p in (ROOT/"assets").glob("*.gif"))
     expected_names = sorted(f"{stem}{suffix}.gif" for stem in expected_gifs for suffix in ("", "-light"))
     require(gifs == expected_names, f"Unexpected GIF assets: {gifs}")

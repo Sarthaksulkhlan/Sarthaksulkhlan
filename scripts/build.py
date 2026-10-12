@@ -264,8 +264,11 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         theme.picture_markup("language-stats", "Source-byte language shares across original public repositories"), "",
         "Language mix by GitHub-reported bytes: " + _language_summary(data) + ".", "",
         "## Contribution Art", "",
-        "A decorative Pac-Man moves across the grid. It is not a contribution tracker: the colored cells summarize only the latest verified public PushEvent sample.", "",
-        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative Pac-Man contribution-style grid labelled as a sampled public event view"></picture>', "",
+        "Two decorative paths travel across the same contribution-style grid. Its colored cells summarize only the latest verified public PushEvent sample, not a full GitHub contribution calendar.", "",
+        "### Snake path", "",
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-snake-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-snake-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative mint snake travelling over a sampled public-event grid"></picture>', "",
+        "### Five Pac-Man paths", "",
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-pacman-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-pacman-motion-light.gif"><img src="assets/contribution-art.svg" alt="Five decorative Pac-Man characters travelling over a sampled public-event grid"></picture>', "",
         "<details><summary>Open the sampled weekly activity trace</summary>", "",
         theme.picture_markup("contribution-art", "Twelve weekly totals of public PushEvents from the recent sampled event feed"), "",
         theme.ACTIVITY_NOTE, "", "</details>", "",
@@ -273,7 +276,7 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         "Repository count and stars are from GitHub’s public repository API and exclude forks and this profile repository. Followers come from the public user endpoint. Language shares use repository language byte totals. PushEvents are grouped into twelve week buckets from the latest public user-events response, which is capped at 100 events.", "", "</details>", "",
         "## Contact", "",
         f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [How this profile is built](SETUP.md)", "",
-        "<sub>Three compact self-hosted GIFs provide the hero separator/focus transition, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
+        "<sub>Four compact self-hosted GIFs provide the typewriter hero, telemetry reveal, snake path, and five Pac-Man paths. Each has a static SVG fallback. They replay when GitHub reloads the image; README pages cannot reliably restart them on scroll. GitHub does not reliably animate inline SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
     ])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""

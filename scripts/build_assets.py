@@ -29,16 +29,15 @@ def premium_hero(mode: str = "dark") -> str:
     """Draw the readable static fallback for the complete hero composition."""
     c = card_params(mode)
     grid = "".join(f'<path d="M{x} 16V{HERO_HEIGHT-16}"/>' for x in range(32, WIDTH, 34))
-    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2A1C3A"/><stop offset=".52" stop-color="#17121F"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient></defs>
+    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{c['panel_alt']}"/><stop offset=".52" stop-color="{c['panel']}"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient></defs>
     <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#panel)" stroke="{c['border']}"/><g fill="none" stroke="{c['grid']}" opacity=".38">{grid}</g>
     <path d="M30 28h11 M30 28v11 M800 28h-11 M800 28v11" stroke="{c['accent']}" opacity=".72" fill="none"/>
     <text x="48" y="48" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.6">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
-    <rect x="660" y="29" width="136" height="27" rx="13.5" fill="{c['panel_alt']}" stroke="{c['border']}"/><circle cx="677" cy="42.5" r="3" fill="{c['mint']}"/><text x="687" y="45.5" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".45">PROFILE / PUBLIC DATA</text>
+    <rect x="677" y="29" width="119" height="27" rx="13.5" fill="{c['panel_alt']}" stroke="{c['border']}"/><circle cx="694" cy="42.5" r="3" fill="{c['mint']}"/><text x="704" y="45.5" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".8">AVAILABLE</text>
     <text x="47" y="108" fill="{c['text']}" font-size="48" font-weight="800">{html.escape(NAME)}</text>
     <text x="50" y="140" fill="{c['silver']}" font-family="{MONO_FONT}" font-size="11" letter-spacing="1.5">SOFTWARE ENGINEERING / DATA SCIENCE / APPLIED AI</text>
     <path d="M49 160H782" stroke="{c['border']}"/><path d="M49 160H248" stroke="{c['accent']}" stroke-width="1.5"/><circle cx="248" cy="160" r="3" fill="{c['mint']}"/>
-    <text x="50" y="193" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.5">CURRENT FOCUS / 01</text>
-    <text x="50" y="224" fill="{c['accent']}" font-size="19" font-weight="700" letter-spacing=".4">BUILDING PRACTICAL SOFTWARE.</text>
+    <text x="50" y="207" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="14" font-weight="700">&gt; {html.escape(TYPE_LINES[0])}<tspan opacity=".8">_</tspan></text>
     <text x="782" y="239" text-anchor="end" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing="1">ENGINEERING PROFILE</text>'''
     return _document(WIDTH, HERO_HEIGHT, f"{NAME} — software, data, and applied AI", "A bold professional engineering profile hero with a descriptor, separator, and current focus.", content)
 
@@ -113,17 +112,17 @@ def portrait(directory: Path) -> bool:
 
 
 def hero_animation(mode: str = "dark") -> bytes:
-    """Animate only the descriptor separator and focus state inside a fixed hero."""
+    """Render a stable, terminal-style typewriter hero and moving separator."""
     c = card_params(mode); frames: list[Image.Image] = []; durations: list[int] = []
-    def frame(index: int, highlight_x: int) -> Image.Image:
+    def frame(line: str, highlight_x: int, cursor: bool) -> Image.Image:
         image = Image.new("RGB", (WIDTH, HERO_HEIGHT), hex_to_rgb(c["bg_deep"])); draw = ImageDraw.Draw(image)
-        panel = (42, 28, 58) if mode == "dark" else hex_to_rgb(c["panel"])
+        panel = hex_to_rgb(c["panel"])
         draw.rounded_rectangle((0, 0, WIDTH - 1, HERO_HEIGHT - 1), 18, fill=panel, outline=hex_to_rgb(c["border"]))
         for x in range(32, WIDTH, 34): draw.line((x, 16, x, HERO_HEIGHT - 16), fill=hex_to_rgb(c["grid"]))
         draw.text((48, 38), "COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE", font=_font(10), fill=hex_to_rgb(c["accent"]))
-        draw.rounded_rectangle((660, 29, 796, 56), 14, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
-        draw.ellipse((674, 39, 680, 45), fill=hex_to_rgb(c["mint"]))
-        draw.text((687, 39), "PROFILE / PUBLIC DATA", font=_font(8), fill=hex_to_rgb(c["muted"]))
+        draw.rounded_rectangle((677, 29, 796, 56), 14, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
+        draw.ellipse((691, 39, 697, 45), fill=hex_to_rgb(c["mint"]))
+        draw.text((704, 39), "AVAILABLE", font=_font(8), fill=hex_to_rgb(c["muted"]))
         name_font = _font(52)
         # A one-pixel offset creates a firm bold weight using the pinned font.
         for dx, dy in ((0, 0), (1, 0), (0, 1)):
@@ -132,65 +131,118 @@ def hero_animation(mode: str = "dark") -> bytes:
         draw.line((49, 157, 782, 157), fill=hex_to_rgb(c["border"]))
         draw.line((highlight_x, 157, min(782, highlight_x + 92), 157), fill=hex_to_rgb(c["accent"]), width=2)
         draw.ellipse((min(782, highlight_x + 92) - 3, 154, min(782, highlight_x + 92) + 3, 160), fill=hex_to_rgb(c["mint"]))
-        draw.text((50, 180), f"CURRENT FOCUS / {index + 1:02d}", font=_font(10), fill=hex_to_rgb(c["muted"]))
-        draw.text((50, 205), TYPE_LINES[index].upper(), font=_font(19), fill=hex_to_rgb(c["accent"]))
+        typed = "> " + line + ("_" if cursor else " ")
+        draw.text((50, 197), typed, font=_font(14), fill=hex_to_rgb(c["accent"]))
         draw.text((782, 236), "ENGINEERING PROFILE", anchor="ra", font=_font(8), fill=hex_to_rgb(c["muted"]))
         return image
-    positions = list(range(50, 692, 92))
-    for index in range(len(TYPE_LINES)):
-        page = frame(index, positions[index * 3 % len(positions)])
-        frames.append(page); durations.append(1250)
-        next_page = frame((index + 1) % len(TYPE_LINES), positions[(index * 3 + 2) % len(positions)])
-        for amount in (64, 128, 192):
-            frames.append(Image.blend(page, next_page, amount / 255)); durations.append(90)
+    positions = list(range(50, 692, 72))
+    for index, phrase in enumerate(TYPE_LINES):
+        steps = sorted({0, len(phrase) // 4, len(phrase) // 2, (3 * len(phrase)) // 4, len(phrase)})
+        for step in steps:
+            frames.append(frame(phrase[:step], positions[(index * 6 + step) % len(positions)], True)); durations.append(110)
+        frames.append(frame(phrase, positions[(index * 6 + 5) % len(positions)], False)); durations.append(1200)
+        for step in reversed(steps[:-1]):
+            frames.append(frame(phrase[:step], positions[(index * 6 + step + 2) % len(positions)], True)); durations.append(75)
     return _gif(frames, durations)
 
 
-def contribution_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
-    """Render a decorative Pac-Man crossing a labelled public-event sample grid."""
+def _sample_grid(draw: ImageDraw.ImageDraw, data: dict[str, Any], c: dict[str, str], left: int = 56, top: int = 51) -> None:
+    """Draw a contribution-style grid whose active cells come only from sampled events."""
+    counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
+    maximum = max(counts) or 1; cell, gap = 11, 3
+    for col in range(52):
+        source = counts[col - 40] if col >= 40 else 0
+        for row in range(7):
+            active = source and row >= 7 - min(7, source)
+            fill = c["mint"] if active and source / maximum > .5 else (c["accent"] if active else c["panel_alt"])
+            x, y = left + col * (cell + gap), top + row * (cell + gap)
+            draw.rounded_rectangle((x, y, x + cell, y + cell), 2, fill=hex_to_rgb(fill), outline=hex_to_rgb(c["grid"]))
+
+
+def contribution_snake_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
+    """Render a decorative snake travelling across an honest sampled-event grid."""
     c = card_params(mode); counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
-    maximum = max(counts) or 1; frames: list[Image.Image] = []; durations: list[int] = []
-    cell, gap, left, top = 12, 3, 86, 58
+    frames: list[Image.Image] = []; durations: list[int] = []
+    left, top, cell_gap = 56, 51, 14
     for step in range(18):
         image = Image.new("RGB", (WIDTH, 190), hex_to_rgb(c["bg"]))
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((0, 0, WIDTH - 1, 189), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
-        draw.text((24, 22), "CONTRIBUTION ART / PUBLIC EVENT SAMPLE", font=_font(10), fill=hex_to_rgb(c["accent"]))
-        draw.text((24, 39), "Decorative character; cells summarize sampled public PushEvents, not a GitHub contribution calendar.", font=_font(9), fill=hex_to_rgb(c["muted"]))
-        for col in range(48):
-            source = counts[col - 36] if col >= 36 else 0
-            strength = source / maximum
-            for row in range(7):
-                active = source and row >= 6 - min(7, source)
-                color = c["mint"] if active and strength > .5 else (c["accent"] if active else c["panel_alt"])
-                x, y = left + col * (cell + gap), top + row * (cell + gap)
-                draw.rounded_rectangle((x, y, x + cell, y + cell), 2, fill=hex_to_rgb(color), outline=hex_to_rgb(c["grid"]))
-        pac_x = left + (step * 34) % 650
-        pac_y = top + 45
-        draw.pieslice((pac_x, pac_y, pac_x + 22, pac_y + 22), start=35 if step % 2 else 20, end=325 if step % 2 else 340, fill=hex_to_rgb(c["accent"]))
-        draw.ellipse((pac_x + 13, pac_y + 5, pac_x + 16, pac_y + 8), fill=hex_to_rgb(c["bg_deep"]))
+        draw.text((24, 22), "CONTRIBUTION ART / SNAKE / SAMPLED PUBLIC ACTIVITY", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        _sample_grid(draw, data, c, left, top)
+        head_col = step * 3 % 52; row = 2 if (step // 6) % 2 == 0 else 4
+        for segment in range(7):
+            col = head_col - segment
+            if col < 0: continue
+            x, y = left + col * cell_gap, top + row * cell_gap
+            color = c["mint"] if segment == 0 else c["accent"]
+            draw.ellipse((x - 2, y - 2, x + 13, y + 13), fill=hex_to_rgb(color))
+            if segment == 0:
+                draw.ellipse((x + 8, y + 3, x + 10, y + 5), fill=hex_to_rgb(c["bg_deep"]))
+        draw.text((24, 168), "Decorative path over a grid based only on the latest sampled public PushEvents; not a full contribution calendar.", font=_font(8), fill=hex_to_rgb(c["muted"]))
         frames.append(image); durations.append(120)
     return _gif(frames, durations)
 
 
+def contribution_pacman_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
+    """Render five small Pac-Man characters on independent, visible grid paths."""
+    c = card_params(mode); frames: list[Image.Image] = []; durations: list[int] = []
+    left, top, cell_gap = 56, 51, 14
+    colors = [c["mint"], c["accent"], c["silver"], c["accent_deep"], "#6FB7C3"]
+    rows = [0, 2, 4, 6, 3]
+    for step in range(20):
+        image = Image.new("RGB", (WIDTH, 190), hex_to_rgb(c["bg"])); draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((0, 0, WIDTH - 1, 189), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((24, 22), "CONTRIBUTION ART / FIVE PAC-MEN / SAMPLED PUBLIC ACTIVITY", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        _sample_grid(draw, data, c, left, top)
+        for character, color in enumerate(colors):
+            col = (step * 2 + character * 10) % 52; row = rows[character]
+            x, y = left + col * cell_gap - 2, top + row * cell_gap - 2
+            mouth = 36 if (step + character) % 2 else 20
+            draw.pieslice((x, y, x + 16, y + 16), start=mouth, end=360-mouth, fill=hex_to_rgb(color))
+            draw.ellipse((x + 10, y + 4, x + 12, y + 6), fill=hex_to_rgb(c["bg_deep"]))
+        draw.text((24, 168), "Five decorative characters move independently; cells summarize sampled public PushEvents, not private or full contribution data.", font=_font(8), fill=hex_to_rgb(c["muted"]))
+        frames.append(image); durations.append(110)
+    return _gif(frames, durations)
+
+
 def telemetry_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
-    """Reveal data-derived bars while final, genuine labels stay visible in every frame."""
+    """Reveal account signals, language mix, and activity in one fixed dashboard."""
     c = card_params(mode); counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
     maximum = max(counts) or 1; frames: list[Image.Image] = []; durations: list[int] = []
+    ranked = sorted(((str(k), int(v)) for k, v in data.get("languages", {}).items() if int(v) > 0), key=lambda item: -item[1])
+    total = sum(value for _, value in ranked) or 1
+    shown = ranked[:4]
+    if len(ranked) > 4: shown.append(("Other", sum(value for _, value in ranked[4:])))
     for progress in range(1, 8):
-        image = Image.new("RGB", (WIDTH, 300), hex_to_rgb(c["bg"]))
-        draw = ImageDraw.Draw(image); draw.rounded_rectangle((0, 0, WIDTH - 1, 299), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
-        draw.text((24, 21), "GITHUB / PUBLIC ACCOUNT SIGNAL", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        image = Image.new("RGB", (WIDTH, ACTIVITY_HEIGHT), hex_to_rgb(c["bg"]))
+        draw = ImageDraw.Draw(image); draw.rounded_rectangle((0, 0, WIDTH - 1, ACTIVITY_HEIGHT - 1), 18, fill=hex_to_rgb(c["bg"]), outline=hex_to_rgb(c["border"]))
+        draw.rounded_rectangle((18, 18, 400, 166), 14, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.rounded_rectangle((420, 18, 812, 166), 14, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((38, 39), "GITHUB STATISTICS", font=_font(10), fill=hex_to_rgb(c["accent"]))
         values = [("REPOSITORIES", data.get("public_repo_count", "—")), ("STARS", data.get("public_repo_stars", "—")), ("FOLLOWERS", data.get("followers", "—")), ("SAMPLED EVENTS", data.get("public_push_event_count", "—"))]
         for i, (label, value) in enumerate(values):
-            x = 22 + i * 199; draw.rounded_rectangle((x, 54, x + 184, 116), 10, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
-            draw.text((x + 12, 72), label, font=_font(8), fill=hex_to_rgb(c["muted"]))
-            draw.text((x + 12, 91), str(value), font=_font(20), fill=hex_to_rgb(c["text"]))
-        baseline, left, step = 260, 60, 742 / 12
+            x, y = 38 + (i % 2) * 170, 65 + (i // 2) * 50
+            draw.text((x, y), label, font=_font(8), fill=hex_to_rgb(c["muted"]))
+            final = int(value) if isinstance(value, int) or str(value).isdigit() else 0
+            display = round(final * progress / 7)
+            draw.text((x, y + 18), str(display if progress < 7 else value), font=_font(20), fill=hex_to_rgb(c["text"]))
+        draw.text((440, 39), "LANGUAGE MIX / SOURCE BYTES", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        for i, (name, value) in enumerate(shown):
+            y, fraction = 70 + i * 18, value / total
+            draw.text((440, y), name, font=_font(9), fill=hex_to_rgb(c["text"]))
+            draw.rounded_rectangle((560, y - 1, 752, y + 9), 5, fill=hex_to_rgb(c["track"]))
+            width = max(2, round(192 * fraction * progress / 7))
+            draw.rounded_rectangle((560, y - 1, 560 + width, y + 9), 5, fill=hex_to_rgb(c["accent"] if i == 0 else c["mint"]))
+            draw.text((772, y), f"{fraction:.1%}", font=_font(8), fill=hex_to_rgb(c["silver"]))
+        draw.rounded_rectangle((18, 184, 812, 372), 14, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((38, 205), "SAMPLED PUSH EVENTS / TWELVE WEEK BINS", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        baseline, left, step = 344, 58, 730 / 12
+        for y in (263, baseline): draw.line((left, y, 786, y), fill=hex_to_rgb(c["grid"]))
         for i, count in enumerate(counts):
-            height = max(2, round(88 * count / maximum * progress / 7)); x = left + i * step + 12
+            height = max(2, round(96 * count / maximum * progress / 7)); x = left + i * step + 12
             draw.rounded_rectangle((x, baseline - height, x + 29, baseline), 4, fill=hex_to_rgb(c["accent"] if count else c["track"]))
-        draw.text((24, 280), "12 weekly groups from the latest public PushEvent sample (up to 100 events).", font=_font(9), fill=hex_to_rgb(c["muted"]))
+        draw.text((38, 359), "Latest public-event response: up to 100 events. This is an activity sample, not a contribution history.", font=_font(8), fill=hex_to_rgb(c["muted"]))
         frames.append(image); durations.append(110 if progress < 7 else 1200)
     return _gif(frames, durations)
 
@@ -306,7 +358,8 @@ def write_assets(directory: Path, data: dict[str, Any]) -> bool:
     animated = {
         "hero-motion": hero_animation,
         "telemetry-motion": lambda mode: telemetry_motion(data, mode),
-        "contribution-motion": lambda mode: contribution_motion(data, mode),
+        "contribution-snake-motion": lambda mode: contribution_snake_motion(data, mode),
+        "contribution-pacman-motion": lambda mode: contribution_pacman_motion(data, mode),
     }
     for name, renderer in animated.items():
         for mode, suffix in (("dark", ""), ("light", "-light")):

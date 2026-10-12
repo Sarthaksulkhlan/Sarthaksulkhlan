@@ -152,9 +152,15 @@ Language mix by GitHub-reported bytes: TypeScript 75.7% · Python 20.3% · CSS 1
 
 ## Contribution Art
 
-A decorative Pac-Man moves across the grid. It is not a contribution tracker: the colored cells summarize only the latest verified public PushEvent sample.
+Two decorative paths travel across the same contribution-style grid. Its colored cells summarize only the latest verified public PushEvent sample, not a full GitHub contribution calendar.
 
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative Pac-Man contribution-style grid labelled as a sampled public event view"></picture>
+### Snake path
+
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-snake-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-snake-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative mint snake travelling over a sampled public-event grid"></picture>
+
+### Five Pac-Man paths
+
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-pacman-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-pacman-motion-light.gif"><img src="assets/contribution-art.svg" alt="Five decorative Pac-Man characters travelling over a sampled public-event grid"></picture>
 
 <details><summary>Open the sampled weekly activity trace</summary>
 
@@ -178,5 +184,5 @@ Repository count and stars are from GitHub’s public repository API and exclude
 
 [GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories) · [How this profile is built](SETUP.md)
 
-<sub>Three compact self-hosted GIFs provide the hero separator/focus transition, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
+<sub>Four compact self-hosted GIFs provide the typewriter hero, telemetry reveal, snake path, and five Pac-Man paths. Each has a static SVG fallback. They replay when GitHub reloads the image; README pages cannot reliably restart them on scroll. GitHub does not reliably animate inline SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
 <!-- PROFILE:GENERATED:END -->
