@@ -63,9 +63,8 @@ def typing(mode: str = "dark") -> str:
 
 
 def _font(size: int) -> ImageFont.ImageFont:
-    for path in ("C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"):
-        if Path(path).is_file():
-            return ImageFont.truetype(path, size=size)
+    # Pillow's built-in font is pinned through requirements.txt, so GIF bytes
+    # stay identical on Windows and the Ubuntu GitHub Actions runner.
     return ImageFont.load_default(size=size)
 
 
