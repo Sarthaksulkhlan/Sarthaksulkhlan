@@ -1,1 +1,162 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="830" height="390" viewBox="0 0 830 390" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"><title id="title">Public GitHub account telemetry</title><desc id="desc">Cached repository, star, follower and sampled public PushEvent metrics; chart groups the latest public event feed into twelve weekly buckets.</desc><rect x=".5" y=".5" width="829" height="389" rx="18" fill="#F4F8F6" stroke="#BAD6CB"/><text x="24" y="29" fill="#087A67" font-family="SFMono-Regular, Consolas, monospace" font-size="10" letter-spacing="1.4">GITHUB / PUBLIC ACCOUNT SIGNAL</text><text x="24" y="46" fill="#466058" font-size="10">Original public repositories exclude forks and this profile repository</text><rect x="22" y="62" width="184" height="58" rx="10" fill="#E2F0EA" stroke="#BAD6CB"/><text x="35" y="83" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing=".65">ORIGINAL REPOSITORIES</text><text x="35" y="108" fill="#11231F" font-size="21" font-weight="650">4</text><rect x="221" y="62" width="184" height="58" rx="10" fill="#E2F0EA" stroke="#BAD6CB"/><text x="234" y="83" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing=".65">REPOSITORY STARS</text><text x="234" y="108" fill="#11231F" font-size="21" font-weight="650">2</text><rect x="420" y="62" width="184" height="58" rx="10" fill="#E2F0EA" stroke="#BAD6CB"/><text x="433" y="83" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing=".65">FOLLOWERS</text><text x="433" y="108" fill="#11231F" font-size="21" font-weight="650">0</text><rect x="619" y="62" width="184" height="58" rx="10" fill="#E2F0EA" stroke="#BAD6CB"/><text x="632" y="83" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing=".65">SAMPLED PUSH EVENTS</text><text x="632" y="108" fill="#11231F" font-size="21" font-weight="650">14</text><path d="M60 260H802" stroke="#D9E8E1"/><text x="48" y="263" text-anchor="end" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">0</text><path d="M60 216H802" stroke="#D9E8E1"/><text x="48" y="219" text-anchor="end" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">3</text><path d="M60 172H802" stroke="#D9E8E1"/><text x="48" y="175" text-anchor="end" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">6</text><rect x="72.0" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="86.5" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">11+w</text><rect x="133.8" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="148.3" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">10w</text><rect x="195.7" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="210.2" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">9w</text><rect x="257.5" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="272.0" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">8w</text><rect x="319.3" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="333.8" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">7w</text><rect x="381.2" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="395.7" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">6w</text><rect x="443.0" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="457.5" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">5w</text><rect x="504.8" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="519.3" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">4w</text><rect x="566.7" y="258" width="29" height="2" rx="4" fill="#D5E5DE"/><text x="581.2" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">3w</text><rect x="628.5" y="231" width="29" height="29" rx="4" fill="#087A67"/><text x="643.0" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">2w</text><rect x="690.3" y="172" width="29" height="88" rx="4" fill="#087A67"/><text x="704.8" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">1w</text><rect x="752.2" y="172" width="29" height="88" rx="4" fill="#087A67"/><text x="766.7" y="278" text-anchor="middle" fill="#466058" font-family="SFMono-Regular, Consolas, monospace" font-size="8">0w</text><text x="802" y="291" text-anchor="end" fill="#466058" font-size="9">Recent public PushEvent sample · 12 weekly buckets · up to 100 events</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="830" height="720" viewBox="0 0 830 720" role="img" aria-labelledby="tel-light-title tel-light-desc">
+  <title id="tel-light-title">Sarthak Sulkhlan — Telemetry & GitHub Analytics (Light)</title>
+  <desc id="tel-light-desc">Comprehensive telemetry dashboard light mode showing GitHub statistics, language mix, streaks, and 31-day activity trace.</desc>
+  <defs>
+    <linearGradient id="card-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F4F8F6"/>
+    </linearGradient>
+    <style>
+      .mono { font-family: 'JetBrains Mono', SFMono-Regular, Consolas, monospace; }
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    </style>
+  </defs>
+
+  <text x="4" y="32" fill="#11231F" class="sans" font-size="28" font-weight="800">Telemetry</text>
+
+  <!-- GITHUB STATISTICS -->
+  <g transform="translate(0, 52)">
+    <rect width="405" height="236" rx="16" fill="url(#card-light)" stroke="#BAD6CB" stroke-width="1.2"/>
+    <text x="24" y="32" fill="#466058" class="mono" font-size="11" font-weight="700" letter-spacing="1.5">GITHUB STATISTICS</text>
+    <line x1="24" y1="44" x2="381" y2="44" stroke="#BAD6CB" stroke-width="1"/>
+
+    <text x="24" y="86" fill="#0D604B" class="mono" font-size="28" font-weight="800">2</text>
+    <text x="24" y="103" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">TOTAL STARS</text>
+
+    <text x="210" y="86" fill="#0D604B" class="mono" font-size="28" font-weight="800">1,154</text>
+    <text x="210" y="103" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">CONTRIBUTIONS</text>
+
+    <text x="24" y="148" fill="#0D604B" class="mono" font-size="28" font-weight="800">4</text>
+    <text x="24" y="165" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">PUBLIC REPOS</text>
+
+    <text x="210" y="148" fill="#0D604B" class="mono" font-size="28" font-weight="800">0</text>
+    <text x="210" y="165" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">FOLLOWERS</text>
+
+    <text x="24" y="208" fill="#0D604B" class="mono" font-size="28" font-weight="800">6</text>
+    <text x="24" y="222" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">PULL REQUESTS</text>
+
+    <text x="210" y="208" fill="#0D604B" class="mono" font-size="28" font-weight="800">1,242</text>
+    <text x="210" y="222" fill="#466058" class="mono" font-size="9" font-weight="600" letter-spacing="1">COMMITS</text>
+  </g>
+
+  <!-- LANGUAGE MIX -->
+  <g transform="translate(425, 52)">
+    <rect width="405" height="236" rx="16" fill="url(#card-light)" stroke="#BAD6CB" stroke-width="1.2"/>
+    <text x="24" y="32" fill="#466058" class="mono" font-size="11" font-weight="700" letter-spacing="1.5">LANGUAGE MIX / BY BYTES</text>
+    <line x1="24" y1="44" x2="381" y2="44" stroke="#BAD6CB" stroke-width="1"/>
+
+    <g transform="translate(24, 56)" class="mono" font-size="11">
+      <text x="0" y="18" fill="#11231F" font-weight="600">TypeScript</text>
+      <rect x="94" y="6" width="220" height="15" rx="7.5" fill="#E2F0EA"/>
+      <rect x="94" y="6" width="166" height="15" rx="7.5" fill="#0D604B"/>
+      <text x="357" y="18" text-anchor="end" fill="#0D604B" font-weight="700">75.7%</text>
+    </g>
+
+    <g transform="translate(24, 88)" class="mono" font-size="11">
+      <text x="0" y="18" fill="#11231F" font-weight="600">Python</text>
+      <rect x="94" y="6" width="220" height="15" rx="7.5" fill="#E2F0EA"/>
+      <rect x="94" y="6" width="45" height="15" rx="7.5" fill="#147B61"/>
+      <text x="357" y="18" text-anchor="end" fill="#0D604B" font-weight="700">20.3%</text>
+    </g>
+
+    <g transform="translate(24, 120)" class="mono" font-size="11">
+      <text x="0" y="18" fill="#11231F" font-weight="600">CSS</text>
+      <rect x="94" y="6" width="220" height="15" rx="7.5" fill="#E2F0EA"/>
+      <rect x="94" y="6" width="16" height="15" rx="7.5" fill="#238B71"/>
+      <text x="357" y="18" text-anchor="end" fill="#0D604B" font-weight="700">1.5%</text>
+    </g>
+
+    <g transform="translate(24, 152)" class="mono" font-size="11">
+      <text x="0" y="18" fill="#11231F" font-weight="600">PLpgSQL</text>
+      <rect x="94" y="6" width="220" height="15" rx="7.5" fill="#E2F0EA"/>
+      <rect x="94" y="6" width="12" height="15" rx="7.5" fill="#349B78"/>
+      <text x="357" y="18" text-anchor="end" fill="#0D604B" font-weight="700">1.0%</text>
+    </g>
+
+    <g transform="translate(24, 184)" class="mono" font-size="11">
+      <text x="0" y="18" fill="#11231F" font-weight="600">JavaScript</text>
+      <rect x="94" y="6" width="220" height="15" rx="7.5" fill="#E2F0EA"/>
+      <rect x="94" y="6" width="10" height="15" rx="7.5" fill="#349B78"/>
+      <text x="357" y="18" text-anchor="end" fill="#0D604B" font-weight="700">0.8%</text>
+    </g>
+  </g>
+
+  <!-- STREAK BANNER -->
+  <g transform="translate(0, 304)">
+    <rect width="830" height="175" rx="18" fill="url(#card-light)" stroke="#BAD6CB" stroke-width="1.2"/>
+
+    <g transform="translate(140, 52)" text-anchor="middle">
+      <text y="36" fill="#11231F" class="mono" font-size="38" font-weight="800">1,154</text>
+      <text y="66" fill="#385249" class="sans" font-size="14" font-weight="600">Total Contributions</text>
+      <text y="88" fill="#466058" class="mono" font-size="11">Jun 19, 2024 - Present</text>
+    </g>
+
+    <line x1="280" y1="28" x2="280" y2="147" stroke="#BAD6CB" stroke-width="1"/>
+
+    <g transform="translate(415, 78)">
+      <circle r="44" fill="#E2F0EA" stroke="#0D604B" stroke-width="3.5"/>
+      <text y="12" text-anchor="middle" fill="#0D604B" class="mono" font-size="34" font-weight="800">72</text>
+      <text y="64" text-anchor="middle" fill="#0D604B" class="mono" font-size="13" font-weight="700">Current Streak</text>
+      <text y="82" text-anchor="middle" fill="#466058" class="mono" font-size="11">Aug 1 - Oct 11</text>
+    </g>
+
+    <line x1="550" y1="28" x2="550" y2="147" stroke="#BAD6CB" stroke-width="1"/>
+
+    <g transform="translate(690, 52)" text-anchor="middle">
+      <text y="36" fill="#11231F" class="mono" font-size="38" font-weight="800">72</text>
+      <text y="66" fill="#385249" class="sans" font-size="14" font-weight="600">Longest Streak</text>
+      <text y="88" fill="#466058" class="mono" font-size="11">Aug 1 - Oct 11</text>
+    </g>
+  </g>
+
+  <!-- 31 DAYS -->
+  <g transform="translate(0, 495)">
+    <rect width="830" height="215" rx="18" fill="url(#card-light)" stroke="#BAD6CB" stroke-width="1.2"/>
+    <text x="28" y="32" fill="#466058" class="mono" font-size="11" font-weight="700" letter-spacing="1.5">CONTRIBUTIONS / LAST 31 DAYS</text>
+    <text x="802" y="32" text-anchor="end" fill="#0D604B" class="mono" font-size="16" font-weight="800">426</text>
+
+    <g class="mono" font-size="9" fill="#466058" opacity="0.75">
+      <text x="28" y="70">242</text>
+      <text x="28" y="118">121</text>
+      <text x="28" y="165">0</text>
+    </g>
+    <line x1="54" y1="168" x2="802" y2="168" stroke="#BAD6CB" stroke-width="1"/>
+
+    <g transform="translate(56, 168)">
+      <rect x="0" y="-4" width="18" height="4" rx="2" fill="#147B61"/>
+      <rect x="24" y="-8" width="18" height="8" rx="2" fill="#147B61"/>
+      <rect x="48" y="-2" width="18" height="2" rx="1" fill="#BAD6CB"/>
+      <rect x="72" y="-5" width="18" height="5" rx="2" fill="#147B61"/>
+      <rect x="96" y="-12" width="18" height="12" rx="2" fill="#147B61"/>
+      <rect x="120" y="-3" width="18" height="3" rx="1" fill="#BAD6CB"/>
+      <rect x="144" y="-9" width="18" height="9" rx="2" fill="#147B61"/>
+      <rect x="168" y="-4" width="18" height="4" rx="2" fill="#147B61"/>
+      <rect x="192" y="-2" width="18" height="2" rx="1" fill="#BAD6CB"/>
+      <rect x="216" y="-6" width="18" height="6" rx="2" fill="#147B61"/>
+      <rect x="240" y="-10" width="18" height="10" rx="2" fill="#147B61"/>
+      <rect x="264" y="-3" width="18" height="3" rx="1" fill="#BAD6CB"/>
+      <rect x="288" y="-26" width="18" height="26" rx="2" fill="#147B61"/>
+      <rect x="312" y="-8" width="18" height="8" rx="2" fill="#147B61"/>
+      <rect x="336" y="-5" width="18" height="5" rx="2" fill="#147B61"/>
+      <rect x="360" y="-22" width="18" height="22" rx="2" fill="#147B61"/>
+      <rect x="384" y="-6" width="18" height="6" rx="2" fill="#147B61"/>
+      <rect x="408" y="-28" width="18" height="28" rx="2" fill="#147B61"/>
+      <rect x="432" y="-10" width="18" height="10" rx="2" fill="#147B61"/>
+      <rect x="456" y="-120" width="18" height="120" rx="3" fill="#0D604B"/>
+      <rect x="480" y="-35" width="18" height="35" rx="2" fill="#147B61"/>
+      <rect x="504" y="-58" width="18" height="58" rx="2" fill="#0D604B"/>
+      <rect x="528" y="-8" width="18" height="8" rx="2" fill="#147B61"/>
+      <rect x="552" y="-5" width="18" height="5" rx="2" fill="#147B61"/>
+      <rect x="576" y="-2" width="18" height="2" rx="1" fill="#BAD6CB"/>
+      <rect x="600" y="-8" width="18" height="8" rx="2" fill="#147B61"/>
+      <rect x="624" y="-5" width="18" height="5" rx="2" fill="#147B61"/>
+      <rect x="648" y="-14" width="18" height="14" rx="2" fill="#147B61"/>
+      <rect x="672" y="-5" width="18" height="5" rx="2" fill="#147B61"/>
+      <rect x="696" y="-8" width="18" height="8" rx="2" fill="#147B61"/>
+      <rect x="720" y="-18" width="18" height="18" rx="2" fill="#0D604B"/>
+    </g>
+
+    <text x="56" y="196" fill="#466058" class="mono" font-size="11">31 days ago</text>
+    <text x="794" y="196" text-anchor="end" fill="#466058" class="mono" font-size="11">today</text>
+  </g>
+</svg>

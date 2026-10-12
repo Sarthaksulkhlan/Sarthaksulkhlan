@@ -2,3 +2,6 @@ __pycache__/
 *.py[cod]
 .venv/
 assets/profile-photo-source.jpg
+node_modules/
+dist/
+bun.lock
