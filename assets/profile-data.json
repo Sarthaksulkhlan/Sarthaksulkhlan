@@ -1,0 +1,66 @@
+{
+  "activity_weeks": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    6,
+    2
+  ],
+  "data_note": "Public repositories and public PushEvent data only; GitHub Events API sampling is limited to recent public events.",
+  "events_available": true,
+  "languages": {
+    "Batchfile": 18118,
+    "CSS": 39289,
+    "Dockerfile": 1284,
+    "HTML": 4338,
+    "JavaScript": 3218,
+    "PLpgSQL": 26080,
+    "PowerShell": 14174,
+    "Python": 541993,
+    "TypeScript": 2023272
+  },
+  "last_successful_refresh_utc": "2026-10-12T11:15:51Z",
+  "public_push_event_count": 10,
+  "public_repo_count": 4,
+  "repos": [
+    {
+      "description": "Centralized IT Asset Monitoring Tool for Windows PCs, Asset Sentinel turns Windows session, application, hardware, and heartbeat events into a live operational picture\u2014so teams can act on what is true now, not what an inventory sheet remembered.",
+      "homepage": "assetsentinel.onrender.com",
+      "html_url": "https://github.com/Sarthaksulkhlan/Asset-Sentinel",
+      "language": "Python",
+      "name": "Asset-Sentinel",
+      "updated_at": "2026-10-06T20:24:59Z"
+    },
+    {
+      "description": "EPOCH: the control and intelligence plane for software that never stops changing. IBM Bob drives governed changes through MCP; EPOCH measures trajectory, drift, invariants, incidents and counterfactual futures.",
+      "homepage": "https://epoch-wj5b.onrender.com/",
+      "html_url": "https://github.com/Sarthaksulkhlan/epoch-software.evolution",
+      "language": "TypeScript",
+      "name": "epoch-software.evolution",
+      "updated_at": "2026-10-01T04:47:39Z"
+    },
+    {
+      "description": "MediKiosk",
+      "homepage": null,
+      "html_url": "https://github.com/Sarthaksulkhlan/MediKiosk",
+      "language": "TypeScript",
+      "name": "MediKiosk",
+      "updated_at": "2026-08-23T05:20:56Z"
+    },
+    {
+      "description": null,
+      "homepage": null,
+      "html_url": "https://github.com/Sarthaksulkhlan/Nexis---Starforge",
+      "language": "TypeScript",
+      "name": "Nexis---Starforge",
+      "updated_at": "2026-08-10T22:42:13Z"
+    }
+  ]
+}
