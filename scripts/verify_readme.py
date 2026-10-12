@@ -1,4 +1,4 @@
-"""Verify generated assets, README references, cached fallbacks, and workflows."""
+﻿"""Verify the generated profile's content, assets, and offline behavior."""
 from __future__ import annotations
 
 import datetime as dt
@@ -18,62 +18,45 @@ import build as builder
 from build import END, README_FILE, START
 
 
-def fail(message: str) -> None:
-    raise SystemExit(f"Verification failed: {message}")
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise SystemExit(f"Verification failed: {message}")
 
 
-def sha(path: Path) -> str:
+def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def check_gif(path: Path, minimum_frames: int = 2) -> None:
-    try:
-        with Image.open(path) as image:
-            if image.format != "GIF" or image.size[0] > 900 or image.n_frames < minimum_frames:
-                fail(f"{path.name} is not a valid multi-frame GIF")
-            image.seek(0)
-            image.convert("RGB").load()
-            image.seek(image.n_frames - 1)
-            image.convert("RGB").load()
-            if image.info.get("loop") != 0:
-                fail(f"{path.name} is not set to loop")
-    except (OSError, EOFError) as exc:
-        fail(f"Cannot decode {path.name}: {exc}")
-
-
-def check_yaml() -> None:
-    try:
-        import yaml
-        for name in ("refresh.yml", "verify.yml"):
-            yaml.safe_load((ROOT / ".github" / "workflows" / name).read_text(encoding="utf-8"))
-    except ImportError:
-        fail("PyYAML is required for workflow syntax validation in this verification environment")
-    except Exception as exc:
-        fail(f"Workflow YAML is invalid: {exc}")
+def check_gif(path: Path) -> None:
+    with Image.open(path) as image:
+        require(image.format == "GIF" and image.size == (theme.WIDTH, 52), f"Unexpected GIF dimensions/format: {path.name}")
+        require(image.n_frames >= 40 and image.n_frames <= 240, f"Unexpected frame count: {path.name} ({image.n_frames})")
+        require(image.info.get("loop") == 0, f"GIF does not loop: {path.name}")
+        require(path.stat().st_size < 65_536, f"GIF exceeds 64 KiB budget: {path.name}")
+        for index in (0, image.n_frames // 2, image.n_frames - 1):
+            image.seek(index); image.convert("RGB").load()
 
 
 def check_cache_preservation() -> None:
     original = builder.request_json
-    cached = {"repos": [{"name": "cache-item", "html_url": "https://example.invalid"}], "languages": {"Python": 47}, "events_available": True, "activity_weeks": [0]*11+[2], "public_push_event_count": 2, "last_successful_refresh_utc": "2026-01-02T03:04:05Z"}
+    cached = {"followers": 4, "profile_available": True, "repos": [{"name": "cache-item", "html_url": "https://example.invalid"}], "languages": {"Python": 47}, "events_available": True, "activity_weeks": [0]*11+[2], "public_push_event_count": 2, "last_successful_refresh_utc": "2026-01-02T03:04:05Z"}
     try:
         builder.request_json = lambda *a, **k: (_ for _ in ()).throw(OSError("simulated offline"))
-        refreshed = builder.fetch_data(cached)
+        result = builder.fetch_data(cached)
         for key, value in cached.items():
-            if refreshed.get(key) != value:
-                fail(f"Simulated API outage changed cached {key}")
+            require(result.get(key) == value, f"API outage changed cached {key}")
     finally:
         builder.request_json = original
 
 
-def check_manual_content() -> None:
+def check_markers() -> None:
     old = builder.README_FILE
     try:
-        with tempfile.TemporaryDirectory() as temp:
-            builder.README_FILE = Path(temp) / "README.md"
+        with tempfile.TemporaryDirectory() as folder:
+            builder.README_FILE = Path(folder) / "README.md"
             builder.README_FILE.write_text(f"Handwritten intro\n{START}\nold\n{END}\nHandwritten footer\n", encoding="utf-8")
-            generated = builder.render_readme(builder._read_data(), portrait_available=True)
-            if not generated.startswith(f"Handwritten intro\n{START}\n") or not generated.endswith(f"{END}\nHandwritten footer\n"):
-                fail("Manual README content outside generated markers was changed")
+            result = builder.render_readme(builder._read_data(), portrait_available=True)
+            require(result.startswith(f"Handwritten intro\n{START}\n") and result.endswith(f"{END}\nHandwritten footer\n"), "Manual README content outside markers changed")
     finally:
         builder.README_FILE = old
 
@@ -81,96 +64,96 @@ def check_manual_content() -> None:
 def verify() -> None:
     theme.validate_theme()
     readme = README_FILE.read_text(encoding="utf-8")
-    if readme.count(START) != 1 or readme.count(END) != 1:
-        fail("README generated markers are unbalanced")
-    # Verify every image in HTML and Markdown resolves locally; every image has alt text.
-    image_refs = re.findall(r'<(?:img|source)\b[^>]*(?:src|srcset)="([^"]+)"[^>]*>', readme, re.I)
-    image_tags = re.findall(r'<img\b[^>]*>', readme, re.I)
-    for tag in image_tags:
-        if not re.search(r'\balt="[^" ]', tag):
-            fail(f"README image lacks descriptive alt text: {tag}")
-    for target in image_refs:
-        for item in target.split(","):
-            path = item.strip().split()[0]
-            if not path.startswith("assets/") or not (ROOT / path).is_file():
-                fail(f"README image target is missing or external: {path}")
-    if "assets/profile-photo.jpeg" in readme or (ROOT / "assets/profile-photo.jpeg").exists():
-        fail("Raw source photograph must not be published")
-    if "assets/profile-photo-source.jpg" in readme:
-        fail("Private source photo path must not be exposed in README")
-    if not (ROOT / ".gitignore").read_text(encoding="utf-8").__contains__(theme.PORTRAIT_SOURCE.split("/")[-1]):
-        fail("Source portrait is not ignored by Git")
-    if "## Who I am" not in readme or "<td width=\"32%\"" not in readme or "<td width=\"68%\"" not in readme:
-        fail("Who I am needs the portrait and information two-column layout")
-    if "<details>" not in readme or "How this profile is built" not in readme:
-        fail("Expandable content and build documentation navigation are required")
+    require(readme.count(START) == readme.count(END) == 1, "README generated markers are unbalanced")
+    mojibake = any(marker in readme for marker in (chr(0x00c3), chr(0x00c2), chr(0x00e2) + chr(0x20ac)))
+    require(chr(0xfffd) not in readme and not mojibake, "README contains mojibake")
+    require("## About" in readme and 'width="34%"' in readme and 'width="66%"' in readme, "Portrait and profile facts need the two-column layout")
+    require("## Experience" in readme and theme.EXPERIENCE["employer"] in readme and theme.EXPERIENCE["duration"] in readme, "Provided experience is missing")
+    require(theme.EDUCATION in readme and theme.EDUCATION_DETAIL in readme and all(item in readme for item in theme.COURSEWORK), "Provided education facts are incomplete")
+    require(readme.count("type=\"image/gif\"") == 2, "README should contain dark/light sources for the single typing animation")
+    require("profile-portrait.gif" not in readme and "assets/profile-photo-source.jpg" not in readme, "Private or obsolete portrait asset is referenced")
+    require(not (ROOT / "assets/profile-photo.jpeg").exists(), "Raw source photo must not be published")
+    require(theme.PORTRAIT_SOURCE.split("/")[-1] in (ROOT/".gitignore").read_text(encoding="utf-8"), "Source photo is not ignored")
     for project in theme.PROJECTS:
-        if f"{theme.PROFILE_URL}/{project['repo']}" not in readme:
-            fail(f"Missing project repository link: {project['repo']}")
-    if not (ROOT / theme.PORTRAIT_PNG).is_file():
-        fail("Derived static portrait is missing")
-    with Image.open(ROOT / theme.PORTRAIT_PNG) as portrait:
-        if portrait.size != (theme.PORTRAIT_WIDTH, theme.PORTRAIT_HEIGHT):
-            fail("Portrait dimensions do not match theme settings")
-        if portrait.info.get("PortraitSource") == "true" and not (ROOT / theme.PORTRAIT_SOURCE).is_file():
-            # The local private source may be omitted after the asset is generated and committed.
-            pass
-    gifs = ["hero-motion.gif", "hero-motion-light.gif", "typing.gif", "typing-light.gif", "signal.gif", "signal-light.gif", "profile-portrait.gif", "activity-motion.gif", "activity-motion-light.gif"]
+        require(f"{theme.PROFILE_URL}/{project['repo']}" in readme, f"Project link missing: {project['repo']}")
+    require("https://ai.studio/" not in readme, "A login-gated demo should not be linked")
+
+    imgs = re.findall(r"<img\b[^>]*>", readme, re.I)
+    require(bool(imgs), "README has no images")
+    for tag in imgs:
+        require(re.search(r'\balt="[^"]+"', tag), f"Image lacks alt text: {tag}")
+        src = re.search(r'\bsrc="([^"]+)"', tag).group(1)
+        if src.startswith("https://skillicons.dev/icons?"):
+            anchor_start = readme.rfind("<a ", 0, readme.find(tag))
+            anchor_end = readme.find("</a>", readme.find(tag))
+            require(anchor_start >= 0 and anchor_end >= 0, "External technology icon must be linked")
+            anchor = readme[anchor_start:anchor_end]
+            icon = re.search(r"[?&]i=([^&]+)", src).group(1)
+            allowed = {entry[1] for _, group in theme.SKILL_GROUPS for entry in group}
+            require(icon in allowed and re.search(r'href="https://', anchor), f"Unapproved or unlinked Skill Icon: {icon}")
+        else:
+            require(src.startswith("assets/") and (ROOT/src).is_file(), f"Missing local image: {src}")
+    external_sources = re.findall(r'<source\b[^>]*srcset="([^"]+)"', readme, re.I)
+    for source in external_sources:
+        require(source.startswith("assets/") and (ROOT/source).is_file(), f"Missing picture source: {source}")
+
+    gifs = sorted(p.name for p in (ROOT/"assets").glob("*.gif"))
+    require(gifs == ["typing-light.gif", "typing.gif"], f"Unexpected GIF assets: {gifs}")
     for name in gifs:
-        check_gif(ROOT / "assets" / name)
-    svg_paths = list((ROOT / "assets").glob("*.svg"))
-    for path in svg_paths:
+        check_gif(ROOT/"assets"/name)
+    for path in (ROOT/"assets").glob("*.svg"):
         root = ET.parse(path).getroot()
-        if not root.tag.endswith("svg") or int(root.attrib.get("width", "0")) > 830:
-            fail(f"Invalid SVG root or width in {path.name}")
+        require(root.tag.endswith("svg") and int(root.attrib.get("width", "0")) <= theme.WIDTH, f"Invalid SVG size/root: {path.name}")
         raw = path.read_text(encoding="utf-8")
-        if re.search(r"<\s*script\b|javascript:|on(?:load|error)\s*=|<\s*(?:animate|set)\b|@import", raw, re.I):
-            fail(f"Unsupported or unsafe SVG content in {path.name}")
-    for item in ("hero.svg", "hero-light.svg", "typing.svg", "typing-light.svg", "skills.svg", "skills-light.svg", "activity.svg", "activity-light.svg", "divider.svg", "divider-light.svg"):
-        if not (ROOT / "assets" / item).is_file():
-            fail(f"Static fallback missing: {item}")
+        require(not re.search(r"<\s*script\b|javascript:|on(?:load|error)\s*=|<\s*(?:animate|set)\b|@import", raw, re.I), f"Unsupported SVG content: {path.name}")
+    for stem in ("hero", "typing", "divider", "activity", "language-stats", "contribution-art"):
+        for suffix in (".svg", "-light.svg"):
+            require((ROOT/"assets"/f"{stem}{suffix}").is_file(), f"Static fallback missing: {stem}{suffix}")
+    with Image.open(ROOT/theme.PORTRAIT_PNG) as portrait:
+        require(portrait.size == (theme.PORTRAIT_WIDTH, theme.PORTRAIT_HEIGHT), "Portrait dimensions are wrong")
+        require(portrait.info.get("PortraitSource") == "true", "Published portrait was not derived from the provided source")
+
     for match in re.finditer(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", readme):
         target = match.group(1).split()[0]
-        if not target.startswith(("https://", "http://", "mailto:", "#")) and not (ROOT / target).exists():
-            fail(f"README link target does not exist: {target}")
+        if not target.startswith(("https://", "http://", "mailto:", "#")):
+            require((ROOT/target).exists(), f"README link target does not exist: {target}")
     headings = {re.sub(r"[^a-z0-9 -]", "", h.lower()).replace(" ", "-") for h in re.findall(r"^#{1,6}\s+(.+)$", readme, re.M)}
-    for target in re.findall(r"(?<!!)\[[^\]]+\]\(#([^)]+)\)", readme):
-        if target not in headings:
-            fail(f"Internal anchor has no matching heading: #{target}")
-    data = builder._read_data()
-    stamp = data.get("last_successful_refresh_utc")
+    for anchor in re.findall(r"(?<!!)\[[^\]]+\]\(#([^)]+)\)", readme):
+        require(anchor in headings, f"Internal anchor has no heading: #{anchor}")
+    data=builder._read_data(); stamp=data.get("last_successful_refresh_utc")
     if stamp:
-        parsed = dt.datetime.fromisoformat(stamp.replace("Z", "+00:00"))
-        if parsed.tzinfo != dt.timezone.utc or builder._refresh_label(data) not in readme:
-            fail("Successful refresh timestamp is invalid or missing from README")
-    check_yaml()
-    refresh = (ROOT / ".github/workflows/refresh.yml").read_text(encoding="utf-8")
-    verify_flow = (ROOT / ".github/workflows/verify.yml").read_text(encoding="utf-8")
-    if "git diff --cached --quiet" not in refresh or "git add README.md assets/*.svg assets/*.gif assets/*.png assets/profile-data.json" not in refresh:
-        fail("Refresh workflow must stage all generated outputs and skip empty commits")
-    if "contents: read" not in verify_flow:
-        fail("Verification workflow should remain read-only")
-    before = {path: sha(path) for path in [README_FILE, *svg_paths, *(ROOT / "assets" / x for x in gifs)]}
-    old_root, old_data, old_readme = builder.ROOT, builder.DATA_FILE, builder.README_FILE
+        parsed=dt.datetime.fromisoformat(stamp.replace("Z","+00:00"))
+        require(parsed.tzinfo == dt.timezone.utc and builder._refresh_label(data) in readme, "Refresh timestamp is invalid or missing")
+    try:
+        import yaml
+        for name in ("refresh.yml", "verify.yml"):
+            yaml.safe_load((ROOT/".github"/"workflows"/name).read_text(encoding="utf-8"))
+    except ImportError as exc:
+        raise SystemExit("Verification failed: PyYAML is required to validate workflow YAML") from exc
+    refresh=(ROOT/".github/workflows/refresh.yml").read_text(encoding="utf-8")
+    verify_flow=(ROOT/".github/workflows/verify.yml").read_text(encoding="utf-8")
+    require("git diff --cached --quiet" in refresh and "git add README.md assets/*.svg assets/*.gif assets/*.png assets/profile-data.json" in refresh, "Refresh workflow staging/no-op guard is missing")
+    require("contents: read" in verify_flow, "Verification workflow must be read-only")
+
+    outputs=[README_FILE, *(ROOT/"assets").glob("*.svg"), *(ROOT/"assets").glob("*.gif"), ROOT/theme.PORTRAIT_PNG]
+    before={p:digest(p) for p in outputs}
+    old=(builder.ROOT,builder.DATA_FILE,builder.README_FILE)
     try:
         builder.build(offline=True)
-        after = {path: sha(path) for path in before}
-        if before != after:
-            fail("Offline generation is not reproducible")
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp); builder.ROOT=root; builder.DATA_FILE=root/"assets/profile-data.json"; builder.README_FILE=root/"README.md"
+        require(before == {p:digest(p) for p in outputs}, "Offline build is not reproducible")
+        with tempfile.TemporaryDirectory() as folder:
+            temp=Path(folder); builder.ROOT=temp; builder.DATA_FILE=temp/"assets/profile-data.json"; builder.README_FILE=temp/"README.md"
             builder.build(offline=True)
-            fallback = (root/"README.md").read_text(encoding="utf-8")
-            if "PHOTO SOURCE REQUIRED" not in (root/"assets/profile-portrait.png").read_bytes().decode("latin1") and "PHOTO SOURCE REQUIRED" not in fallback:
-                # Raster text is not machine-readable; README must explicitly identify the placeholder source.
-                if "Portrait placeholder" not in fallback: fail("Missing-photo fallback is unclear")
-            for svg in (root/"assets").glob("*.svg"): ET.parse(svg)
-            check_gif(root/"assets/signal.gif")
+            fallback=(temp/"README.md").read_text(encoding="utf-8")
+            require("Portrait placeholder" in fallback, "Missing-photo fallback is not described")
+            for svg in (temp/"assets").glob("*.svg"): ET.parse(svg)
+            with Image.open(temp/"assets/profile-portrait.png") as image:
+                require(image.info.get("PortraitSource") == "placeholder", "Missing photo fallback image was not generated")
+            check_gif(temp/"assets/typing.gif")
     finally:
-        builder.ROOT, builder.DATA_FILE, builder.README_FILE = old_root, old_data, old_readme
-    check_cache_preservation()
-    check_manual_content()
-    print("Verified GitHub image paths/alt text, two-column layout, anchors, project links, details, theme assets, SVG XML, animated GIF frames/loops, YAML, cache outage behavior, missing-photo fallback, marker preservation, and offline reproducibility.")
+        builder.ROOT,builder.DATA_FILE,builder.README_FILE=old
+    check_cache_preservation(); check_markers()
+    print("Verified README content and links, photo privacy, icons/alt text, SVGs, single-loop GIF size/frames, workflows, theme contrast, cache preservation, no-photo fallback, marker preservation, and offline reproducibility.")
 
 
 if __name__ == "__main__":

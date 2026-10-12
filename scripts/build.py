@@ -74,10 +74,19 @@ def fetch_data(old: dict[str, Any], token: str | None = None) -> dict[str, Any]:
     result.setdefault("repos", [])
     result.setdefault("languages", {})
     result.setdefault("events_available", False)
+    result.setdefault("profile_available", "followers" in old)
     result.setdefault("activity_weeks", [0] * 12)
     result.setdefault("repos_available", "public_repo_count" in old)
     result.setdefault("languages_available", bool(old.get("languages")))
     failures: list[str] = []
+    try:
+        profile = request_json(f"{API}/users/{theme.USERNAME}", token)
+        if not isinstance(profile, dict) or not isinstance(profile.get("followers"), int) or isinstance(profile.get("followers"), bool) or profile["followers"] < 0:
+            raise ValueError("Invalid public follower metadata")
+        result["followers"] = profile["followers"]
+        result["profile_available"] = True
+    except (OSError, ValueError, RuntimeError, urllib.error.URLError) as exc:
+        failures.append(f"profile:{exc}")
     try:
         repos = _valid_repo_list(request_json(f"{API}/users/{theme.USERNAME}/repos?per_page=100&type=owner&sort=updated", token))
         repos = [repo for repo in repos if not repo.get("fork") and repo.get("name") != theme.USERNAME]
@@ -154,62 +163,6 @@ def _refresh_label(data: dict[str, Any]) -> str:
     return f"**Last fully successful data refresh:** {timestamp:%Y-%m-%d %H:%M:%S} UTC."
 
 
-def _project_section(project: dict[str, Any], data: dict[str, Any], index: int) -> list[str]:
-    """Render one evidence-based project card using normal GitHub Markdown."""
-    remote = next((item for item in data.get("repos", []) if item.get("name") == project["repo"]), {})
-    url = remote.get("html_url") or f"{theme.PROFILE_URL}/{project['repo']}"
-    stack = " · ".join(f"`{item}`" for item in project["stack"])
-    homepage = remote.get("homepage")
-    links = [f"[Repository]({url})"]
-    demo_url = project.get("demo_url") or homepage
-    if demo_url:
-        demo = demo_url if str(demo_url).startswith("http") else "https://" + str(demo_url)
-        links.insert(0, f"[Project demo]({demo})")
-    title = f"### [{project['name']}]({url})"
-    if index == 1:
-        return [
-            title,
-            "",
-            f"**01 / {project['eyebrow']}**",
-            "",
-            project["description"],
-            "",
-            "`change` → `invariants` → `future comparison` → `human decision`",
-            "",
-            f"**Built with** {stack} · {' · '.join(links)}",
-            "",
-        ]
-    if index == 2:
-        return [
-            title,
-            "",
-            f"> **02 / {project['eyebrow']}**",
-            ">",
-            "> Windows agents → authenticated API → PostgreSQL → fleet dashboard",
-            "",
-            project["description"],
-            "",
-            f"**Built with** {stack}",
-            "",
-            " · ".join(links),
-            "",
-        ]
-    return [
-        title,
-        "",
-        f"**03 / {project['eyebrow']}**",
-        "",
-        project["description"],
-        "",
-        "| Voice client | Agent services |",
-        "|:--|:--|",
-        "| Browser UI → Express API | Python LiveKit → Gemini → Qdrant → Rime |",
-        "",
-        f"**Built with** {stack} · {' · '.join(links)}",
-        "",
-    ]
-
-
 def _language_summary(data: dict[str, Any]) -> str:
     """Provide a readable text equivalent for narrow screens and image fallbacks."""
     ranked = sorted(
@@ -227,23 +180,92 @@ def _language_summary(data: dict[str, Any]) -> str:
 
 
 def render_readme(data: dict[str, Any], portrait_available: bool | None = None) -> str:
-    repository_snapshot = (
-        f"**Repository snapshot:** {int(data.get('public_repo_count', 0))} original public repositories · {int(data.get('public_repo_stars', 0))} stars across those repositories."
-        if data.get("repos_available", "public_repo_count" in data)
-        else "**Repository snapshot:** public repository metrics unavailable; cached visuals are labelled accordingly."
-    )
+    """Compose a concise profile with source-grounded content and small motion."""
     if portrait_available is None:
         portrait_available = (ROOT / theme.PORTRAIT_SOURCE).is_file() and (ROOT / theme.PORTRAIT_PNG).is_file()
-    alt = theme.PHOTO_ALT if portrait_available else "Portrait placeholder; add the supplied image at assets/profile-photo-source.jpg"
-    hero = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif"><img src="assets/hero.svg" alt="Sarthak Sulkhlan: software and data systems"></picture>'
-    typing = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif"><img src="assets/typing.svg" alt="Building software, learning data and AI, and tracing system behavior"></picture>'
-    divider = '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/signal.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/signal-light.gif"><img src="assets/divider.svg" alt="Emerald signal trace divider"></picture>'
-    portrait = f'<picture><source type="image/gif" srcset="assets/profile-portrait.gif"><img src="assets/profile-portrait.png" alt="{alt}" width="240"></picture>'
-    content = [hero, "", typing, "", "**Explore** · [About](#who-i-am) · [Hands-on engineering](#hands-on-engineering) · [Selected work](#selected-work) · [Education](#education--technical-activity) · [Telemetry](#public-telemetry) · [Contact](#contact--navigation) · [How this profile is built](SETUP.md)", "", divider, "", "[GitHub profile](" + theme.PROFILE_URL + ") · [Browse my repositories](" + theme.PROFILE_URL + "?tab=repositories)", "", "## Who I am", "", '<table width="100%"><tbody><tr><td width="32%" valign="top" align="center">', portrait, "", "<sub>COMPUTER SCIENCE / DATA SCIENCE</sub>", "</td><td width=\"68%\" valign=\"top\">", "", "### sarthak@build — profile", "", "| Field | Details |", "|:--|:--|", f"| study | {theme.EDUCATION} |", "| interests | Software engineering · data science · applied AI |", "| project stack | TypeScript · Python · React · Flask · SQL |", "| learning | Java problem solving · generative AI systems |", "| focus | Practical systems whose behavior can be observed and improved |", "", "I’m studying computer science and learning by building useful software. I’m interested in turning ideas into working systems, understanding their behavior through data, and making AI-enabled tools more dependable.", "", "**Current focus:** " + theme.CURRENT_FOCUS, "", "**Projects:** [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)", "", "</td></tr></tbody></table>", "", divider, "", "## Hands-on engineering", "", "Organized by project evidence and current study; not a proficiency ranking.", "", theme.picture_markup("skills", "Evidence-based groups for programming, AI, backend and data, frontend tools, and systems integration"), ""]
-    for item in theme.CAPABILITIES: content.extend([f"### {item['name']}", "", " · ".join(item["items"]), "", item["evidence"], ""])
-    content.extend(["<details><summary>Learning focus</summary>", "", "Java problem solving and generative AI systems are current learning topics.", "", "</details>", "", "## Selected work", "", "Three documented projects, each approaching a different systems problem. Descriptions and stacks are based on their public repository READMEs.", ""])
-    for index, project in enumerate(theme.PROJECTS, start=1): content.extend(_project_section(project, data, index))
-    content.extend([theme.picture_markup("project-landscape", "Three selected project areas: software evolution, endpoint telemetry, and voice interaction"), "", divider, "", "## Education & technical activity", "", f"**{theme.EDUCATION}**", "", theme.EDUCATION_DETAIL, "", "**Project activity:** EPOCH is documented as a team prototype built for the IBM Bob 2.0 hackathon. See [the repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution).", "", "## Public telemetry", "", "Public repository metadata and a limited public event sample. No private activity or contribution totals are inferred.", "", _refresh_label(data), "", repository_snapshot, "", f"**Event sample:** {int(data.get('public_push_event_count', 0))} public PushEvents returned." if data.get("events_available", False) else "**Event sample:** public event data unavailable; cached activity remains labelled accordingly.", "", "<details><summary>Expand recent public activity visualization</summary>", "", '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/activity-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/activity-motion-light.gif"><img src="assets/activity.svg" alt="Cached public activity bars with an animated focus marker"></picture>', "", "</details>", "", theme.picture_markup("activity", "Public repository count, combined stars, and weekly buckets of sampled public PushEvents"), "", theme.ACTIVITY_NOTE, "", theme.picture_markup("language-stats", "Language byte composition across original public repositories, excluding forks and this profile repository"), "", f"**Language mix:** {_language_summary(data)}.", "", "Language shares use GitHub-reported source-byte totals across owned, non-fork public repositories; the profile repository is excluded.", "", "<details><summary>How to read the telemetry</summary>", "", "The activity plot groups PushEvents in GitHub’s latest public user-events response (up to 100 events) into 12 week buckets. It is a sample, not a full contribution history.", "", "</details>", "", "## Contact & navigation", "", f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)", "", "[Back to introduction](#who-i-am) · [How this profile is built](SETUP.md)", "", "<sub>Self-hosted GIFs add subtle motion in GitHub’s rendered README; static SVG or PNG fallbacks retain the information. Telemetry uses public GitHub data and a limited event sample.</sub>"])
+    alt = theme.PHOTO_ALT if portrait_available else "Portrait placeholder. Add your image at assets/profile-photo-source.jpg."
+    hero = theme.picture_markup("hero", "Sarthak Sulkhlan — software, data science, and applied AI")
+    typing = (
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif">'
+        '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif">'
+        '<img src="assets/typing.svg" alt="Building practical software; learning data science and applied AI; turning ideas into working systems"></picture>'
+    )
+    portrait = f'<img src="assets/profile-portrait.png" width="220" alt="{alt}">'
+    content = [
+        hero, "", typing, "",
+        "**Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)",
+        "", theme.picture_markup("divider", "Thin emerald section divider"), "",
+        "## About", "",
+        '<table width="100%"><tbody><tr><td width="34%" align="center" valign="top">' + portrait + "</td><td width=\"66%\" valign=\"top\">",
+        "<h3><code>sarthak@systems</code> / about</h3>",
+        "<table><tbody>"
+        f"<tr><th align=\"left\">Study</th><td>{theme.EDUCATION}</td></tr>"
+        "<tr><th align=\"left\">Interests</th><td>Software engineering · data science · applied AI</td></tr>"
+        "<tr><th align=\"left\">Project work</th><td>Verified software, telemetry, and voice-system projects</td></tr>"
+        "<tr><th align=\"left\">Learning</th><td>Java problem solving · Python · generative AI</td></tr>"
+        "<tr><th align=\"left\">Focus</th><td>Building practical, reliable software systems</td></tr>"
+        "</tbody></table>",
+        "<p>I’m a computer science student who learns by building. I enjoy taking an idea through implementation, observing how a system behaves, and using that evidence to improve it.</p>",
+        "<p><strong>Selected repositories</strong><br><a href=\"https://github.com/Sarthaksulkhlan/epoch-software.evolution\">EPOCH</a> · <a href=\"https://github.com/Sarthaksulkhlan/Asset-Sentinel\">Asset Sentinel</a> · <a href=\"https://github.com/Sarthaksulkhlan/Nexis---Starforge\">MatrixCore</a></p>",
+        "</td></tr></tbody></table>", "", theme.picture_markup("divider", "Thin emerald section divider"), "",
+        "## Hands-on Engineering", "",
+        "Icons use Skill Icons; each links to an official learning page. If the icon service is unavailable, the linked image’s alt label remains visible.", "",
+    ]
+    for category, skills in theme.SKILL_GROUPS:
+        content.extend([f"### {category}", "", '<p align="center">'])
+        for label, icon, url in skills:
+            src=f"https://skillicons.dev/icons?i={icon}&theme=dark"
+            content.append(f'<a href="{url}" title="{label}"><img src="{src}" width="40" height="40" alt="{label} icon"></a>')
+        content.extend(["</p>", ""])
+    content.extend([
+        "Project libraries documented in MatrixCore include [MCP](https://modelcontextprotocol.io/docs), [LiveKit](https://docs.livekit.io/), and [Qdrant](https://qdrant.tech/documentation/). Java is shown as a learning focus.", "",
+        theme.picture_markup("divider", "Thin emerald section divider"), "",
+        "## Selected Work", "", "Three verified projects, described from their repositories. Titles link to source; demos are shown only for the two deployed project sites.", "",
+    ])
+    for index, project in enumerate(theme.PROJECTS, 1):
+        remote = next((item for item in data.get("repos", []) if item.get("name") == project["repo"]), {})
+        repo_url = remote.get("html_url") or f"{theme.PROFILE_URL}/{project['repo']}"
+        homepage = remote.get("homepage") if project["repo"] in ("epoch-software.evolution", "Asset-Sentinel") else None
+        links = [f"[Repository]({repo_url})"]
+        if homepage:
+            demo = str(homepage)
+            if not demo.startswith("http"):
+                demo = "https://" + demo
+            links.insert(0, f"[Live demo]({demo})")
+        stack = " · ".join(f"`{item}`" for item in project["stack"])
+        content.extend([
+            f"### [{project['name']}]({repo_url})", "",
+            f"**0{index} / {project['eyebrow']}**", "",
+            project["description"], "",
+            f"**Technologies:** {stack}", "",
+            " · ".join(links), "",
+        ])
+    content.extend([
+        theme.picture_markup("divider", "Thin emerald section divider"), "",
+        "## Experience", "",
+        f"**{theme.EXPERIENCE['role']}** · {theme.EXPERIENCE['employer']}",
+        f"{theme.EXPERIENCE['location']} · {theme.EXPERIENCE['duration']}", "",
+        "## Education", "",
+        f"**{theme.EDUCATION}** · {theme.EDUCATION_DETAIL}", "",
+        "**Coursework:** " + " · ".join(theme.COURSEWORK), "",
+        theme.picture_markup("divider", "Thin emerald section divider"), "",
+        "## Telemetry", "",
+        "Public account statistics and language totals are refreshed daily by GitHub Actions. The event chart is a limited sample from the public events API, not a complete contribution history.", "",
+        _refresh_label(data), "",
+        theme.picture_markup("activity", "Public repositories, repository stars, followers, sampled public events, and weekly event bars"), "",
+        theme.picture_markup("language-stats", "Source-byte language shares across original public repositories"), "",
+        "Language mix by GitHub-reported bytes: " + _language_summary(data) + ".", "",
+        "## Contribution Art", "",
+        "The public event feed does not provide a complete daily contribution calendar, so this profile shows only the weekly groups it can verify.", "",
+        "<details><summary>Open the sampled weekly activity trace</summary>", "",
+        theme.picture_markup("contribution-art", "Twelve weekly totals of public PushEvents from the recent sampled event feed"), "",
+        theme.ACTIVITY_NOTE, "", "</details>", "",
+        "<details><summary>How to read these metrics</summary>", "",
+        "Repository count and stars are from GitHub’s public repository API and exclude forks and this profile repository. Followers come from the public user endpoint. Language shares use repository language byte totals. PushEvents are grouped into twelve week buckets from the latest public user-events response, which is capped at 100 events.", "", "</details>", "",
+        "## Contact", "",
+        f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [How this profile is built](SETUP.md)", "",
+        "<sub>One small self-hosted typing GIF is the only looping animation. The portrait, hero, project cards, and telemetry are static SVG/PNG assets. GitHub does not animate SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
+    ])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""
     if START in existing and END in existing:

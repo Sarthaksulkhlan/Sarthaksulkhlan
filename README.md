@@ -1,91 +1,89 @@
 <!-- PROFILE:GENERATED:START -->
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif"><img src="assets/hero.svg" alt="Sarthak Sulkhlan: software and data systems"></picture>
-
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif"><img src="assets/typing.svg" alt="Building software, learning data and AI, and tracing system behavior"></picture>
-
-**Explore** · [About](#who-i-am) · [Hands-on engineering](#hands-on-engineering) · [Selected work](#selected-work) · [Education](#education--technical-activity) · [Telemetry](#public-telemetry) · [Contact](#contact--navigation) · [How this profile is built](SETUP.md)
-
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/signal.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/signal-light.gif"><img src="assets/divider.svg" alt="Emerald signal trace divider"></picture>
-
-[GitHub profile](https://github.com/Sarthaksulkhlan) · [Browse my repositories](https://github.com/Sarthaksulkhlan?tab=repositories)
-
-## Who I am
-
-<table width="100%"><tbody><tr><td width="32%" valign="top" align="center">
-<picture><source type="image/gif" srcset="assets/profile-portrait.gif"><img src="assets/profile-portrait.png" alt="Stylized emerald halftone portrait of Sarthak Sulkhlan" width="240"></picture>
-
-<sub>COMPUTER SCIENCE / DATA SCIENCE</sub>
-</td><td width="68%" valign="top">
-
-### sarthak@build — profile
-
-| Field | Details |
-|:--|:--|
-| study | B.Tech, Computer Science and Engineering (Data Science) |
-| interests | Software engineering · data science · applied AI |
-| project stack | TypeScript · Python · React · Flask · SQL |
-| learning | Java problem solving · generative AI systems |
-| focus | Practical systems whose behavior can be observed and improved |
-
-I’m studying computer science and learning by building useful software. I’m interested in turning ideas into working systems, understanding their behavior through data, and making AI-enabled tools more dependable.
-
-**Current focus:** Building practical systems, understanding their behavior through data, and learning how to make AI-enabled software useful and dependable.
-
-**Projects:** [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
-
-</td></tr></tbody></table>
-
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/signal.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/signal-light.gif"><img src="assets/divider.svg" alt="Emerald signal trace divider"></picture>
-
-## Hands-on engineering
-
-Organized by project evidence and current study; not a proficiency ranking.
-
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/skills.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/skills-light.svg">
-  <img src="assets/skills.svg" alt="Evidence-based groups for programming, AI, backend and data, frontend tools, and systems integration">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg">
+  <img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI">
 </picture>
 
-### Programming & problem solving
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif"><img src="assets/typing.svg" alt="Building practical software; learning data science and applied AI; turning ideas into working systems"></picture>
 
-TypeScript · Python · Java (learning)
+**Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)
 
-TypeScript and Python appear across selected project repositories; Java is a current learning focus.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
+  <img src="assets/divider.svg" alt="Thin emerald section divider">
+</picture>
 
-### AI & generative systems
+## About
 
-Gemini · MCP · LiveKit · Qdrant
+<table width="100%"><tbody><tr><td width="34%" align="center" valign="top"><img src="assets/profile-portrait.png" width="220" alt="Stylized emerald halftone portrait of Sarthak Sulkhlan"></td><td width="66%" valign="top">
+<h3><code>sarthak@systems</code> / about</h3>
+<table><tbody><tr><th align="left">Study</th><td>B.Tech, Computer Science and Engineering (Data Science)</td></tr><tr><th align="left">Interests</th><td>Software engineering · data science · applied AI</td></tr><tr><th align="left">Project work</th><td>Verified software, telemetry, and voice-system projects</td></tr><tr><th align="left">Learning</th><td>Java problem solving · Python · generative AI</td></tr><tr><th align="left">Focus</th><td>Building practical, reliable software systems</td></tr></tbody></table>
+<p>I’m a computer science student who learns by building. I enjoy taking an idea through implementation, observing how a system behaves, and using that evidence to improve it.</p>
+<p><strong>Selected repositories</strong><br><a href="https://github.com/Sarthaksulkhlan/epoch-software.evolution">EPOCH</a> · <a href="https://github.com/Sarthaksulkhlan/Asset-Sentinel">Asset Sentinel</a> · <a href="https://github.com/Sarthaksulkhlan/Nexis---Starforge">MatrixCore</a></p>
+</td></tr></tbody></table>
 
-Documented in the MatrixCore and EPOCH project READMEs; explored through project work.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
+  <img src="assets/divider.svg" alt="Thin emerald section divider">
+</picture>
 
-### Backend, APIs & data
+## Hands-on Engineering
 
-Flask · Hono · Express · SQLite · PostgreSQL · Supabase
+Icons use Skill Icons; each links to an official learning page. If the icon service is unavailable, the linked image’s alt label remains visible.
 
-Used in the Asset Sentinel, EPOCH, and MatrixCore repositories.
+### Languages
 
-### Frontend & developer tooling
+<p align="center">
+<a href="https://www.python.org/" title="Python"><img src="https://skillicons.dev/icons?i=python&theme=dark" width="40" height="40" alt="Python icon"></a>
+<a href="https://dev.java/learn/" title="Java (learning)"><img src="https://skillicons.dev/icons?i=java&theme=dark" width="40" height="40" alt="Java (learning) icon"></a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="https://skillicons.dev/icons?i=js&theme=dark" width="40" height="40" alt="JavaScript icon"></a>
+<a href="https://www.typescriptlang.org/docs/" title="TypeScript"><img src="https://skillicons.dev/icons?i=ts&theme=dark" width="40" height="40" alt="TypeScript icon"></a>
+</p>
 
-React · Vite · TypeScript · GitHub Actions
+### Frameworks & development
 
-Present in the selected project source and this profile's verified build workflow.
+<p align="center">
+<a href="https://react.dev/" title="React"><img src="https://skillicons.dev/icons?i=react&theme=dark" width="40" height="40" alt="React icon"></a>
+<a href="https://flask.palletsprojects.com/" title="Flask"><img src="https://skillicons.dev/icons?i=flask&theme=dark" width="40" height="40" alt="Flask icon"></a>
+<a href="https://expressjs.com/" title="Express"><img src="https://skillicons.dev/icons?i=express&theme=dark" width="40" height="40" alt="Express icon"></a>
+<a href="https://nodejs.org/en/learn" title="Node.js"><img src="https://skillicons.dev/icons?i=nodejs&theme=dark" width="40" height="40" alt="Node.js icon"></a>
+</p>
 
-### Systems & integration
+### AI & data
 
-Windows agent telemetry · REST APIs · CI workflows · service integration
+<p align="center">
+<a href="https://ai.google.dev/gemini-api/docs" title="Generative AI"><img src="https://skillicons.dev/icons?i=ai&theme=dark" width="40" height="40" alt="Generative AI icon"></a>
+</p>
 
-Capabilities represented by the Asset Sentinel agent/API/dashboard and documented project workflows.
+### Databases
 
-<details><summary>Learning focus</summary>
+<p align="center">
+<a href="https://www.postgresql.org/docs/" title="PostgreSQL"><img src="https://skillicons.dev/icons?i=postgres&theme=dark" width="40" height="40" alt="PostgreSQL icon"></a>
+<a href="https://www.sqlite.org/docs.html" title="SQLite"><img src="https://skillicons.dev/icons?i=sqlite&theme=dark" width="40" height="40" alt="SQLite icon"></a>
+<a href="https://supabase.com/docs" title="Supabase"><img src="https://skillicons.dev/icons?i=supabase&theme=dark" width="40" height="40" alt="Supabase icon"></a>
+</p>
 
-Java problem solving and generative AI systems are current learning topics.
+### Cloud & tooling
 
-</details>
+<p align="center">
+<a href="https://git-scm.com/doc" title="Git"><img src="https://skillicons.dev/icons?i=git&theme=dark" width="40" height="40" alt="Git icon"></a>
+<a href="https://docs.github.com/en/actions" title="GitHub Actions"><img src="https://skillicons.dev/icons?i=githubactions&theme=dark" width="40" height="40" alt="GitHub Actions icon"></a>
+</p>
 
-## Selected work
+Project libraries documented in MatrixCore include [MCP](https://modelcontextprotocol.io/docs), [LiveKit](https://docs.livekit.io/), and [Qdrant](https://qdrant.tech/documentation/). Java is shown as a learning focus.
 
-Three documented projects, each approaching a different systems problem. Descriptions and stacks are based on their public repository READMEs.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
+  <img src="assets/divider.svg" alt="Thin emerald section divider">
+</picture>
+
+## Selected Work
+
+Three verified projects, described from their repositories. Titles link to source; demos are shown only for the two deployed project sites.
 
 ### [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution)
 
@@ -93,21 +91,19 @@ Three documented projects, each approaching a different systems problem. Descrip
 
 A governed software-evolution workbench for a watched payments service: records approved changes, checks invariants, tracks drift and incidents, and measures alternative futures at a human approval gate. The repository includes a runnable demo and guarded public console.
 
-`change` → `invariants` → `future comparison` → `human decision`
+**Technologies:** `TypeScript` · `Hono` · `React 19` · `SQLite` · `MCP`
 
-**Built with** `TypeScript` · `Hono` · `React 19` · `SQLite` · `MCP` · [Project demo](https://epoch-wj5b.onrender.com/) · [Repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution)
+[Live demo](https://epoch-wj5b.onrender.com/) · [Repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution)
 
 ### [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel)
 
-> **02 / ENDPOINT TELEMETRY / FLEET VISIBILITY**
->
-> Windows agents → authenticated API → PostgreSQL → fleet dashboard
+**02 / ENDPOINT TELEMETRY / FLEET VISIBILITY**
 
 A Windows monitoring system that sends heartbeat, hardware, session, and foreground-application signals through a Python agent and Flask API into a Supabase PostgreSQL store and React dashboard. Its README documents an end-to-end deployment and a demo using demonstration data.
 
-**Built with** `Python` · `Flask` · `PostgreSQL` · `React` · `TypeScript`
+**Technologies:** `Python` · `Flask` · `PostgreSQL` · `React` · `TypeScript`
 
-[Project demo](https://assetsentinel.onrender.com) · [Repository](https://github.com/Sarthaksulkhlan/Asset-Sentinel)
+[Live demo](https://assetsentinel.onrender.com) · [Repository](https://github.com/Sarthaksulkhlan/Asset-Sentinel)
 
 ### [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
 
@@ -115,73 +111,78 @@ A Windows monitoring system that sends heartbeat, hardware, session, and foregro
 
 An adaptive voice-agent demo with a browser client, an Express service, and a Python LiveKit agent. The documented voice path connects LiveKit, Gemini, Qdrant retrieval, and Rime speech; local use requires external service credentials.
 
-| Voice client | Agent services |
-|:--|:--|
-| Browser UI → Express API | Python LiveKit → Gemini → Qdrant → Rime |
+**Technologies:** `TypeScript` · `Express` · `Python` · `LiveKit` · `Gemini`
 
-**Built with** `TypeScript` · `Express` · `Python` · `LiveKit` · `Gemini` · [Project demo](https://ai.studio/apps/f2d187b6-edd7-4e75-9a39-42f65428df0a) · [Repository](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
+[Repository](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/project-landscape.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/project-landscape-light.svg">
-  <img src="assets/project-landscape.svg" alt="Three selected project areas: software evolution, endpoint telemetry, and voice interaction">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
+  <img src="assets/divider.svg" alt="Thin emerald section divider">
 </picture>
 
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/signal.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/signal-light.gif"><img src="assets/divider.svg" alt="Emerald signal trace divider"></picture>
+## Experience
 
-## Education & technical activity
+**AI Intern** · Prajjo HR — Kenbox Technologies
+Noida, On-site · June 2026 – August 2026
 
-**B.Tech, Computer Science and Engineering (Data Science)**
+## Education
 
-Studying Computer Science and Engineering (Data Science); building practical software while developing foundations in data and AI engineering.
+**B.Tech, Computer Science and Engineering (Data Science)** · Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028
 
-**Project activity:** EPOCH is documented as a team prototype built for the IBM Bob 2.0 hackathon. See [the repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution).
+**Coursework:** Data Structures · Database Systems · Operating Systems · Computer Networks · Software Engineering
 
-## Public telemetry
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
+  <img src="assets/divider.svg" alt="Thin emerald section divider">
+</picture>
 
-Public repository metadata and a limited public event sample. No private activity or contribution totals are inferred.
+## Telemetry
 
-**Last fully successful data refresh:** 2026-10-12 11:52:36 UTC.
+Public account statistics and language totals are refreshed daily by GitHub Actions. The event chart is a limited sample from the public events API, not a complete contribution history.
 
-**Repository snapshot:** 4 original public repositories · 2 stars across those repositories.
-
-**Event sample:** 11 public PushEvents returned.
-
-<details><summary>Expand recent public activity visualization</summary>
-
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/activity-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/activity-motion-light.gif"><img src="assets/activity.svg" alt="Cached public activity bars with an animated focus marker"></picture>
-
-</details>
+**Last fully successful data refresh:** 2026-10-12 13:05:27 UTC.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/activity.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg">
-  <img src="assets/activity.svg" alt="Public repository count, combined stars, and weekly buckets of sampled public PushEvents">
+  <img src="assets/activity.svg" alt="Public repositories, repository stars, followers, sampled public events, and weekly event bars">
 </picture>
-
-Activity groups only PushEvents returned by GitHub's public user-events endpoint (up to 100 recent public events). It is a sample, not a contribution history; an empty bucket does not prove there was no GitHub activity.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/language-stats.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/language-stats-light.svg">
-  <img src="assets/language-stats.svg" alt="Language byte composition across original public repositories, excluding forks and this profile repository">
+  <img src="assets/language-stats.svg" alt="Source-byte language shares across original public repositories">
 </picture>
 
-**Language mix:** TypeScript 75.7% · Python 20.3% · CSS 1.5% · Other 2.5%.
+Language mix by GitHub-reported bytes: TypeScript 75.7% · Python 20.3% · CSS 1.5% · Other 2.5%.
 
-Language shares use GitHub-reported source-byte totals across owned, non-fork public repositories; the profile repository is excluded.
+## Contribution Art
 
-<details><summary>How to read the telemetry</summary>
+The public event feed does not provide a complete daily contribution calendar, so this profile shows only the weekly groups it can verify.
 
-The activity plot groups PushEvents in GitHub’s latest public user-events response (up to 100 events) into 12 week buckets. It is a sample, not a full contribution history.
+<details><summary>Open the sampled weekly activity trace</summary>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/contribution-art.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/contribution-art-light.svg">
+  <img src="assets/contribution-art.svg" alt="Twelve weekly totals of public PushEvents from the recent sampled event feed">
+</picture>
+
+Activity groups only PushEvents returned by GitHub's public user-events endpoint (up to 100 recent public events). The oldest chart bin includes events 11+ weeks old. This is a sample, not a contribution history; an empty bucket does not prove there was no GitHub activity.
 
 </details>
 
-## Contact & navigation
+<details><summary>How to read these metrics</summary>
 
-[GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories) · [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
+Repository count and stars are from GitHub’s public repository API and exclude forks and this profile repository. Followers come from the public user endpoint. Language shares use repository language byte totals. PushEvents are grouped into twelve week buckets from the latest public user-events response, which is capped at 100 events.
 
-[Back to introduction](#who-i-am) · [How this profile is built](SETUP.md)
+</details>
 
-<sub>Self-hosted GIFs add subtle motion in GitHub’s rendered README; static SVG or PNG fallbacks retain the information. Telemetry uses public GitHub data and a limited event sample.</sub>
+## Contact
+
+[GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories) · [How this profile is built](SETUP.md)
+
+<sub>One small self-hosted typing GIF is the only looping animation. The portrait, hero, project cards, and telemetry are static SVG/PNG assets. GitHub does not animate SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
 <!-- PROFILE:GENERATED:END -->

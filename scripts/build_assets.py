@@ -2,17 +2,15 @@
 from __future__ import annotations
 
 import html
-import math
+import hashlib
 from pathlib import Path
 from typing import Any
-from xml.sax.saxutils import escape
-
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps, PngImagePlugin
 
 from theme import (
-    ACTIVITY_HEIGHT, DIVIDER_HEIGHT, HERO_HEIGHT, HERO_FRAMES, LANGUAGE_HEIGHT,
-    LANDSCAPE_HEIGHT, MOTION_FRAME_MS, MONO_FONT, NAME, PALETTE, PORTRAIT_HEIGHT,
-    PORTRAIT_SOURCE, PORTRAIT_WIDTH, PROJECTS, SANS_FONT, SKILLS_HEIGHT, TYPE_LINES,
+    ACTIVITY_HEIGHT, CONTRIBUTION_HEIGHT, DIVIDER_HEIGHT, HERO_HEIGHT, LANGUAGE_HEIGHT,
+    MONO_FONT, NAME, PALETTE, PORTRAIT_HEIGHT, SANS_FONT,
+    PORTRAIT_SOURCE, PORTRAIT_WIDTH, TYPE_LINES,
     WIDTH, PANEL_RADIUS, card_params, hex_to_rgb,
 )
 
@@ -27,39 +25,21 @@ def _document(width: int, height: int, title: str, description: str, content: st
     )
 
 
-def hero(mode: str = "dark") -> str:
-    """Render the static fallback for the portfolio's animated systems hero."""
+def premium_hero(mode: str = "dark") -> str:
+    """Draw a compact, static-first systems hero with a restrained information hierarchy."""
     c = card_params(mode)
-    grid = "".join(f'<path d="M{x} 15V{HERO_HEIGHT-15}"/>' for x in range(36, WIDTH, 30))
-    grid += "".join(f'<path d="M18 {y}H812"/>' for y in range(28, HERO_HEIGHT, 30))
-    nodes = []
-    for x, label, sublabel in ((544, "BUILD", "working code"), (669, "OBSERVE", "real signals"), (786, "REFINE", "better systems")):
-        nodes.append(
-            f'<rect x="{x-45}" y="116" width="90" height="72" rx="12" fill="{c["panel_alt"]}" stroke="{c["border"]}"/>'
-            f'<circle cx="{x}" cy="135" r="4" fill="{c["accent"]}"/>'
-            f'<text x="{x}" y="157" text-anchor="middle" fill="{c["text"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1">{label}</text>'
-            f'<text x="{x}" y="174" text-anchor="middle" fill="{c["muted"]}" font-size="8">{sublabel}</text>'
-        )
-    content = f'''<defs>
-      <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{c['panel']}"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient>
-      <linearGradient id="route" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{c['accent_deep']}"/><stop offset=".55" stop-color="{c['accent']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient>
-      <radialGradient id="glow"><stop stop-color="{c['accent']}" stop-opacity=".19"/><stop offset="1" stop-color="{c['accent']}" stop-opacity="0"/></radialGradient>
-    </defs>
-    <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#surface)" stroke="{c['border']}"/>
-    <circle cx="702" cy="126" r="158" fill="url(#glow)"/>
-    <g fill="none" stroke="{c['grid']}" opacity=".52">{grid}</g>
-    <path d="M32 28h15 M32 28v15 M798 28h-15 M798 28v15 M32 {HERO_HEIGHT-28}h15 M32 {HERO_HEIGHT-28}v-15" stroke="{c['accent']}" opacity=".8" fill="none"/>
-    <text x="48" y="58" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.8">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
-    <text x="46" y="116" fill="{c['text']}" font-size="38" font-weight="700">{html.escape(NAME)}</text>
-    <text x="49" y="151" fill="{c['silver']}" font-size="15">Practical software, informed by data and AI.</text>
-    <text x="49" y="180" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1">LEARN  /  BUILD  /  MEASURE  /  IMPROVE</text>
-    <path d="M498 152H499 M589 152H624 M714 152H741" fill="none" stroke="url(#route)" stroke-width="2"/>
-    {''.join(nodes)}
-    <path d="M48 224H782" stroke="{c['border']}"/>
-    <circle cx="48" cy="224" r="3" fill="{c['accent']}"/>
-    <text x="60" y="248" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="9">CURRENT THREAD</text>
-    <text x="782" y="248" text-anchor="end" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1">SYSTEMS · DATA · APPLIED AI</text>'''
-    return _document(WIDTH, HERO_HEIGHT, f"{NAME} — computer science, data science, and software", "A technical portfolio hero showing a practical engineering loop from building through observation to refinement.", content)
+    grid = "".join(f'<path d="M{x} 18V{HERO_HEIGHT-18}"/>' for x in range(40, WIDTH, 32))
+    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{c['panel']}"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient><linearGradient id="route"><stop stop-color="{c['accent_deep']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient></defs>
+    <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#panel)" stroke="{c['border']}"/><g fill="none" stroke="{c['grid']}" opacity=".26">{grid}</g>
+    <path d="M32 28h13 M32 28v13 M798 28h-13 M798 28v13 M32 232h13 M32 232v-13 M798 232h-13 M798 232v-13" stroke="{c['accent']}" opacity=".6" fill="none"/>
+    <text x="48" y="53" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.4">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
+    <rect x="667" y="34" width="126" height="28" rx="14" fill="{c['panel_alt']}" stroke="{c['border']}"/><circle cx="683" cy="48" r="3" fill="{c['accent']}"/><text x="694" y="51" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".5">PROFILE / PUBLIC DATA</text>
+    <text x="47" y="110" fill="{c['text']}" font-size="36" font-weight="650">{html.escape(NAME)}</text><text x="50" y="144" fill="{c['silver']}" font-size="15">Practical software, informed by data and AI.</text><path d="M48 168H512" stroke="{c['border']}"/>
+    <text x="50" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">BUILD</text><path d="M95 193H157" stroke="url(#route)"/><circle cx="157" cy="193" r="3" fill="{c['accent']}"/>
+    <text x="173" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">OBSERVE</text><path d="M238 193H299" stroke="url(#route)"/><circle cx="299" cy="193" r="3" fill="{c['accent']}"/><text x="315" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">REFINE</text>
+    <path d="M548 78V222" stroke="{c['border']}"/><text x="582" y="92" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.2">SYSTEMS LOOP</text><path d="M606 116V196" stroke="url(#route)" stroke-width="1.5"/><circle cx="606" cy="118" r="4" fill="{c['accent']}"/><circle cx="606" cy="157" r="4" fill="{c['mint']}"/><circle cx="606" cy="196" r="4" fill="{c['accent']}"/>
+    <text x="623" y="122" fill="{c['text']}" font-size="12">working code</text><text x="623" y="161" fill="{c['text']}" font-size="12">observed data</text><text x="623" y="200" fill="{c['text']}" font-size="12">measured change</text><text x="791" y="239" text-anchor="end" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing="1">PERSONAL ENGINEERING PROFILE</text>'''
+    return _document(WIDTH, HERO_HEIGHT, f"{NAME} — software, data, and applied AI", "A compact build, observe, refine engineering profile.", content)
 
 
 def divider(mode: str = "dark") -> str:
@@ -83,201 +63,81 @@ def _font(size: int) -> ImageFont.ImageFont:
     return ImageFont.load_default(size=size)
 
 
-def _gif(frames: list[Image.Image], duration: int = MOTION_FRAME_MS) -> bytes:
-    import io
-    output = io.BytesIO()
-    frames[0].save(output, format="GIF", save_all=True, append_images=frames[1:], duration=duration, loop=0, disposal=2, optimize=True)
-    return output.getvalue()
-
-
 def portrait(directory: Path) -> bool:
-    """Render the supplied private source photo as a recognizable duotone halftone portrait."""
-    source = directory / "profile-photo-source.jpg"
+    """Cache a restrained duotone portrait derived only from the supplied photo."""
+    source = directory / PORTRAIT_SOURCE.rsplit("/", 1)[-1]
     output = directory / "profile-portrait.png"
+    key = hashlib.sha256(source.read_bytes() + PALETTE["emerald"].encode() + PALETTE["bg_deep"].encode()).hexdigest() if source.is_file() else None
+    if output.is_file() and key is not None:
+        try:
+            with Image.open(output) as cached:
+                if cached.size == (PORTRAIT_WIDTH, PORTRAIT_HEIGHT) and cached.info.get("GenerationKey") == key:
+                    return True
+        except OSError:
+            pass
     if not source.is_file():
         if output.is_file():
             try:
-                with Image.open(output) as existing:
-                    if existing.info.get("PortraitSource") == "true":
-                        return True
+                with Image.open(output) as cached:
+                    if cached.size == (PORTRAIT_WIDTH, PORTRAIT_HEIGHT):
+                        return cached.info.get("PortraitSource") == "true"
             except OSError:
                 pass
-        image = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), hex_to_rgb(PALETTE["bg_deep"]))
-        draw = ImageDraw.Draw(image)
-        draw.rounded_rectangle((10, 10, PORTRAIT_WIDTH-11, PORTRAIT_HEIGHT-11), 18, outline=hex_to_rgb(PALETTE["border"]), width=2)
-        draw.text((36, PORTRAIT_HEIGHT//2-12), "PHOTO SOURCE REQUIRED", font=_font(22), fill=hex_to_rgb(PALETTE["mint"]))
-        image.save(output, pnginfo=PngImagePlugin.PngInfo())
+        placeholder = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), hex_to_rgb(PALETTE["bg_deep"]))
+        draw = ImageDraw.Draw(placeholder)
+        draw.rectangle((10, 10, PORTRAIT_WIDTH-11, PORTRAIT_HEIGHT-11), outline=hex_to_rgb(PALETTE["emerald_deep"]), width=2)
+        draw.text((28, 270), "PHOTO SOURCE REQUIRED", font=_font(22), fill=hex_to_rgb(PALETTE["mint"]))
+        metadata = PngImagePlugin.PngInfo(); metadata.add_text("PortraitSource", "placeholder")
+        placeholder.save(output, format="PNG", optimize=True, pnginfo=metadata)
         return False
     with Image.open(source) as original:
-        image = ImageOps.fit(original.convert("RGB"), (PORTRAIT_WIDTH-36, PORTRAIT_HEIGHT-36), method=Image.Resampling.LANCZOS, centering=(.5, .40))
-    mono = ImageOps.grayscale(image)
-    mono = ImageEnhance.Contrast(mono).enhance(1.24)
-    image = ImageOps.colorize(mono, black=PALETTE["bg_deep"], white=PALETTE["mint"], blackpoint=12, whitepoint=238).convert("RGB")
-    # Halftone dots soften gradients while preserving recognizable facial detail.
-    small = image.resize((PORTRAIT_WIDTH//3, PORTRAIT_HEIGHT//3), Image.Resampling.LANCZOS).convert("L")
-    dots = Image.new("L", image.size, 0)
-    dd = ImageDraw.Draw(dots)
-    for y in range(small.height):
-        for x in range(small.width):
-            value = small.getpixel((x, y))
-            radius = 1 if value > 92 else 0
-            if radius:
-                cx, cy = x*3+1, y*3+1
-                dd.ellipse((cx-radius, cy-radius, cx+radius, cy+radius), fill=35)
-    overlay = Image.new("RGB", image.size, hex_to_rgb(PALETTE["emerald"]))
-    image = Image.composite(overlay, image, dots)
-    canvas = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), hex_to_rgb(PALETTE["bg_deep"]))
-    canvas.paste(image, (18, 18))
-    draw = ImageDraw.Draw(canvas)
-    for y in range(24, PORTRAIT_HEIGHT-20, 8):
-        draw.line((20, y, PORTRAIT_WIDTH-20, y), fill=hex_to_rgb(PALETTE["bg_deep"]), width=1)
-    draw.rounded_rectangle((8, 8, PORTRAIT_WIDTH-9, PORTRAIT_HEIGHT-9), 18, outline=hex_to_rgb(PALETTE["emerald_deep"]), width=2)
-    draw.text((24, PORTRAIT_HEIGHT-30), "SULKHLAN  /  PROFILE SIGNAL", font=_font(11), fill=hex_to_rgb(PALETTE["mint"]))
-    meta = PngImagePlugin.PngInfo(); meta.add_text("PortraitSource", "true")
-    canvas.save(output, pnginfo=meta, optimize=True)
-    frames = []
-    for frame in range(12):
-        cel = canvas.copy(); cd = ImageDraw.Draw(cel)
-        sweep_y = 28 + round((PORTRAIT_HEIGHT-56) * frame / 11)
-        cd.line((20, sweep_y, PORTRAIT_WIDTH-20, sweep_y), fill=hex_to_rgb(PALETTE["emerald"]), width=2)
-        frames.append(cel)
-    (directory / "profile-portrait.gif").write_bytes(_gif(frames, 110))
+        image = ImageOps.fit(original.convert("RGB"), (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), method=Image.Resampling.LANCZOS, centering=(0.5, 0.42))
+    image = ImageOps.grayscale(image).point(lambda value: int(value * 0.78 + 42))
+    dark = hex_to_rgb(PALETTE["bg_deep"]); light = hex_to_rgb(PALETTE["mint"])
+    image = ImageOps.colorize(image, black=dark, white=light).quantize(colors=28, method=Image.Quantize.MEDIANCUT).convert("RGB")
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((10, 10, PORTRAIT_WIDTH-11, PORTRAIT_HEIGHT-11), outline=hex_to_rgb(PALETTE["emerald_deep"]), width=2)
+    for y in range(16, PORTRAIT_HEIGHT-16, 5):
+        draw.line((16, y, PORTRAIT_WIDTH-17, y), fill=hex_to_rgb(PALETTE["bg_deep"]), width=1)
+    draw.text((20, PORTRAIT_HEIGHT-25), "SARTHAK / PROFILE", font=_font(10), fill=hex_to_rgb(PALETTE["mint"]))
+    metadata = PngImagePlugin.PngInfo(); metadata.add_text("GenerationKey", key); metadata.add_text("PortraitSource", "true")
+    image.save(output, format="PNG", optimize=True, pnginfo=metadata)
     return True
 
 
-def motion_assets(directory: Path, data: dict[str, Any]) -> None:
-    for mode, suffix in (("dark", ""), ("light", "-light")):
-        c = card_params(mode)
-        # Hero motion draws only a quiet moving signal dot over the same complete design.
-        background = Image.new("RGB", (WIDTH, HERO_HEIGHT), hex_to_rgb(c["bg"]))
-        d = ImageDraw.Draw(background)
-        d.rounded_rectangle((1, 1, WIDTH-2, HERO_HEIGHT-2), PANEL_RADIUS, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]), width=2)
-        d.text((42, 48), "COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE", font=_font(13), fill=hex_to_rgb(c["accent"]))
-        d.text((40, 80), NAME, font=_font(42), fill=hex_to_rgb(c["text"]))
-        d.text((44, 132), "Practical software, informed by data and AI.", font=_font(17), fill=hex_to_rgb(c["silver"]))
-        d.text((44, 165), "LEARN / BUILD / MEASURE / IMPROVE", font=_font(13), fill=hex_to_rgb(c["muted"]))
-        for i, label in enumerate(("BUILD", "OBSERVE", "REFINE")):
-            x = 540 + i*108
-            d.rounded_rectangle((x-43, 115, x+43, 182), 10, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
-            d.text((x-20, 139), label, font=_font(12), fill=hex_to_rgb(c["text"]))
-        for x in range(34, WIDTH-34, 30): d.line((x, 215, x, 219), fill=hex_to_rgb(c["grid"]))
-        d.text((42, 230), "CURRENT THREAD / SYSTEMS · DATA · APPLIED AI", font=_font(12), fill=hex_to_rgb(c["accent"]))
-        (directory / f"hero-motion{suffix}.gif").write_bytes(_gif([background.copy() if frame == 0 else _hero_frame(background, frame, c) for frame in range(HERO_FRAMES)]))
-        # Typing line has complete first state and rotates through verified focus phrases.
-        type_frames = []
-        for line in TYPE_LINES:
-            for count in range(1, len(line)+1, max(1, len(line)//12)):
-                frame = Image.new("RGB", (WIDTH, 48), hex_to_rgb(c["bg"]))
-                fd = ImageDraw.Draw(frame); fd.text((14, 14), "> " + line[:count] + ("▌" if count < len(line) else ""), font=_font(17), fill=hex_to_rgb(c["accent"]))
-                type_frames.append(frame)
-        type_frames.insert(0, Image.new("RGB", (WIDTH,48), hex_to_rgb(c["bg"])))
-        td=ImageDraw.Draw(type_frames[0]); td.text((14,14), "> "+TYPE_LINES[0], font=_font(17), fill=hex_to_rgb(c["accent"]))
-        (directory / f"typing{suffix}.gif").write_bytes(_gif(type_frames, 180))
-        lineframes=[]
-        for i in range(18):
-            f=Image.new("RGB", (WIDTH,DIVIDER_HEIGHT), hex_to_rgb(c["bg"])); fd=ImageDraw.Draw(f)
-            fd.line((0,19,WIDTH,19), fill=hex_to_rgb(c["border"]), width=1)
-            fd.line((0,19,WIDTH,19), fill=hex_to_rgb(c["accent"]), width=1)
-            x=14+round((WIDTH-28)*i/17); fd.ellipse((x-7,12,x+7,26), fill=hex_to_rgb(c["accent_deep"])); fd.ellipse((x-3,16,x+3,22), fill=hex_to_rgb(c["mint"]))
-            lineframes.append(f)
-        (directory / f"signal{suffix}.gif").write_bytes(_gif(lineframes, 85))
-        # Data bars stay fixed; only a subtle focus marker moves over the cached sample.
-        act=Image.new("RGB", (WIDTH,ACTIVITY_HEIGHT), hex_to_rgb(c["bg"])); ad=ImageDraw.Draw(act)
-        ad.rounded_rectangle((1,1,WIDTH-2,ACTIVITY_HEIGHT-2),15,fill=hex_to_rgb(c["panel"]),outline=hex_to_rgb(c["border"]))
-        ad.text((22,18),"PUBLIC REPOSITORY SIGNAL / CACHED SAMPLE",font=_font(14),fill=hex_to_rgb(c["accent"]))
-        counts=list(data.get("activity_weeks",[0]*12))[:12]; maximum=max(counts or [0]) or 1
-        for j,count in enumerate(counts):
-            x=34+j*63; h=max(2,round(80*count/maximum)); ad.rounded_rectangle((x,165-h,x+25,165),3,fill=hex_to_rgb(c["accent"] if count else c["border"]))
-        ad.line((26,166,806,166),fill=hex_to_rgb(c["grid"]))
-        af=[]
-        for i in range(12):
-            fr=act.copy(); x=36+i*66; ImageDraw.Draw(fr).ellipse((x-4,157,x+4,173),fill=hex_to_rgb(c["mint"])); af.append(fr)
-        (directory / f"activity-motion{suffix}.gif").write_bytes(_gif(af, 140))
-
-
-def _hero_frame(image: Image.Image, frame: int, c: dict[str,str]) -> Image.Image:
-    result=image.copy(); d=ImageDraw.Draw(result); x=500+round(286*frame/(HERO_FRAMES-1)); d.ellipse((x-8,148,x+8,164),fill=hex_to_rgb(c["accent_deep"])); d.ellipse((x-3,153,x+3,159),fill=hex_to_rgb(c["mint"])); return result
-
-
-def skills(mode: str="dark") -> str:
-    c=card_params(mode); rows=[]
-    groups=[("PROGRAMMING", "TypeScript  /  Python  /  Java (learning)"),("AI SYSTEMS", "Gemini  /  MCP  /  LiveKit  /  Qdrant"),("BACKEND + DATA", "Flask  /  Hono  /  Express  /  SQLite  /  PostgreSQL"),("FRONTEND + TOOLS", "React  /  Vite  /  GitHub Actions"),("INTEGRATION", "Windows telemetry  /  REST APIs  /  CI workflows")]
-    for i,(label,items) in enumerate(groups):
-        y=58+i*49
-        rows.append(f'<rect x="18" y="{y-20}" width="794" height="38" rx="8" fill="{c["panel"]}" stroke="{c["border"]}"/><circle cx="36" cy="{y-1}" r="4" fill="{c["accent"]}"/><text x="52" y="{y+3}" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1">{label}</text><text x="244" y="{y+3}" fill="{c["text"]}" font-size="12">{html.escape(items)}</text>')
-    return _document(WIDTH,SKILLS_HEIGHT,"Hands-on engineering map","Evidence-based technical categories with Java marked as learning.",f'<rect width="830" height="{SKILLS_HEIGHT}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'+''.join(rows))
-
-
-def landscape(mode: str = "dark", projects: list[dict[str, Any]] | None = None) -> str:
-    """Map three verified project domains to the engineering questions they explore."""
+def typing_animation(mode: str = "dark") -> bytes:
+    """Render one optimized fixed-size loop with type, pause, and erase phases."""
     c = card_params(mode)
-    projects = projects or PROJECTS
-    cards = []
-    for i, project in enumerate(projects[:3]):
-        name = project["name"].upper()
-        subject = project["domain"]
-        label = project["eyebrow"].split(" / ")[0]
-        y = 54 + i * 47
-        cards.append(
-            f'<text x="26" y="{y+5}" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1">0{i+1}</text>'
-            f'<rect x="58" y="{y-12}" width="235" height="34" rx="8" fill="{c["panel"]}" stroke="{c["border"]}"/>'
-            f'<text x="72" y="{y+1}" fill="{c["text"]}" font-size="12" font-weight="600">{name}</text>'
-            f'<text x="72" y="{y+15}" fill="{c["muted"]}" font-size="10">{subject}</text>'
-            f'<path d="M293 {y+5}H367" stroke="{c["accent"]}" stroke-width="1.4" opacity=".8"/>'
-            f'<circle cx="367" cy="{y+5}" r="3" fill="{c["mint"]}"/>'
-            f'<text x="390" y="{y+9}" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".8">{label}</text>'
-        )
-    content = (
-        f'<rect x=".5" y=".5" width="829" height="{LANDSCAPE_HEIGHT-1}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="24" y="27" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.5">PROJECT LANDSCAPE / THREE DIFFERENT SYSTEMS</text>'
-        + "".join(cards)
-    )
-    return _document(WIDTH, LANDSCAPE_HEIGHT, "Selected project landscape", "A map of three documented projects and the software domains they address: software evolution, endpoint telemetry, and voice interaction.", content)
-
-
-def activity(data: dict[str, Any], mode: str = "dark") -> str:
-    """Show repository metadata and public PushEvents returned in the current API sample."""
-    c = card_params(mode)
-    counts = [0] * 12
-    for index, count in enumerate(data.get("activity_weeks", counts)):
-        if index < len(counts):
-            counts[index] = max(0, int(count))
-    maximum = max(counts) or 1
-    baseline = 178
-    bars = []
-    for i, count in enumerate(counts):
-        x = 35 + i * 63
-        height = max(3, round(42 * count / maximum)) if count else 2
-        color = c["accent"] if count else c["border"]
-        bars.append(
-            f'<rect x="{x}" y="{baseline-height}" width="24" height="{height}" rx="3" fill="{color}"/>'
-            f'<text x="{x+12}" y="195" text-anchor="middle" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="9">{11-i}w</text>'
-        )
-    repo_available = data.get("repos_available", "public_repo_count" in data)
-    repo_count = str(int(data.get("public_repo_count", 0))) if repo_available else "—"
-    stars = str(int(data.get("public_repo_stars", 0))) if repo_available else "—"
-    pushes = int(data.get("public_push_event_count", sum(counts)))
-    availability = data.get("events_available", False)
-    push_value = str(pushes) if availability else "—"
-    sample_caption = (
-        "Observed PushEvents / recent public API sample only"
-        if availability else "Public event sample unavailable / cached buckets shown when present"
-    )
-    content = (
-        f'<rect x=".5" y=".5" width="829" height="{ACTIVITY_HEIGHT-1}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="24" y="27" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.5">REPOSITORY SIGNAL / PUBLIC DATA</text>'
-        f'<text x="24" y="43" fill="{c["muted"]}" font-size="9">Owned public repositories · profile repository and forks excluded</text>'
-        f'<path d="M276 56V93 M546 56V93" stroke="{c["border"]}"/>'
-        f'<text x="26" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".6">REPOSITORIES</text>'
-        f'<text x="26" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{repo_count}</text>'
-        f'<text x="300" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".3">STARS ACROSS THESE REPOSITORIES</text>'
-        f'<text x="300" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{stars}</text>'
-        f'<text x="570" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing=".35">PUSH EVENTS RETURNED</text>'
-        f'<text x="570" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{push_value}</text>'
-        f'<path d="M24 {baseline}H806" stroke="{c["grid"]}"/>{"".join(bars)}'
-        f'<text x="806" y="211" text-anchor="end" fill="{c["muted"]}" font-size="9">{sample_caption}</text>'
-    )
-    return _document(WIDTH, ACTIVITY_HEIGHT, "GitHub public repository telemetry", "Public original repository count, combined repository stars, and a weekly grouping of PushEvents returned by GitHub's recent public event sample. This is not a complete contribution chart.", content)
+    font = _font(18)
+    size = (WIDTH, 52)
+    frames: list[Image.Image] = []
+    durations: list[int] = []
+    def frame(line: str, cursor: bool = True) -> Image.Image:
+        image = Image.new("RGB", size, hex_to_rgb(c["bg"]))
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((0, 0, WIDTH-1, 51), 10, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.ellipse((13, 23, 18, 28), fill=hex_to_rgb(c["accent"]))
+        prefix = "> " + line
+        draw.text((28, 15), prefix, font=font, fill=hex_to_rgb(c["text"]))
+        if cursor:
+            x = 28 + int(draw.textlength(prefix, font=font)) + 2
+            draw.rectangle((x, 17, x+2, 34), fill=hex_to_rgb(c["accent"]))
+        return image
+    for line in TYPE_LINES:
+        for count in range(len(line)+1):
+            frames.append(frame(line[:count])); durations.append(58)
+        frames.extend([frame(line, False), frame(line, True), frame(line, False)])
+        durations.extend([250, 280, 250])
+        for count in range(len(line)-1, -1, -1):
+            frames.append(frame(line[:count])); durations.append(34)
+    # Use one common palette and delta frames so a narrow text change does not
+    # rewrite a full-color frame repeatedly in the resulting GIF.
+    palette = frames[0].quantize(colors=24, method=Image.Quantize.MEDIANCUT)
+    indexed = [image.quantize(palette=palette, dither=Image.Dither.NONE) for image in frames]
+    import io
+    output = io.BytesIO()
+    indexed[0].save(output, format="GIF", save_all=True, append_images=indexed[1:], duration=durations, loop=0, optimize=True, disposal=1)
+    return output.getvalue()
 
 
 def languages(data: dict[str, Any], mode: str = "dark") -> str:
@@ -316,21 +176,78 @@ def languages(data: dict[str, Any], mode: str = "dark") -> str:
     return _document(WIDTH, LANGUAGE_HEIGHT, "Programming language composition", "Relative language shares from GitHub's language byte totals across owned original public repositories, excluding this profile repository and forks.", content)
 
 
+def telemetry(data: dict[str, Any], mode: str = "dark") -> str:
+    """Render account counters and a clearly sampled twelve-week PushEvent graph."""
+    c = card_params(mode)
+    values = [
+        ("ORIGINAL REPOSITORIES", str(data.get("public_repo_count", "—")) if data.get("repos_available", False) else "—"),
+        ("REPOSITORY STARS", str(data.get("public_repo_stars", "—")) if data.get("repos_available", False) else "—"),
+        ("FOLLOWERS", str(data.get("followers", "—")) if data.get("profile_available", False) else "—"),
+        ("SAMPLED PUSH EVENTS", str(data.get("public_push_event_count", "—")) if data.get("events_available", False) else "—"),
+    ]
+    cards=[]
+    for i,(label,value) in enumerate(values):
+        x=22+i*199
+        cards.append(f'<rect x="{x}" y="62" width="184" height="58" rx="10" fill="{c["panel_alt"]}" stroke="{c["border"]}"/><text x="{x+13}" y="83" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".65">{label}</text><text x="{x+13}" y="108" fill="{c["text"]}" font-size="21" font-weight="650">{value}</text>')
+    counts=[max(0,int(x)) for x in data.get("activity_weeks",[0]*12)[:12]]
+    counts=(counts+[0]*12)[:12]; maximum=max(counts) or 1
+    chart=[]; left=60; top=153; baseline=260; chartw=742; chart_h=88; step=chartw/12
+    for tick in (0,.5,1):
+        y=baseline-round(chart_h*tick)
+        chart.append(f'<path d="M{left} {y}H{left+chartw}" stroke="{c["grid"]}"/><text x="48" y="{y+3}" text-anchor="end" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="8">{round(max(counts)*tick)}</text>')
+    for i,count in enumerate(counts):
+        week_label = "11+" if i == 0 else str(11-i)
+        h=round(chart_h*count/maximum) if count else 2
+        x=left+i*step+12
+        chart.append(f'<rect x="{x:.1f}" y="{baseline-h}" width="29" height="{h}" rx="4" fill="{c["accent"] if count else c["track"]}"/><text x="{x+14.5:.1f}" y="278" text-anchor="middle" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="8">{week_label}w</text>')
+    available=data.get("events_available",False)
+    annotation="Recent public PushEvent sample · 12 weekly buckets · up to 100 events" if available else "Recent public event sample unavailable · cached buckets shown when present"
+    content=(f'<rect x=".5" y=".5" width="829" height="{ACTIVITY_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="24" y="29" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.4">GITHUB / PUBLIC ACCOUNT SIGNAL</text>'
+        f'<text x="24" y="46" fill="{c["muted"]}" font-size="10">Original public repositories exclude forks and this profile repository</text>'
+        + ''.join(cards)+''.join(chart)
+        + f'<text x="802" y="291" text-anchor="end" fill="{c["muted"]}" font-size="9">{html.escape(annotation)}</text>')
+    return _document(WIDTH,ACTIVITY_HEIGHT,"Public GitHub account telemetry","Cached repository, star, follower and sampled public PushEvent metrics; chart groups the latest public event feed into twelve weekly buckets.",content)
+
+
+def contribution_art(data: dict[str, Any], mode: str = "dark") -> str:
+    """Visualize only genuine weekly counts from the sampled public event feed."""
+    c=card_params(mode); counts=[max(0,int(x)) for x in data.get("activity_weeks",[])[:12]]; counts=(counts+[0]*12)[:12]; maximum=max(counts) or 1
+    cells=[]
+    for i,count in enumerate(counts):
+        week_label = "11+" if i == 0 else str(11-i)
+        x=22+i*65; strength=count/maximum
+        fill=c["accent"] if count and strength>.65 else (c["mint"] if count else c["panel_alt"])
+        celltext=c["bg_deep"] if count else c["muted"]
+        cells.append(f'<rect x="{x}" y="60" width="54" height="46" rx="8" fill="{fill}" stroke="{c["border"]}"/><text x="{x+27}" y="82" text-anchor="middle" fill="{celltext}" font-size="15" font-weight="650">{count}</text><text x="{x+27}" y="98" text-anchor="middle" fill="{celltext}" font-family="{MONO_FONT}" font-size="7">{week_label}W</text>')
+    status="Observed public events" if data.get("events_available",False) else "Public event sample unavailable"
+    content=(f'<rect x=".5" y=".5" width="829" height="{CONTRIBUTION_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="22" y="28" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.2">WEEKLY EVENT TRACE / {html.escape(status.upper())}</text>'
+        + ''.join(cells)+f'<text x="22" y="128" fill="{c["muted"]}" font-size="9">Counts are sampled PushEvents, not a daily contribution calendar; the oldest bin includes events 11+ weeks old.</text>')
+    return _document(WIDTH,CONTRIBUTION_HEIGHT,"Sampled public contribution activity","Twelve sampled PushEvent groups from GitHub's recent public event feed; the oldest group includes events 11+ weeks old, and this is not a complete contribution calendar.",content)
+
+
 def write_assets(directory: Path, data: dict[str, Any]) -> bool:
     """Write static fallbacks and self-hosted animated assets; return portrait validity."""
     directory.mkdir(parents=True, exist_ok=True)
     renderers = {
-        "hero": lambda mode: hero(mode),
+        "hero": lambda mode: premium_hero(mode),
         "typing": lambda mode: typing(mode),
         "divider": lambda mode: divider(mode),
-        "project-landscape": lambda mode: landscape(mode, PROJECTS),
-        "activity": lambda mode: activity(data, mode),
+        "activity": lambda mode: telemetry(data, mode),
         "language-stats": lambda mode: languages(data, mode),
-        "skills": lambda mode: skills(mode),
+        "contribution-art": lambda mode: contribution_art(data, mode),
     }
     for name, renderer in renderers.items():
         for mode, suffix in (("dark", ""), ("light", "-light")):
-            (directory / f"{name}{suffix}.svg").write_text(renderer(mode), encoding="utf-8", newline="\n")
+            path=directory / f"{name}{suffix}.svg"
+            content=renderer(mode)
+            if not path.is_file() or path.read_text(encoding="utf-8") != content:
+                path.write_text(content, encoding="utf-8", newline="\n")
     available = portrait(directory)
-    motion_assets(directory, data)
+    for mode,suffix in (("dark",""),("light","-light")):
+        path=directory / f"typing{suffix}.gif"
+        payload=typing_animation(mode)
+        if not path.is_file() or path.read_bytes() != payload:
+            path.write_bytes(payload)
     return available

@@ -7,10 +7,10 @@ USERNAME = "Sarthaksulkhlan"
 NAME = "Sarthak Sulkhlan"
 PROFILE_URL = f"https://github.com/{USERNAME}"
 PALETTE = {
-    "bg": "#111714", "bg_deep": "#0C110E", "panel": "#18211C",
-    "panel_alt": "#202B24", "text": "#E7ECE8", "muted": "#AAB8AF",
+    "bg": "#0D1210", "bg_deep": "#090D0B", "panel": "#131A16",
+    "panel_alt": "#19221D", "text": "#E7ECE8", "muted": "#AAB8AF",
     "silver": "#CFD8D2", "mint": "#B8E8CF", "emerald": "#71D3A7",
-    "emerald_deep": "#28694E", "border": "#34473D", "grid": "#26362D",
+    "emerald_deep": "#28694E", "border": "#2C3932", "grid": "#202B25",
     "light_bg": "#F3F7F3", "light_panel": "#FFFFFF", "light_panel_alt": "#E8F0EA",
     "light_text": "#1B2922", "light_muted": "#52655A", "light_silver": "#50645A",
     "light_mint": "#2F8A66", "light_emerald": "#176C4D", "light_border": "#CED9D1",
@@ -19,10 +19,11 @@ PALETTE = {
 SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
 WIDTH = 830
-HERO_HEIGHT = 280
+HERO_HEIGHT = 260
 DIVIDER_HEIGHT = 38
-ACTIVITY_HEIGHT = 220
-LANGUAGE_HEIGHT = 250
+ACTIVITY_HEIGHT = 300
+LANGUAGE_HEIGHT = 242
+CONTRIBUTION_HEIGHT = 144
 LANDSCAPE_HEIGHT = 210
 GRID_STEP = 28
 PANEL_RADIUS = 18
@@ -31,14 +32,10 @@ PORTRAIT_WIDTH = 480
 PORTRAIT_HEIGHT = 600
 PORTRAIT_SOURCE = "assets/profile-photo-source.jpg"
 PORTRAIT_PNG = "assets/profile-portrait.png"
-PORTRAIT_GIF = "assets/profile-portrait.gif"
-HERO_FRAMES = 18
-MOTION_FRAME_MS = 100
 TYPE_LINES = [
-    "Building practical software",
-    "Learning data and AI engineering",
-    "Tracing behavior through telemetry",
-    "Project study: EPOCH / Asset Sentinel / MatrixCore",
+    "Building practical software.",
+    "Learning data science and applied AI.",
+    "Turning ideas into working systems.",
 ]
 SKILLS_HEIGHT = 318
 DARK_MODE_MEDIA = "(prefers-color-scheme: dark)"
@@ -63,7 +60,6 @@ PROJECTS = [
     },
     {
         "repo": "Nexis---Starforge", "name": "MatrixCore",
-        "demo_url": "https://ai.studio/apps/f2d187b6-edd7-4e75-9a39-42f65428df0a",
         "eyebrow": "VOICE SYSTEMS / HACKATHON DEMO",
         "description": "An adaptive voice-agent demo with a browser client, an Express service, and a Python LiveKit agent. The documented voice path connects LiveKit, Gemini, Qdrant retrieval, and Rime speech; local use requires external service credentials.",
         "stack": ["TypeScript", "Express", "Python", "LiveKit", "Gemini"],
@@ -80,14 +76,49 @@ CAPABILITIES = [
     {"name": "Systems & integration", "items": ["Windows agent telemetry", "REST APIs", "CI workflows", "service integration"], "evidence": "Capabilities represented by the Asset Sentinel agent/API/dashboard and documented project workflows."},
 ]
 EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
-EDUCATION_DETAIL = "Studying Computer Science and Engineering (Data Science); building practical software while developing foundations in data and AI engineering."
+EDUCATION_DETAIL = "Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028"
+COURSEWORK = ["Data Structures", "Database Systems", "Operating Systems", "Computer Networks", "Software Engineering"]
+EXPERIENCE = {
+    "employer": "Prajjo HR — Kenbox Technologies",
+    "role": "AI Intern",
+    "location": "Noida, On-site",
+    "duration": "June 2026 – August 2026",
+}
 CURRENT_FOCUS = "Building practical systems, understanding their behavior through data, and learning how to make AI-enabled software useful and dependable."
 PHOTO_ALT = "Stylized emerald halftone portrait of Sarthak Sulkhlan"
 ACTIVITY_NOTE = (
     "Activity groups only PushEvents returned by GitHub's public user-events endpoint "
-    "(up to 100 recent public events). It is a sample, not a contribution history; "
+    "(up to 100 recent public events). The oldest chart bin includes events 11+ weeks old. This is a sample, not a contribution history; "
     "an empty bucket does not prove there was no GitHub activity."
 )
+
+# Each Skill Icon links directly to the technology's official learning resource.
+SKILL_GROUPS = [
+    ("Languages", [
+        ("Python", "python", "https://www.python.org/"),
+        ("Java (learning)", "java", "https://dev.java/learn/"),
+        ("JavaScript", "js", "https://developer.mozilla.org/en-US/docs/Web/JavaScript"),
+        ("TypeScript", "ts", "https://www.typescriptlang.org/docs/"),
+    ]),
+    ("Frameworks & development", [
+        ("React", "react", "https://react.dev/"),
+        ("Flask", "flask", "https://flask.palletsprojects.com/"),
+        ("Express", "express", "https://expressjs.com/"),
+        ("Node.js", "nodejs", "https://nodejs.org/en/learn"),
+    ]),
+    ("AI & data", [
+        ("Generative AI", "ai", "https://ai.google.dev/gemini-api/docs"),
+    ]),
+    ("Databases", [
+        ("PostgreSQL", "postgres", "https://www.postgresql.org/docs/"),
+        ("SQLite", "sqlite", "https://www.sqlite.org/docs.html"),
+        ("Supabase", "supabase", "https://supabase.com/docs"),
+    ]),
+    ("Cloud & tooling", [
+        ("Git", "git", "https://git-scm.com/doc"),
+        ("GitHub Actions", "githubactions", "https://docs.github.com/en/actions"),
+    ]),
+]
 
 
 def hex_to_rgb(value: str) -> tuple[int, int, int]:

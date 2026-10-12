@@ -1,14 +1,12 @@
 # Profile system setup
 
-This repository builds the profile README and self-hosted visuals from one Python configuration. `scripts/theme.py` defines the graphite/emerald palette, typography, dimensions, profile copy, projects, and learning map. `scripts/build_assets.py` generates theme variants, activity graphics, and restrained animated GIFs; every animated composition has a static SVG or PNG fallback. `scripts/build.py` refreshes public GitHub repository, language, and recent-event data when online and updates only content between the README's generated markers. Cached data in `assets/profile-data.json` supports reproducible offline builds.
+This repository generates a GitHub profile README and its visual assets from Python configuration and cached public GitHub data. `scripts/theme.py` holds the palette, content, experience, education, projects, and linked skill icons. `scripts/build_assets.py` renders static theme-aware SVG instruments, a locally derived portrait PNG, and one small typing GIF. All other visuals are static. `scripts/build.py` refreshes the public data when run online and updates only content inside the README's generated markers.
 
-The source portrait belongs at `assets/profile-photo-source.jpg`. It is ignored by Git and processed locally into published `assets/profile-portrait.png` and `assets/profile-portrait.gif`. The derived 480x600 portrait uses a limited emerald palette, subtle halftone texture, framing, and restrained scanlines. The supplied image was available during generation. If you replace it, use your own clear head-and-shoulders photo; the build never substitutes a generated face. If the source is absent on a fresh checkout, the build creates an explicit PHOTO SOURCE REQUIRED placeholder instead.
-
-The public REST API needs no personal access token. The scheduled workflow passes its built-in `GITHUB_TOKEN`; the same public endpoints work unauthenticated locally. A token is optional and should be stored as a local environment variable or GitHub Actions secret, never written into the repository. No private contribution data is requested, so no elevated scopes or PAT are needed.
+The optional source portrait belongs at `assets/profile-photo-source.jpg`. It is ignored by Git; only the derived 480x600 `assets/profile-portrait.png` is published. The derived image uses an emerald duotone, restrained scanlines, and a frame. On a fresh checkout without the private source, the builder preserves a valid committed portrait or creates an explicit placeholder. It never creates a synthetic face.
 
 ## Windows setup
 
-Install standard Python 3.10 or newer and Git. From PowerShell in the repository:
+Install Python 3.10 or newer and Git. From PowerShell in the repository:
 
 ```powershell
 py -3 -m venv .venv
@@ -18,38 +16,34 @@ py -3 scripts/build.py
 py -3 scripts/verify_readme.py
 ```
 
-Install the pinned Pillow image-processing and PyYAML verification dependencies with `py -3 -m pip install -r requirements.txt`. To regenerate assets using the cached snapshot without network access, run `py -3 scripts/build.py --offline`. To refresh public data without using a token in the environment, run `py -3 scripts/build.py --no-token`.
+Pillow generates the portrait and GIF; PyYAML validates workflow files. Run `py -3 scripts/build.py --offline` to regenerate from cached data without network access. Use `--no-token` to ignore an optional `GITHUB_TOKEN` environment variable.
 
-## Theme, projects, and generated copy
+## Content and visuals
 
-Edit the palette, typography, dimensions, name, project descriptions, capability map, and profile copy in `scripts/theme.py`. README layout is in `scripts/build.py`; the hero, skills map, project landscape, telemetry, portrait treatment, and motion frames are generated in `scripts/build_assets.py`. GitHub README images support animated GIFs; inline SVG animation is not relied upon. Self-hosted hero, typing, divider, portrait, and activity GIFs have complete static fallbacks. Motion is subtle, and the activity graphic moves only its focus marker over fixed cached data.
+Edit the portfolio copy and factual configuration in `scripts/theme.py`. README structure is in `scripts/build.py`; hero, typing, divider, portrait, telemetry, and contribution art are generated in `scripts/build_assets.py`. The only animated element is the type-and-erase loop. It has a static SVG fallback. The profile uses Skill Icons for linked technology marks; each image links to that technology's official documentation. The icon host is external, so the image's alt text remains available if it cannot load.
+
+Project descriptions and stacks are based on the linked public repositories. Live demo links are included only when a verified deployed homepage is available. Keep hand-written README content outside the generated markers. The builder leaves it intact.
 
 ```powershell
 py -3 scripts/build.py --offline
 py -3 scripts/verify_readme.py
 ```
 
-To add a project, first confirm its public README, repository metadata, technology, maturity, and live demo. Add the factual description, domain, and verified stack entries to `PROJECTS` in `scripts/theme.py`. The build links a demo only when GitHub's repository metadata supplies a homepage. Keep hand-maintained README content outside the generated markers; the builder leaves it intact.
+## GitHub Actions and data
 
-## GitHub Actions
+`refresh.yml` runs daily at 03:17 UTC (08:47 India Standard Time) and can also be run manually. It uses the built-in `GITHUB_TOKEN`; no secret is required for these public API endpoints. The cache stores account followers, original public repository count/stars, repository language bytes, and the latest public user-events sample. Repository totals exclude forks and this profile repository. Language mix is based on GitHub-reported source bytes. The activity chart groups only PushEvents returned in the latest public event sample (up to 100 events), so it is not a complete contribution history. Failed refreshes retain the last cached values for that source.
 
-`refresh.yml` runs daily at 03:17 UTC (08:47 India Standard Time) and can be started with **Actions > Refresh profile > Run workflow**. It uses the built-in `GITHUB_TOKEN`; a fully successful refresh records and displays a genuine ISO UTC timestamp in the cache and README. Failed API calls retain the last successful timestamp and cached values for the failed source. Repository count and combined stars exclude this profile repository and forks. Language shares use GitHub-reported bytes for those original public repositories. The activity plot groups PushEvents from the recent public user-events sample (up to 100 events); it is not a complete contribution record. The workflow never creates an empty commit: it commits generated files only when their staged diff is nonempty. To allow a generated-file commit, open the repository's **Settings > Actions > General > Workflow permissions** and select **Read and write permissions**. No repository secret is required. If organization policy prevents write access for `GITHUB_TOKEN`, the refresh job will fail at push; configure the organization/repository policy before considering a narrowly scoped alternative credential.
+The workflow commits generated changes only when files actually change. To permit those commits, repository Actions workflow permissions must allow read and write access to contents. `verify.yml` runs syntax compilation, theme contrast checks, asset and README validation, workflow YAML checks, outage preservation checks, missing-photo fallback checks, marker preservation, and offline reproducibility checks without requiring network access.
 
-`verify.yml` runs syntax compilation, SVG/README checks, theme contrast checks, and an offline reproducibility check for pushes and pull requests. It does not make network calls or claim that external links are currently reachable.
-
-Daily workflow execution is not the same as a daily GitHub contribution. This automation commits only when real generated data changes, and its author is `github-actions[bot]`, so those commits are transparently attributed to automation rather than to your personal account. GitHub attributes a commit to a person only when the commit email is linked to that GitHub account, the commit is in a standalone repository on its default branch (or `gh-pages`), and the person has a qualifying relationship to the repository, such as being a collaborator or opening an issue or pull request there. A scheduled run does not guarantee either a changed file or a contribution square. Empty commits and artificial activity are intentionally not produced.
-
-Disable the daily schedule by removing or commenting out the `schedule` trigger in `.github/workflows/refresh.yml`; `workflow_dispatch` can remain available for manual updates.
+Scheduled runs do not guarantee a personal contribution square. Automation commits are attributed to `github-actions[bot]`; artificial or empty commits are not generated.
 
 ## Troubleshooting
 
-- **API rate limit or network failure:** the build logs a concise warning and keeps prior cached values where possible. Run `py -3 scripts/build.py --offline` to regenerate from that cache. Retry the normal build later. Public unauthenticated API limits are lower than authenticated limits.
-- **No language breakdown:** GitHub may not yet have processed repository language statistics. The visual says that data is unavailable instead of drawing made-up values.
-- **No activity bars:** public event sampling is limited and excludes private activity. A successfully fetched empty public event feed is shown as zero; a failed or never-fetched feed is labelled unavailable.
-- **Invalid SVG:** run `py -3 scripts/verify_readme.py`; it reports malformed XML, scripts/external references, missing assets, and width violations. Keep SVG content self-contained and regenerate with the builder.
-- **Action cannot push:** verify the repository's Actions workflow permission is set to read/write and that organization policy permits `GITHUB_TOKEN` writes.
-- **PowerShell blocks activation:** use `py -3 scripts/build.py` without activating the environment; this project has no third-party dependencies.
+- **API rate limit or network failure:** the build logs a warning and keeps cached values where available. Rebuild with `py -3 scripts/build.py --offline`, then retry later.
+- **Missing language breakdown:** GitHub may not have processed repository language statistics; the visual reports unavailable data instead of inventing values.
+- **No activity bars:** public event sampling is limited and excludes private activity. An unavailable feed is labelled, while an available empty sample is shown as zero.
+- **Invalid SVG or README reference:** run `py -3 scripts/verify_readme.py` for the failing asset or link.
+- **Action cannot push:** check Actions content permissions and organization policy.
+- **PowerShell blocks activation:** invoke `py -3 scripts/build.py` without activating the virtual environment.
 
-## Optional credentials
-
-No credential is required for the public information used here. If a future feature truly needs private contribution information, keep it opt-in, document its minimum permission set, and store its token only in a local environment variable or Actions secret. Never put a token in cached JSON, SVGs, logs, or README output. This implementation does not retrieve private contribution information.
+No private contribution information is requested or cached. Never store a token in repository files, cached JSON, generated SVG, or README output.
