@@ -124,7 +124,9 @@ def _read_data() -> dict[str, Any]:
 
 def _write_atomic(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="\n", dir=path.parent, delete=False) as handle:
+    # Respect the platform's text newline so Windows checkouts configured with
+    # core.autocrlf stay clean after a build, while Unix runners keep LF output.
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline=None, dir=path.parent, delete=False) as handle:
         handle.write(content)
         temp_path = Path(handle.name)
     os.replace(temp_path, path)
