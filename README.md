@@ -1,8 +1,8 @@
 <!-- PROFILE:GENERATED:START -->
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif">
-    <source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/hero.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg">
     <img src="assets/hero.svg" alt="Sarthak Sulkhlan — B.Tech CSE (Data Science) · Applied AI · Software Systems" width="830">
   </picture>
 </div>
@@ -198,36 +198,16 @@ An adaptive voice-agent demo with a browser client, an Express service, and a Py
 
 > **Note on Artwork:** The visual paths below are illustrative decorative animations traveling over the latest verified public PushEvent activity sample, not a complete GitHub contribution history.
 
-### Snake path
-
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-snake-motion.gif">
-    <source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-snake-motion-light.gif">
-    <img src="assets/contribution-art.svg" alt="Decorative mint snake travelling over a sampled public-event grid" width="830">
-  </picture>
-</div>
-
-### Five Pac-Man paths
-
-<div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-pacman-motion.gif">
-    <source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-pacman-motion-light.gif">
-    <img src="assets/contribution-art.svg" alt="Five decorative Pac-Man characters travelling over a sampled public-event grid" width="830">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/contribution-art.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/contribution-art-light.svg">
+    <img src="assets/contribution-art.svg" alt="Decorative Snake and five-character Pac-Man maze art over verified contribution grid" width="830">
   </picture>
 </div>
 
 <details>
 <summary><strong>Open the sampled weekly activity trace</strong></summary>
-
-<div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/contribution-art.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/contribution-art-light.svg">
-    <img src="assets/contribution-art.svg" alt="Twelve weekly totals of public PushEvents from the recent sampled event feed" width="830">
-  </picture>
-</div>
 
 Activity groups only PushEvents returned by GitHub's public user-events endpoint (up to 100 recent public events). The oldest chart bin includes events 11+ weeks old. This is a sample, not a contribution history; an empty bucket does not prove there was no GitHub activity.
 </details>
@@ -246,9 +226,9 @@ Public account statistics and language totals are refreshed from GitHub's public
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/telemetry-motion.gif">
-    <source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/telemetry-motion-light.gif">
-    <img src="assets/activity.svg" alt="Public repositories, repository stars, followers, sampled public events, and weekly event bars" width="830">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/activity.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg">
+    <img src="assets/activity.svg" alt="Sarthak Sulkhlan — Telemetry & GitHub Analytics" width="830">
   </picture>
 </div>
 
@@ -281,6 +261,4 @@ Repository count and stars are from GitHub’s public repository API and exclude
 - **Email:** [sarthaksulkhlan2006@gmail.com](mailto:sarthaksulkhlan2006@gmail.com)
 - **All Public Repositories:** [github.com/Sarthaksulkhlan?tab=repositories](https://github.com/Sarthaksulkhlan?tab=repositories)
 - **How This Profile Is Built:** [SETUP.md](SETUP.md)
-
-<sub>Four compact self-hosted GIFs provide the typewriter hero, telemetry reveal, snake path, and five Pac-Man paths. Each has a static SVG fallback with native SMIL animation. They replay when GitHub reloads the image. GitHub does not reliably execute JavaScript or CSS keyframes inside README images.</sub>
 <!-- PROFILE:GENERATED:END -->
