@@ -123,12 +123,12 @@ An adaptive voice-agent demo with a browser client, an Express service, and a Py
 
 ## Experience
 
-**AI Intern** · Prajjo HR — Kenbox Technologies
+**AI Intern** · Prajjo HR — Kenbox Technologies<br>
 Noida, On-site · June 2026 – August 2026
 
 ## Education
 
-**B.Tech, Computer Science and Engineering (Data Science)** · Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028
+**B.Tech, Computer Science and Engineering (Data Science)** · JSS Academy of Technical Education · AKTU · 2024–2028
 
 **Coursework:** Data Structures · Database Systems · Operating Systems · Computer Networks · Software Engineering
 

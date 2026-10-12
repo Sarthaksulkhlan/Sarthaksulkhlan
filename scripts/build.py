@@ -243,7 +243,7 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
     content.extend([
         theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## Experience", "",
-        f"**{theme.EXPERIENCE['role']}** · {theme.EXPERIENCE['employer']}",
+        f"**{theme.EXPERIENCE['role']}** · {theme.EXPERIENCE['employer']}<br>",
         f"{theme.EXPERIENCE['location']} · {theme.EXPERIENCE['duration']}", "",
         "## Education", "",
         f"**{theme.EDUCATION}** · {theme.EDUCATION_DETAIL}", "",

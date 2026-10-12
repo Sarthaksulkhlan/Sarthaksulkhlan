@@ -76,7 +76,7 @@ CAPABILITIES = [
     {"name": "Systems & integration", "items": ["Windows agent telemetry", "REST APIs", "CI workflows", "service integration"], "evidence": "Capabilities represented by the Asset Sentinel agent/API/dashboard and documented project workflows."},
 ]
 EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
-EDUCATION_DETAIL = "Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028"
+EDUCATION_DETAIL = "JSS Academy of Technical Education · AKTU · 2024–2028"
 COURSEWORK = ["Data Structures", "Database Systems", "Operating Systems", "Computer Networks", "Software Engineering"]
 EXPERIENCE = {
     "employer": "Prajjo HR — Kenbox Technologies",
