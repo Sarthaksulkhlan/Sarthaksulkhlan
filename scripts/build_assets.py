@@ -26,20 +26,21 @@ def _document(width: int, height: int, title: str, description: str, content: st
 
 
 def premium_hero(mode: str = "dark") -> str:
-    """Draw a compact, static-first systems hero with a restrained information hierarchy."""
+    """Draw the readable static fallback for the complete hero composition."""
     c = card_params(mode)
-    grid = "".join(f'<path d="M{x} 18V{HERO_HEIGHT-18}"/>' for x in range(40, WIDTH, 32))
-    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#281D38"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient><linearGradient id="route"><stop stop-color="{c['accent_deep']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient></defs>
-    <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#panel)" stroke="{c['border']}"/><g fill="none" stroke="{c['grid']}" opacity=".26">{grid}</g>
-    <path d="M32 28h13 M32 28v13 M798 28h-13 M798 28v13 M32 232h13 M32 232v-13 M798 232h-13 M798 232v-13" stroke="{c['accent']}" opacity=".6" fill="none"/>
-    <text x="48" y="53" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.4">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
-    <rect x="667" y="34" width="126" height="28" rx="14" fill="{c['panel_alt']}" stroke="{c['border']}"/><circle cx="683" cy="48" r="3" fill="{c['accent']}"/><text x="694" y="51" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".5">PROFILE / PUBLIC DATA</text>
-    <text x="47" y="110" fill="{c['text']}" font-size="36" font-weight="650">{html.escape(NAME)}</text><text x="50" y="144" fill="{c['silver']}" font-size="15">Practical software, informed by data and AI.</text><path d="M48 168H512" stroke="{c['border']}"/>
-    <text x="50" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">BUILD</text><path d="M95 193H157" stroke="url(#route)"/><circle cx="157" cy="193" r="3" fill="{c['accent']}"/>
-    <text x="173" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">OBSERVE</text><path d="M238 193H299" stroke="url(#route)"/><circle cx="299" cy="193" r="3" fill="{c['accent']}"/><text x="315" y="197" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">REFINE</text>
-    <path d="M548 78V222" stroke="{c['border']}"/><text x="582" y="92" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.2">SYSTEMS LOOP</text><path d="M606 116V196" stroke="url(#route)" stroke-width="1.5"/><circle cx="606" cy="118" r="4" fill="{c['accent']}"/><circle cx="606" cy="157" r="4" fill="{c['mint']}"/><circle cx="606" cy="196" r="4" fill="{c['accent']}"/>
-    <text x="623" y="122" fill="{c['text']}" font-size="12">working code</text><text x="623" y="161" fill="{c['text']}" font-size="12">observed data</text><text x="623" y="200" fill="{c['text']}" font-size="12">measured change</text><text x="791" y="239" text-anchor="end" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing="1">PERSONAL ENGINEERING PROFILE</text>'''
-    return _document(WIDTH, HERO_HEIGHT, f"{NAME} — software, data, and applied AI", "A compact build, observe, refine engineering profile.", content)
+    grid = "".join(f'<path d="M{x} 16V{HERO_HEIGHT-16}"/>' for x in range(32, WIDTH, 34))
+    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2A1C3A"/><stop offset=".52" stop-color="#17121F"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient></defs>
+    <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#panel)" stroke="{c['border']}"/><g fill="none" stroke="{c['grid']}" opacity=".38">{grid}</g>
+    <path d="M30 28h11 M30 28v11 M800 28h-11 M800 28v11" stroke="{c['accent']}" opacity=".72" fill="none"/>
+    <text x="48" y="48" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.6">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
+    <rect x="660" y="29" width="136" height="27" rx="13.5" fill="{c['panel_alt']}" stroke="{c['border']}"/><circle cx="677" cy="42.5" r="3" fill="{c['mint']}"/><text x="687" y="45.5" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing=".45">PROFILE / PUBLIC DATA</text>
+    <text x="47" y="108" fill="{c['text']}" font-size="48" font-weight="800">{html.escape(NAME)}</text>
+    <text x="50" y="140" fill="{c['silver']}" font-family="{MONO_FONT}" font-size="11" letter-spacing="1.5">SOFTWARE ENGINEERING / DATA SCIENCE / APPLIED AI</text>
+    <path d="M49 160H782" stroke="{c['border']}"/><path d="M49 160H248" stroke="{c['accent']}" stroke-width="1.5"/><circle cx="248" cy="160" r="3" fill="{c['mint']}"/>
+    <text x="50" y="193" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.5">CURRENT FOCUS / 01</text>
+    <text x="50" y="224" fill="{c['accent']}" font-size="19" font-weight="700" letter-spacing=".4">BUILDING PRACTICAL SOFTWARE.</text>
+    <text x="782" y="239" text-anchor="end" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="8" letter-spacing="1">ENGINEERING PROFILE</text>'''
+    return _document(WIDTH, HERO_HEIGHT, f"{NAME} — software, data, and applied AI", "A bold professional engineering profile hero with a descriptor, separator, and current focus.", content)
 
 
 def divider(mode: str = "dark") -> str:
@@ -51,15 +52,6 @@ def divider(mode: str = "dark") -> str:
         f'<circle cx="44" cy="19" r="8" fill="none" stroke="{c["accent"]}" opacity=".25"/>'
     )
     return _document(WIDTH, DIVIDER_HEIGHT, "Systems trace divider", "A fine emerald signal line separates portfolio sections; an animated GIF is used in GitHub with this static fallback.", content)
-
-
-def typing(mode: str = "dark") -> str:
-    c = card_params(mode)
-    content = f'''<rect width="830" height="74" rx="{PANEL_RADIUS}" fill="{c['panel']}" stroke="{c['border']}"/>
-    <text x="24" y="26" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.6">CURRENT FOCUS / 01</text>
-    <text x="24" y="53" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="17" font-weight="650" letter-spacing=".7">BUILDING PRACTICAL SOFTWARE</text>
-    <path d="M24 64H806" stroke="{c['grid']}"/><path d="M24 64H285" stroke="{c['accent']}" stroke-width="2"/><circle cx="285" cy="64" r="3" fill="{c['mint']}"/>'''
-    return _document(WIDTH, 74, "Current engineering focus", "Current focus 01: building practical software.", content)
 
 
 def _font(size: int) -> ImageFont.ImageFont:
@@ -121,54 +113,34 @@ def portrait(directory: Path) -> bool:
 
 
 def hero_animation(mode: str = "dark") -> bytes:
-    """Move a two-pixel scan stripe behind the hero name, without changing layout."""
-    c = card_params(mode); frames: list[Image.Image] = []
-    for offset in range(0, 30, 3):
-        image = Image.new("RGB", (WIDTH, HERO_HEIGHT), hex_to_rgb(c["bg_deep"]))
-        draw = ImageDraw.Draw(image)
-        draw.rounded_rectangle((0, 0, WIDTH - 1, HERO_HEIGHT - 1), 18, fill=(40, 29, 56) if mode == "dark" else hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
-        for x in range(28, WIDTH, 32): draw.line((x, 16, x, HERO_HEIGHT - 16), fill=hex_to_rgb(c["grid"]))
-        stripe_y = 82 + offset
-        draw.line((32, stripe_y, WIDTH - 32, stripe_y), fill=hex_to_rgb(c["accent"]), width=2)
-        draw.text((48, 39), "COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE", font=_font(10), fill=hex_to_rgb(c["accent"]))
-        draw.rounded_rectangle((660, 30, 794, 58), 14, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
-        draw.text((677, 40), "PROFILE / PUBLIC DATA", font=_font(8), fill=hex_to_rgb(c["muted"]))
-        draw.text((47, 82), NAME, font=_font(36), fill=hex_to_rgb(c["text"]))
-        draw.text((50, 133), "Practical software, informed by data and AI.", font=_font(15), fill=hex_to_rgb(c["silver"]))
-        draw.line((48, 157, 512, 157), fill=hex_to_rgb(c["border"]))
-        draw.text((50, 184), "BUILD", font=_font(10), fill=hex_to_rgb(c["muted"]))
-        draw.text((180, 184), "OBSERVE", font=_font(10), fill=hex_to_rgb(c["muted"]))
-        draw.text((322, 184), "REFINE", font=_font(10), fill=hex_to_rgb(c["muted"]))
-        draw.line((94, 180, 160, 180), fill=hex_to_rgb(c["accent"]))
-        draw.line((258, 180, 303, 180), fill=hex_to_rgb(c["mint"]))
-        draw.line((548, 76, 548, 222), fill=hex_to_rgb(c["border"]))
-        draw.text((582, 90), "SYSTEMS LOOP", font=_font(9), fill=hex_to_rgb(c["muted"]))
-        for y, label in ((116, "working code"), (156, "observed data"), (196, "measured change")):
-            draw.ellipse((602, y - 4, 610, y + 4), fill=hex_to_rgb(c["accent"] if y != 156 else c["mint"]))
-            draw.text((623, y - 6), label, font=_font(12), fill=hex_to_rgb(c["text"]))
-        frames.append(image)
-    return _gif(frames + frames[-2:0:-1], [100] * (len(frames) * 2 - 2))
-
-
-def focus_animation(mode: str = "dark") -> bytes:
-    """Rotate editorial focus cards with a short dissolve, never type-and-erase."""
+    """Animate only the descriptor separator and focus state inside a fixed hero."""
     c = card_params(mode); frames: list[Image.Image] = []; durations: list[int] = []
-    label_font, phrase_font = _font(10), _font(17)
-    def card(index: int, alpha: int = 255) -> Image.Image:
-        image = Image.new("RGB", (WIDTH, 74), hex_to_rgb(c["panel"]))
-        draw = ImageDraw.Draw(image)
-        draw.rounded_rectangle((0, 0, WIDTH - 1, 73), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
-        draw.text((24, 17), f"CURRENT FOCUS / {index + 1:02d}", font=label_font, fill=hex_to_rgb(c["muted"]))
-        draw.text((24, 39), TYPE_LINES[index].upper(), font=phrase_font, fill=hex_to_rgb(c["accent"]))
-        draw.line((24, 63, 806, 63), fill=hex_to_rgb(c["grid"]))
-        endpoint = 285 + index * 130
-        draw.line((24, 63, endpoint, 63), fill=hex_to_rgb(c["accent"]), width=2)
-        draw.ellipse((endpoint - 3, 60, endpoint + 3, 66), fill=hex_to_rgb(c["mint"]))
+    def frame(index: int, highlight_x: int) -> Image.Image:
+        image = Image.new("RGB", (WIDTH, HERO_HEIGHT), hex_to_rgb(c["bg_deep"])); draw = ImageDraw.Draw(image)
+        panel = (42, 28, 58) if mode == "dark" else hex_to_rgb(c["panel"])
+        draw.rounded_rectangle((0, 0, WIDTH - 1, HERO_HEIGHT - 1), 18, fill=panel, outline=hex_to_rgb(c["border"]))
+        for x in range(32, WIDTH, 34): draw.line((x, 16, x, HERO_HEIGHT - 16), fill=hex_to_rgb(c["grid"]))
+        draw.text((48, 38), "COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        draw.rounded_rectangle((660, 29, 796, 56), 14, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
+        draw.ellipse((674, 39, 680, 45), fill=hex_to_rgb(c["mint"]))
+        draw.text((687, 39), "PROFILE / PUBLIC DATA", font=_font(8), fill=hex_to_rgb(c["muted"]))
+        name_font = _font(52)
+        # A one-pixel offset creates a firm bold weight using the pinned font.
+        for dx, dy in ((0, 0), (1, 0), (0, 1)):
+            draw.text((47 + dx, 66 + dy), NAME, font=name_font, fill=hex_to_rgb(c["text"]))
+        draw.text((50, 130), "SOFTWARE ENGINEERING / DATA SCIENCE / APPLIED AI", font=_font(11), fill=hex_to_rgb(c["silver"]))
+        draw.line((49, 157, 782, 157), fill=hex_to_rgb(c["border"]))
+        draw.line((highlight_x, 157, min(782, highlight_x + 92), 157), fill=hex_to_rgb(c["accent"]), width=2)
+        draw.ellipse((min(782, highlight_x + 92) - 3, 154, min(782, highlight_x + 92) + 3, 160), fill=hex_to_rgb(c["mint"]))
+        draw.text((50, 180), f"CURRENT FOCUS / {index + 1:02d}", font=_font(10), fill=hex_to_rgb(c["muted"]))
+        draw.text((50, 205), TYPE_LINES[index].upper(), font=_font(19), fill=hex_to_rgb(c["accent"]))
+        draw.text((782, 236), "ENGINEERING PROFILE", anchor="ra", font=_font(8), fill=hex_to_rgb(c["muted"]))
         return image
-    pages = [card(i) for i in range(len(TYPE_LINES))]
-    for index, page in enumerate(pages):
-        frames.append(page); durations.append(1450)
-        next_page = pages[(index + 1) % len(pages)]
+    positions = list(range(50, 692, 92))
+    for index in range(len(TYPE_LINES)):
+        page = frame(index, positions[index * 3 % len(positions)])
+        frames.append(page); durations.append(1250)
+        next_page = frame((index + 1) % len(TYPE_LINES), positions[(index * 3 + 2) % len(positions)])
         for amount in (64, 128, 192):
             frames.append(Image.blend(page, next_page, amount / 255)); durations.append(90)
     return _gif(frames, durations)
@@ -319,7 +291,6 @@ def write_assets(directory: Path, data: dict[str, Any]) -> bool:
     directory.mkdir(parents=True, exist_ok=True)
     renderers = {
         "hero": lambda mode: premium_hero(mode),
-        "focus": lambda mode: typing(mode),
         "divider": lambda mode: divider(mode),
         "activity": lambda mode: telemetry(data, mode),
         "language-stats": lambda mode: languages(data, mode),
@@ -334,7 +305,6 @@ def write_assets(directory: Path, data: dict[str, Any]) -> bool:
     available = portrait(directory)
     animated = {
         "hero-motion": hero_animation,
-        "focus-motion": focus_animation,
         "telemetry-motion": lambda mode: telemetry_motion(data, mode),
         "contribution-motion": lambda mode: contribution_motion(data, mode),
     }

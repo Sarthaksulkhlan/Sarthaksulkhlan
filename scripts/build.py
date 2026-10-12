@@ -189,14 +189,9 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif">'
         '<img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI"></picture>'
     )
-    focus = (
-        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/focus-motion.gif">'
-        '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/focus-motion-light.gif">'
-        '<img src="assets/focus.svg" alt="Current focus rotating through practical software, applied data and AI, and working systems"></picture>'
-    )
     portrait = f'<img src="assets/profile-portrait.png" width="220" alt="{alt}">'
     content = [
-        hero, "", focus, "",
+        hero, "",
         "**Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)",
         "", theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## About", "",
@@ -274,7 +269,7 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         "Repository count and stars are from GitHub’s public repository API and exclude forks and this profile repository. Followers come from the public user endpoint. Language shares use repository language byte totals. PushEvents are grouped into twelve week buckets from the latest public user-events response, which is capped at 100 events.", "", "</details>", "",
         "## Contact", "",
         f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [How this profile is built](SETUP.md)", "",
-        "<sub>Four compact self-hosted GIFs provide the scan stripe, rotating focus, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
+        "<sub>Three compact self-hosted GIFs provide the hero separator/focus transition, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
     ])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""

@@ -1,8 +1,6 @@
 <!-- PROFILE:GENERATED:START -->
 <picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif"><img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/focus-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/focus-motion-light.gif"><img src="assets/focus.svg" alt="Current focus rotating through practical software, applied data and AI, and working systems"></picture>
-
 **Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)
 
 <picture>
@@ -183,5 +181,5 @@ Repository count and stars are from GitHub’s public repository API and exclude
 
 [GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories) · [How this profile is built](SETUP.md)
 
-<sub>Four compact self-hosted GIFs provide the scan stripe, rotating focus, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
+<sub>Three compact self-hosted GIFs provide the hero separator/focus transition, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
 <!-- PROFILE:GENERATED:END -->
