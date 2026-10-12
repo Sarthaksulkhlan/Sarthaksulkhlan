@@ -1,11 +1,7 @@
 <!-- PROFILE:GENERATED:START -->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg">
-  <img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI">
-</picture>
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif"><img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif"><img src="assets/typing.svg" alt="Building practical software; learning data science and applied AI; turning ideas into working systems"></picture>
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/focus-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/focus-motion-light.gif"><img src="assets/focus.svg" alt="Current focus rotating through practical software, applied data and AI, and working systems"></picture>
 
 **Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)
 
@@ -123,12 +119,17 @@ An adaptive voice-agent demo with a browser client, an Express service, and a Py
 
 ## Experience
 
-**AI Intern** · Prajjo HR — Kenbox Technologies<br>
-Noida, On-site · June 2026 – August 2026
+<table><tbody>
+<tr><th align="left">Field</th><th align="left">Details</th></tr>
+<tr><td>Role</td><td>AI Intern</td></tr>
+<tr><td>Organization</td><td>Prajjo HR — Canvas Technologies</td></tr>
+<tr><td>Location</td><td>Noida, India</td></tr>
+<tr><td>Duration</td><td>June 2026 – August 2026</td></tr>
+</tbody></table>
 
 ## Education
 
-**B.Tech, Computer Science and Engineering (Data Science)** · JSS Academy of Technical Education · AKTU · 2024–2028
+**B.Tech, Computer Science and Engineering (Data Science)** · JSS Academy of Technical Education · Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028
 
 **Coursework:** Data Structures · Database Systems · Operating Systems · Computer Networks · Software Engineering
 
@@ -142,13 +143,9 @@ Noida, On-site · June 2026 – August 2026
 
 Public account statistics and language totals are refreshed daily by GitHub Actions. The event chart is a limited sample from the public events API, not a complete contribution history.
 
-**Last fully successful data refresh:** 2026-10-12 13:05:27 UTC.
+**Last fully successful data refresh:** 2026-10-12 13:26:37 UTC.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/activity.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg">
-  <img src="assets/activity.svg" alt="Public repositories, repository stars, followers, sampled public events, and weekly event bars">
-</picture>
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/telemetry-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/telemetry-motion-light.gif"><img src="assets/activity.svg" alt="Public repositories, repository stars, followers, sampled public events, and weekly event bars"></picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/language-stats.svg">
@@ -160,7 +157,9 @@ Language mix by GitHub-reported bytes: TypeScript 75.7% · Python 20.3% · CSS 1
 
 ## Contribution Art
 
-The public event feed does not provide a complete daily contribution calendar, so this profile shows only the weekly groups it can verify.
+A decorative Pac-Man moves across the grid. It is not a contribution tracker: the colored cells summarize only the latest verified public PushEvent sample.
+
+<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative Pac-Man contribution-style grid labelled as a sampled public event view"></picture>
 
 <details><summary>Open the sampled weekly activity trace</summary>
 
@@ -184,5 +183,5 @@ Repository count and stars are from GitHub’s public repository API and exclude
 
 [GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories) · [How this profile is built](SETUP.md)
 
-<sub>One small self-hosted typing GIF is the only looping animation. The portrait, hero, project cards, and telemetry are static SVG/PNG assets. GitHub does not animate SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
+<sub>Four compact self-hosted GIFs provide the scan stripe, rotating focus, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href="https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files">GitHub image support</a>.</sub>
 <!-- PROFILE:GENERATED:END -->

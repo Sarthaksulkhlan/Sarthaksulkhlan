@@ -27,12 +27,12 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def check_gif(path: Path) -> None:
+def check_gif(path: Path, height: int) -> None:
     with Image.open(path) as image:
-        require(image.format == "GIF" and image.size == (theme.WIDTH, 52), f"Unexpected GIF dimensions/format: {path.name}")
-        require(image.n_frames >= 40 and image.n_frames <= 240, f"Unexpected frame count: {path.name} ({image.n_frames})")
+        require(image.format == "GIF" and image.size == (theme.WIDTH, height), f"Unexpected GIF dimensions/format: {path.name}")
+        require(image.n_frames >= 6 and image.n_frames <= 80, f"Unexpected frame count: {path.name} ({image.n_frames})")
         require(image.info.get("loop") == 0, f"GIF does not loop: {path.name}")
-        require(path.stat().st_size < 65_536, f"GIF exceeds 64 KiB budget: {path.name}")
+        require(path.stat().st_size < 300_000, f"GIF exceeds 300 KiB budget: {path.name}")
         for index in (0, image.n_frames // 2, image.n_frames - 1):
             image.seek(index); image.convert("RGB").load()
 
@@ -70,7 +70,8 @@ def verify() -> None:
     require("## About" in readme and 'width="34%"' in readme and 'width="66%"' in readme, "Portrait and profile facts need the two-column layout")
     require("## Experience" in readme and theme.EXPERIENCE["employer"] in readme and theme.EXPERIENCE["duration"] in readme, "Provided experience is missing")
     require(theme.EDUCATION in readme and theme.EDUCATION_DETAIL in readme and all(item in readme for item in theme.COURSEWORK), "Provided education facts are incomplete")
-    require(readme.count("type=\"image/gif\"") == 2, "README should contain dark/light sources for the single typing animation")
+    require(readme.count("type=\"image/gif\"") == 8, "README should contain dark/light sources for four compact animations")
+    require("Pac-Man" in readme and "decorative" in readme.lower(), "Contribution art must clearly distinguish the decorative character from data")
     require("profile-portrait.gif" not in readme and "assets/profile-photo-source.jpg" not in readme, "Private or obsolete portrait asset is referenced")
     require(not (ROOT / "assets/profile-photo.jpeg").exists(), "Raw source photo must not be published")
     require(theme.PORTRAIT_SOURCE.split("/")[-1] in (ROOT/".gitignore").read_text(encoding="utf-8"), "Source photo is not ignored")
@@ -97,16 +98,19 @@ def verify() -> None:
     for source in external_sources:
         require(source.startswith("assets/") and (ROOT/source).is_file(), f"Missing picture source: {source}")
 
+    expected_gifs = {"hero-motion": 260, "focus-motion": 74, "telemetry-motion": 300, "contribution-motion": 190}
     gifs = sorted(p.name for p in (ROOT/"assets").glob("*.gif"))
-    require(gifs == ["typing-light.gif", "typing.gif"], f"Unexpected GIF assets: {gifs}")
-    for name in gifs:
-        check_gif(ROOT/"assets"/name)
+    expected_names = sorted(f"{stem}{suffix}.gif" for stem in expected_gifs for suffix in ("", "-light"))
+    require(gifs == expected_names, f"Unexpected GIF assets: {gifs}")
+    for stem, height in expected_gifs.items():
+        for suffix in ("", "-light"):
+            check_gif(ROOT/"assets"/f"{stem}{suffix}.gif", height)
     for path in (ROOT/"assets").glob("*.svg"):
         root = ET.parse(path).getroot()
         require(root.tag.endswith("svg") and int(root.attrib.get("width", "0")) <= theme.WIDTH, f"Invalid SVG size/root: {path.name}")
         raw = path.read_text(encoding="utf-8")
         require(not re.search(r"<\s*script\b|javascript:|on(?:load|error)\s*=|<\s*(?:animate|set)\b|@import", raw, re.I), f"Unsupported SVG content: {path.name}")
-    for stem in ("hero", "typing", "divider", "activity", "language-stats", "contribution-art"):
+    for stem in ("hero", "focus", "divider", "activity", "language-stats", "contribution-art"):
         for suffix in (".svg", "-light.svg"):
             require((ROOT/"assets"/f"{stem}{suffix}").is_file(), f"Static fallback missing: {stem}{suffix}")
     with Image.open(ROOT/theme.PORTRAIT_PNG) as portrait:
@@ -149,11 +153,11 @@ def verify() -> None:
             for svg in (temp/"assets").glob("*.svg"): ET.parse(svg)
             with Image.open(temp/"assets/profile-portrait.png") as image:
                 require(image.info.get("PortraitSource") == "placeholder", "Missing photo fallback image was not generated")
-            check_gif(temp/"assets/typing.gif")
+            check_gif(temp/"assets/focus-motion.gif", 74)
     finally:
         builder.ROOT,builder.DATA_FILE,builder.README_FILE=old
     check_cache_preservation(); check_markers()
-    print("Verified README content and links, photo privacy, icons/alt text, SVGs, single-loop GIF size/frames, workflows, theme contrast, cache preservation, no-photo fallback, marker preservation, and offline reproducibility.")
+    print("Verified README content and links, photo privacy, icons/alt text, SVGs, compact GIF size/frames, workflows, theme contrast, cache preservation, no-photo fallback, marker preservation, and offline reproducibility.")
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ def premium_hero(mode: str = "dark") -> str:
     """Draw a compact, static-first systems hero with a restrained information hierarchy."""
     c = card_params(mode)
     grid = "".join(f'<path d="M{x} 18V{HERO_HEIGHT-18}"/>' for x in range(40, WIDTH, 32))
-    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{c['panel']}"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient><linearGradient id="route"><stop stop-color="{c['accent_deep']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient></defs>
+    content = f'''<defs><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#281D38"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient><linearGradient id="route"><stop stop-color="{c['accent_deep']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient></defs>
     <rect x=".5" y=".5" width="829" height="{HERO_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="url(#panel)" stroke="{c['border']}"/><g fill="none" stroke="{c['grid']}" opacity=".26">{grid}</g>
     <path d="M32 28h13 M32 28v13 M798 28h-13 M798 28v13 M32 232h13 M32 232v-13 M798 232h-13 M798 232v-13" stroke="{c['accent']}" opacity=".6" fill="none"/>
     <text x="48" y="53" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.4">COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE</text>
@@ -55,12 +55,28 @@ def divider(mode: str = "dark") -> str:
 
 def typing(mode: str = "dark") -> str:
     c = card_params(mode)
-    lines = "".join(f'<text x="24" y="{35+i*26}" fill="{c["accent"] if i == 0 else c["muted"]}" font-family="{MONO_FONT}" font-size="14">› {html.escape(line)}</text>' for i, line in enumerate(TYPE_LINES[:3]))
-    return _document(WIDTH, 100, "Current engineering focus", "Building software, learning data and AI engineering, and studying real project systems.", f'<rect width="830" height="100" rx="{PANEL_RADIUS}" fill="{c["bg"]}" stroke="{c["border"]}"/>{lines}')
+    content = f'''<rect width="830" height="74" rx="{PANEL_RADIUS}" fill="{c['panel']}" stroke="{c['border']}"/>
+    <text x="24" y="26" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.6">CURRENT FOCUS / 01</text>
+    <text x="24" y="53" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="17" font-weight="650" letter-spacing=".7">BUILDING PRACTICAL SOFTWARE</text>
+    <path d="M24 64H806" stroke="{c['grid']}"/><path d="M24 64H285" stroke="{c['accent']}" stroke-width="2"/><circle cx="285" cy="64" r="3" fill="{c['mint']}"/>'''
+    return _document(WIDTH, 74, "Current engineering focus", "Current focus 01: building practical software.", content)
 
 
 def _font(size: int) -> ImageFont.ImageFont:
+    for path in ("C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"):
+        if Path(path).is_file():
+            return ImageFont.truetype(path, size=size)
     return ImageFont.load_default(size=size)
+
+
+def _gif(frames: list[Image.Image], durations: list[int]) -> bytes:
+    """Encode small, palette-limited, looped GIFs for GitHub's image renderer."""
+    import io
+    palette = frames[0].quantize(colors=32, method=Image.Quantize.MEDIANCUT)
+    indexed = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in frames]
+    output = io.BytesIO()
+    indexed[0].save(output, format="GIF", save_all=True, append_images=indexed[1:], duration=durations, loop=0, optimize=True, disposal=1)
+    return output.getvalue()
 
 
 def portrait(directory: Path) -> bool:
@@ -105,39 +121,107 @@ def portrait(directory: Path) -> bool:
     return True
 
 
-def typing_animation(mode: str = "dark") -> bytes:
-    """Render one optimized fixed-size loop with type, pause, and erase phases."""
-    c = card_params(mode)
-    font = _font(18)
-    size = (WIDTH, 52)
-    frames: list[Image.Image] = []
-    durations: list[int] = []
-    def frame(line: str, cursor: bool = True) -> Image.Image:
-        image = Image.new("RGB", size, hex_to_rgb(c["bg"]))
+def hero_animation(mode: str = "dark") -> bytes:
+    """Move a two-pixel scan stripe behind the hero name, without changing layout."""
+    c = card_params(mode); frames: list[Image.Image] = []
+    for offset in range(0, 30, 3):
+        image = Image.new("RGB", (WIDTH, HERO_HEIGHT), hex_to_rgb(c["bg_deep"]))
         draw = ImageDraw.Draw(image)
-        draw.rounded_rectangle((0, 0, WIDTH-1, 51), 10, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
-        draw.ellipse((13, 23, 18, 28), fill=hex_to_rgb(c["accent"]))
-        prefix = "> " + line
-        draw.text((28, 15), prefix, font=font, fill=hex_to_rgb(c["text"]))
-        if cursor:
-            x = 28 + int(draw.textlength(prefix, font=font)) + 2
-            draw.rectangle((x, 17, x+2, 34), fill=hex_to_rgb(c["accent"]))
+        draw.rounded_rectangle((0, 0, WIDTH - 1, HERO_HEIGHT - 1), 18, fill=(40, 29, 56) if mode == "dark" else hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        for x in range(28, WIDTH, 32): draw.line((x, 16, x, HERO_HEIGHT - 16), fill=hex_to_rgb(c["grid"]))
+        stripe_y = 82 + offset
+        draw.line((32, stripe_y, WIDTH - 32, stripe_y), fill=hex_to_rgb(c["accent"]), width=2)
+        draw.text((48, 39), "COMPUTER SCIENCE / DATA SCIENCE / SOFTWARE", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        draw.rounded_rectangle((660, 30, 794, 58), 14, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
+        draw.text((677, 40), "PROFILE / PUBLIC DATA", font=_font(8), fill=hex_to_rgb(c["muted"]))
+        draw.text((47, 82), NAME, font=_font(36), fill=hex_to_rgb(c["text"]))
+        draw.text((50, 133), "Practical software, informed by data and AI.", font=_font(15), fill=hex_to_rgb(c["silver"]))
+        draw.line((48, 157, 512, 157), fill=hex_to_rgb(c["border"]))
+        draw.text((50, 184), "BUILD", font=_font(10), fill=hex_to_rgb(c["muted"]))
+        draw.text((180, 184), "OBSERVE", font=_font(10), fill=hex_to_rgb(c["muted"]))
+        draw.text((322, 184), "REFINE", font=_font(10), fill=hex_to_rgb(c["muted"]))
+        draw.line((94, 180, 160, 180), fill=hex_to_rgb(c["accent"]))
+        draw.line((258, 180, 303, 180), fill=hex_to_rgb(c["mint"]))
+        draw.line((548, 76, 548, 222), fill=hex_to_rgb(c["border"]))
+        draw.text((582, 90), "SYSTEMS LOOP", font=_font(9), fill=hex_to_rgb(c["muted"]))
+        for y, label in ((116, "working code"), (156, "observed data"), (196, "measured change")):
+            draw.ellipse((602, y - 4, 610, y + 4), fill=hex_to_rgb(c["accent"] if y != 156 else c["mint"]))
+            draw.text((623, y - 6), label, font=_font(12), fill=hex_to_rgb(c["text"]))
+        frames.append(image)
+    return _gif(frames + frames[-2:0:-1], [100] * (len(frames) * 2 - 2))
+
+
+def focus_animation(mode: str = "dark") -> bytes:
+    """Rotate editorial focus cards with a short dissolve, never type-and-erase."""
+    c = card_params(mode); frames: list[Image.Image] = []; durations: list[int] = []
+    label_font, phrase_font = _font(10), _font(17)
+    def card(index: int, alpha: int = 255) -> Image.Image:
+        image = Image.new("RGB", (WIDTH, 74), hex_to_rgb(c["panel"]))
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((0, 0, WIDTH - 1, 73), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((24, 17), f"CURRENT FOCUS / {index + 1:02d}", font=label_font, fill=hex_to_rgb(c["muted"]))
+        draw.text((24, 39), TYPE_LINES[index].upper(), font=phrase_font, fill=hex_to_rgb(c["accent"]))
+        draw.line((24, 63, 806, 63), fill=hex_to_rgb(c["grid"]))
+        endpoint = 285 + index * 130
+        draw.line((24, 63, endpoint, 63), fill=hex_to_rgb(c["accent"]), width=2)
+        draw.ellipse((endpoint - 3, 60, endpoint + 3, 66), fill=hex_to_rgb(c["mint"]))
         return image
-    for line in TYPE_LINES:
-        for count in range(len(line)+1):
-            frames.append(frame(line[:count])); durations.append(58)
-        frames.extend([frame(line, False), frame(line, True), frame(line, False)])
-        durations.extend([250, 280, 250])
-        for count in range(len(line)-1, -1, -1):
-            frames.append(frame(line[:count])); durations.append(34)
-    # Use one common palette and delta frames so a narrow text change does not
-    # rewrite a full-color frame repeatedly in the resulting GIF.
-    palette = frames[0].quantize(colors=24, method=Image.Quantize.MEDIANCUT)
-    indexed = [image.quantize(palette=palette, dither=Image.Dither.NONE) for image in frames]
-    import io
-    output = io.BytesIO()
-    indexed[0].save(output, format="GIF", save_all=True, append_images=indexed[1:], duration=durations, loop=0, optimize=True, disposal=1)
-    return output.getvalue()
+    pages = [card(i) for i in range(len(TYPE_LINES))]
+    for index, page in enumerate(pages):
+        frames.append(page); durations.append(1450)
+        next_page = pages[(index + 1) % len(pages)]
+        for amount in (64, 128, 192):
+            frames.append(Image.blend(page, next_page, amount / 255)); durations.append(90)
+    return _gif(frames, durations)
+
+
+def contribution_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
+    """Render a decorative Pac-Man crossing a labelled public-event sample grid."""
+    c = card_params(mode); counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
+    maximum = max(counts) or 1; frames: list[Image.Image] = []; durations: list[int] = []
+    cell, gap, left, top = 12, 3, 86, 58
+    for step in range(18):
+        image = Image.new("RGB", (WIDTH, 190), hex_to_rgb(c["bg"]))
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((0, 0, WIDTH - 1, 189), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((24, 22), "CONTRIBUTION ART / PUBLIC EVENT SAMPLE", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        draw.text((24, 39), "Decorative character; cells summarize sampled public PushEvents, not a GitHub contribution calendar.", font=_font(9), fill=hex_to_rgb(c["muted"]))
+        for col in range(48):
+            source = counts[col - 36] if col >= 36 else 0
+            strength = source / maximum
+            for row in range(7):
+                active = source and row >= 6 - min(7, source)
+                color = c["mint"] if active and strength > .5 else (c["accent"] if active else c["panel_alt"])
+                x, y = left + col * (cell + gap), top + row * (cell + gap)
+                draw.rounded_rectangle((x, y, x + cell, y + cell), 2, fill=hex_to_rgb(color), outline=hex_to_rgb(c["grid"]))
+        pac_x = left + (step * 34) % 650
+        pac_y = top + 45
+        draw.pieslice((pac_x, pac_y, pac_x + 22, pac_y + 22), start=35 if step % 2 else 20, end=325 if step % 2 else 340, fill=hex_to_rgb(c["accent"]))
+        draw.ellipse((pac_x + 13, pac_y + 5, pac_x + 16, pac_y + 8), fill=hex_to_rgb(c["bg_deep"]))
+        frames.append(image); durations.append(120)
+    return _gif(frames, durations)
+
+
+def telemetry_motion(data: dict[str, Any], mode: str = "dark") -> bytes:
+    """Reveal data-derived bars while final, genuine labels stay visible in every frame."""
+    c = card_params(mode); counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
+    maximum = max(counts) or 1; frames: list[Image.Image] = []; durations: list[int] = []
+    for progress in range(1, 8):
+        image = Image.new("RGB", (WIDTH, 300), hex_to_rgb(c["bg"]))
+        draw = ImageDraw.Draw(image); draw.rounded_rectangle((0, 0, WIDTH - 1, 299), 18, fill=hex_to_rgb(c["panel"]), outline=hex_to_rgb(c["border"]))
+        draw.text((24, 21), "GITHUB / PUBLIC ACCOUNT SIGNAL", font=_font(10), fill=hex_to_rgb(c["accent"]))
+        values = [("REPOSITORIES", data.get("public_repo_count", "—")), ("STARS", data.get("public_repo_stars", "—")), ("FOLLOWERS", data.get("followers", "—")), ("SAMPLED EVENTS", data.get("public_push_event_count", "—"))]
+        for i, (label, value) in enumerate(values):
+            x = 22 + i * 199; draw.rounded_rectangle((x, 54, x + 184, 116), 10, fill=hex_to_rgb(c["panel_alt"]), outline=hex_to_rgb(c["border"]))
+            draw.text((x + 12, 72), label, font=_font(8), fill=hex_to_rgb(c["muted"]))
+            draw.text((x + 12, 91), str(value), font=_font(20), fill=hex_to_rgb(c["text"]))
+        baseline, left, step = 260, 60, 742 / 12
+        for i, count in enumerate(counts):
+            height = max(2, round(88 * count / maximum * progress / 7)); x = left + i * step + 12
+            draw.rounded_rectangle((x, baseline - height, x + 29, baseline), 4, fill=hex_to_rgb(c["accent"] if count else c["track"]))
+        draw.text((24, 280), "12 weekly groups from the latest public PushEvent sample (up to 100 events).", font=_font(9), fill=hex_to_rgb(c["muted"]))
+        frames.append(image); durations.append(110 if progress < 7 else 1200)
+    return _gif(frames, durations)
 
 
 def languages(data: dict[str, Any], mode: str = "dark") -> str:
@@ -211,20 +295,24 @@ def telemetry(data: dict[str, Any], mode: str = "dark") -> str:
 
 
 def contribution_art(data: dict[str, Any], mode: str = "dark") -> str:
-    """Visualize only genuine weekly counts from the sampled public event feed."""
-    c=card_params(mode); counts=[max(0,int(x)) for x in data.get("activity_weeks",[])[:12]]; counts=(counts+[0]*12)[:12]; maximum=max(counts) or 1
-    cells=[]
-    for i,count in enumerate(counts):
-        week_label = "11+" if i == 0 else str(11-i)
-        x=22+i*65; strength=count/maximum
-        fill=c["accent"] if count and strength>.65 else (c["mint"] if count else c["panel_alt"])
-        celltext=c["bg_deep"] if count else c["muted"]
-        cells.append(f'<rect x="{x}" y="60" width="54" height="46" rx="8" fill="{fill}" stroke="{c["border"]}"/><text x="{x+27}" y="82" text-anchor="middle" fill="{celltext}" font-size="15" font-weight="650">{count}</text><text x="{x+27}" y="98" text-anchor="middle" fill="{celltext}" font-family="{MONO_FONT}" font-size="7">{week_label}W</text>')
-    status="Observed public events" if data.get("events_available",False) else "Public event sample unavailable"
-    content=(f'<rect x=".5" y=".5" width="829" height="{CONTRIBUTION_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="22" y="28" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.2">WEEKLY EVENT TRACE / {html.escape(status.upper())}</text>'
-        + ''.join(cells)+f'<text x="22" y="128" fill="{c["muted"]}" font-size="9">Counts are sampled PushEvents, not a daily contribution calendar; the oldest bin includes events 11+ weeks old.</text>')
-    return _document(WIDTH,CONTRIBUTION_HEIGHT,"Sampled public contribution activity","Twelve sampled PushEvent groups from GitHub's recent public event feed; the oldest group includes events 11+ weeks old, and this is not a complete contribution calendar.",content)
+    """Render a static contribution-style grid from the limited public event sample."""
+    c = card_params(mode); counts = [max(0, int(x)) for x in data.get("activity_weeks", [])[:12]]; counts = (counts + [0] * 12)[:12]
+    maximum = max(counts) or 1; cells = []; cell, gap, left, top = 12, 3, 86, 58
+    for col in range(48):
+        source = counts[col - 36] if col >= 36 else 0
+        active_rows = min(7, source)
+        for row in range(7):
+            active = source and row >= 7 - active_rows
+            fill = c["mint"] if active and source / maximum > .5 else (c["accent"] if active else c["panel_alt"])
+            x, y = left + col * (cell + gap), top + row * (cell + gap)
+            cells.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" rx="2" fill="{fill}" stroke="{c["grid"]}"/>')
+    content = (f'<rect x=".5" y=".5" width="829" height="{CONTRIBUTION_HEIGHT-1}" rx="{PANEL_RADIUS}" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="24" y="26" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.2">CONTRIBUTION ART / PUBLIC EVENT SAMPLE</text>'
+        f'<text x="24" y="43" fill="{c["muted"]}" font-size="9">Static fallback: decorative grid, with cells based only on the latest sampled public PushEvents.</text>'
+        + ''.join(cells)
+        + f'<circle cx="508" cy="114" r="11" fill="{c["accent"]}"/><path d="M508 114l13-7v14z" fill="{c["bg"]}"/><circle cx="512" cy="109" r="1.5" fill="{c["bg_deep"]}"/>'
+        + f'<text x="24" y="174" fill="{c["muted"]}" font-size="9">The character is decorative. This is not GitHub’s full daily contribution calendar or a claim about private activity.</text>')
+    return _document(WIDTH, CONTRIBUTION_HEIGHT, "Decorative Pac-Man public event grid", "A decorative Pac-Man sits on a contribution-style grid that summarizes only recent sampled public PushEvents, not a full contribution calendar.", content)
 
 
 def write_assets(directory: Path, data: dict[str, Any]) -> bool:
@@ -232,7 +320,7 @@ def write_assets(directory: Path, data: dict[str, Any]) -> bool:
     directory.mkdir(parents=True, exist_ok=True)
     renderers = {
         "hero": lambda mode: premium_hero(mode),
-        "typing": lambda mode: typing(mode),
+        "focus": lambda mode: typing(mode),
         "divider": lambda mode: divider(mode),
         "activity": lambda mode: telemetry(data, mode),
         "language-stats": lambda mode: languages(data, mode),
@@ -245,9 +333,16 @@ def write_assets(directory: Path, data: dict[str, Any]) -> bool:
             if not path.is_file() or path.read_text(encoding="utf-8") != content:
                 path.write_text(content, encoding="utf-8", newline="\n")
     available = portrait(directory)
-    for mode,suffix in (("dark",""),("light","-light")):
-        path=directory / f"typing{suffix}.gif"
-        payload=typing_animation(mode)
-        if not path.is_file() or path.read_bytes() != payload:
-            path.write_bytes(payload)
+    animated = {
+        "hero-motion": hero_animation,
+        "focus-motion": focus_animation,
+        "telemetry-motion": lambda mode: telemetry_motion(data, mode),
+        "contribution-motion": lambda mode: contribution_motion(data, mode),
+    }
+    for name, renderer in animated.items():
+        for mode, suffix in (("dark", ""), ("light", "-light")):
+            path = directory / f"{name}{suffix}.gif"
+            payload = renderer(mode)
+            if not path.is_file() or path.read_bytes() != payload:
+                path.write_bytes(payload)
     return available

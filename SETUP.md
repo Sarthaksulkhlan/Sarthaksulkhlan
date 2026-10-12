@@ -1,6 +1,6 @@
 # Profile system setup
 
-This repository generates a GitHub profile README and its visual assets from Python configuration and cached public GitHub data. `scripts/theme.py` holds the palette, content, experience, education, projects, and linked skill icons. `scripts/build_assets.py` renders static theme-aware SVG instruments, a locally derived portrait PNG, and one small typing GIF. All other visuals are static. `scripts/build.py` refreshes the public data when run online and updates only content inside the README's generated markers.
+This repository generates a GitHub profile README and its visual assets from Python configuration and cached public GitHub data. `scripts/theme.py` holds the purple-and-graphite palette, content, experience, education, projects, and linked skill icons. `scripts/build_assets.py` renders static theme-aware SVG instruments, a locally derived portrait PNG, and four compact GIFs: the hero scan stripe, rotating focus display, telemetry reveal, and decorative Pac-Man. `scripts/build.py` refreshes the public data when run online and updates only content inside the README's generated markers.
 
 The optional source portrait belongs at `assets/profile-photo-source.jpg`. It is ignored by Git; only the derived 480x600 `assets/profile-portrait.png` is published. The derived image uses an emerald duotone, restrained scanlines, and a frame. On a fresh checkout without the private source, the builder preserves a valid committed portrait or creates an explicit placeholder. It never creates a synthetic face.
 
@@ -20,7 +20,7 @@ Pillow generates the portrait and GIF; PyYAML validates workflow files. Run `py 
 
 ## Content and visuals
 
-Edit the portfolio copy and factual configuration in `scripts/theme.py`. README structure is in `scripts/build.py`; hero, typing, divider, portrait, telemetry, and contribution art are generated in `scripts/build_assets.py`. The only animated element is the type-and-erase loop. It has a static SVG fallback. The profile uses Skill Icons for linked technology marks; each image links to that technology's official documentation. The icon host is external, so the image's alt text remains available if it cannot load.
+Edit the portfolio copy and factual configuration in `scripts/theme.py`. README structure is in `scripts/build.py`; hero, focus display, divider, portrait, telemetry, and contribution art are generated in `scripts/build_assets.py`. Each GIF has a static SVG fallback. The stripe moves behind the hero name; the focus display dissolves between three fixed-height status cards rather than deleting and retyping text. The Pac-Man is decorative; its grid summarizes only the most recent public PushEvent sample and is explicitly not a contribution calendar. The profile uses Skill Icons for linked technology marks; each image links to that technology's official documentation. The icon host is external, so the image's alt text remains available if it cannot load.
 
 Project descriptions and stacks are based on the linked public repositories. Live demo links are included only when a verified deployed homepage is available. Keep hand-written README content outside the generated markers. The builder leaves it intact.
 

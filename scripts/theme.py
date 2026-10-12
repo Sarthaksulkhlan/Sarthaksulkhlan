@@ -7,14 +7,15 @@ USERNAME = "Sarthaksulkhlan"
 NAME = "Sarthak Sulkhlan"
 PROFILE_URL = f"https://github.com/{USERNAME}"
 PALETTE = {
-    "bg": "#0D1210", "bg_deep": "#090D0B", "panel": "#131A16",
-    "panel_alt": "#19221D", "text": "#E7ECE8", "muted": "#AAB8AF",
-    "silver": "#CFD8D2", "mint": "#B8E8CF", "emerald": "#71D3A7",
-    "emerald_deep": "#28694E", "border": "#2C3932", "grid": "#202B25",
-    "light_bg": "#F3F7F3", "light_panel": "#FFFFFF", "light_panel_alt": "#E8F0EA",
-    "light_text": "#1B2922", "light_muted": "#52655A", "light_silver": "#50645A",
-    "light_mint": "#2F8A66", "light_emerald": "#176C4D", "light_border": "#CED9D1",
-    "light_grid": "#DEE7E0", "track_dark": "#2A382F", "track_light": "#E0E9E2",
+    "bg": "#101014", "bg_deep": "#0B0A10", "panel": "#181520",
+    "panel_alt": "#211C2D", "text": "#F1EEF6", "muted": "#BBB2C9",
+    "silver": "#DDD6E8", "mint": "#A9DEC8", "emerald": "#63C59A",
+    "emerald_deep": "#2D745B", "violet": "#B79CFF", "plum": "#382854",
+    "border": "#40364F", "grid": "#292432",
+    "light_bg": "#F7F5FA", "light_panel": "#FFFFFF", "light_panel_alt": "#EEE9F5",
+    "light_text": "#221D2B", "light_muted": "#61576E", "light_silver": "#534B60",
+    "light_mint": "#2B8664", "light_emerald": "#216E52", "light_violet": "#6848B5",
+    "light_border": "#D8D0E0", "light_grid": "#E5DFEA", "track_dark": "#342B42", "track_light": "#E4DDEB",
 }
 SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
@@ -23,7 +24,7 @@ HERO_HEIGHT = 260
 DIVIDER_HEIGHT = 38
 ACTIVITY_HEIGHT = 300
 LANGUAGE_HEIGHT = 242
-CONTRIBUTION_HEIGHT = 144
+CONTRIBUTION_HEIGHT = 190
 LANDSCAPE_HEIGHT = 210
 GRID_STEP = 28
 PANEL_RADIUS = 18
@@ -76,12 +77,12 @@ CAPABILITIES = [
     {"name": "Systems & integration", "items": ["Windows agent telemetry", "REST APIs", "CI workflows", "service integration"], "evidence": "Capabilities represented by the Asset Sentinel agent/API/dashboard and documented project workflows."},
 ]
 EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
-EDUCATION_DETAIL = "JSS Academy of Technical Education · AKTU · 2024–2028"
+EDUCATION_DETAIL = "JSS Academy of Technical Education · Dr. A.P.J. Abdul Kalam Technical University (AKTU) · 2024–2028"
 COURSEWORK = ["Data Structures", "Database Systems", "Operating Systems", "Computer Networks", "Software Engineering"]
 EXPERIENCE = {
-    "employer": "Prajjo HR — Kenbox Technologies",
+    "employer": "Prajjo HR — Canvas Technologies",
     "role": "AI Intern",
-    "location": "Noida, On-site",
+    "location": "Noida, India",
     "duration": "June 2026 – August 2026",
 }
 CURRENT_FOCUS = "Building practical systems, understanding their behavior through data, and learning how to make AI-enabled software useful and dependable."
@@ -136,7 +137,7 @@ def card_params(mode: str = "dark") -> dict[str, str]:
             "panel": PALETTE["panel"], "panel_alt": PALETTE["panel_alt"],
             "text": PALETTE["text"], "muted": PALETTE["muted"],
             "silver": PALETTE["silver"], "mint": PALETTE["mint"],
-            "accent": PALETTE["emerald"], "accent_deep": PALETTE["emerald_deep"],
+            "accent": PALETTE["violet"], "accent_deep": PALETTE["plum"],
             "border": PALETTE["border"], "grid": PALETTE["grid"],
             "track": PALETTE["track_dark"],
         }
@@ -146,7 +147,7 @@ def card_params(mode: str = "dark") -> dict[str, str]:
             "panel": PALETTE["light_panel"], "panel_alt": PALETTE["light_panel_alt"],
             "text": PALETTE["light_text"], "muted": PALETTE["light_muted"],
             "silver": PALETTE["light_silver"], "mint": PALETTE["light_mint"],
-            "accent": PALETTE["light_emerald"], "accent_deep": PALETTE["light_emerald"],
+            "accent": PALETTE["light_violet"], "accent_deep": PALETTE["light_violet"],
             "border": PALETTE["light_border"], "grid": PALETTE["light_grid"],
             "track": PALETTE["track_light"],
         }

@@ -184,15 +184,19 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
     if portrait_available is None:
         portrait_available = (ROOT / theme.PORTRAIT_SOURCE).is_file() and (ROOT / theme.PORTRAIT_PNG).is_file()
     alt = theme.PHOTO_ALT if portrait_available else "Portrait placeholder. Add your image at assets/profile-photo-source.jpg."
-    hero = theme.picture_markup("hero", "Sarthak Sulkhlan — software, data science, and applied AI")
-    typing = (
-        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/typing.gif">'
-        '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/typing-light.gif">'
-        '<img src="assets/typing.svg" alt="Building practical software; learning data science and applied AI; turning ideas into working systems"></picture>'
+    hero = (
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/hero-motion.gif">'
+        '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/hero-motion-light.gif">'
+        '<img src="assets/hero.svg" alt="Sarthak Sulkhlan — software, data science, and applied AI"></picture>'
+    )
+    focus = (
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/focus-motion.gif">'
+        '<source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/focus-motion-light.gif">'
+        '<img src="assets/focus.svg" alt="Current focus rotating through practical software, applied data and AI, and working systems"></picture>'
     )
     portrait = f'<img src="assets/profile-portrait.png" width="220" alt="{alt}">'
     content = [
-        hero, "", typing, "",
+        hero, "", focus, "",
         "**Explore** · [About](#about) · [Hands-on Engineering](#hands-on-engineering) · [Selected Work](#selected-work) · [Experience](#experience) · [Education](#education) · [Telemetry](#telemetry) · [Contribution Art](#contribution-art) · [Contact](#contact) · [How This Profile Is Built](SETUP.md)",
         "", theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## About", "",
@@ -243,8 +247,13 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
     content.extend([
         theme.picture_markup("divider", "Thin emerald section divider"), "",
         "## Experience", "",
-        f"**{theme.EXPERIENCE['role']}** · {theme.EXPERIENCE['employer']}<br>",
-        f"{theme.EXPERIENCE['location']} · {theme.EXPERIENCE['duration']}", "",
+        "<table><tbody>",
+        "<tr><th align=\"left\">Field</th><th align=\"left\">Details</th></tr>",
+        f"<tr><td>Role</td><td>{theme.EXPERIENCE['role']}</td></tr>",
+        f"<tr><td>Organization</td><td>{theme.EXPERIENCE['employer']}</td></tr>",
+        f"<tr><td>Location</td><td>{theme.EXPERIENCE['location']}</td></tr>",
+        f"<tr><td>Duration</td><td>{theme.EXPERIENCE['duration']}</td></tr>",
+        "</tbody></table>", "",
         "## Education", "",
         f"**{theme.EDUCATION}** · {theme.EDUCATION_DETAIL}", "",
         "**Coursework:** " + " · ".join(theme.COURSEWORK), "",
@@ -252,11 +261,12 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         "## Telemetry", "",
         "Public account statistics and language totals are refreshed daily by GitHub Actions. The event chart is a limited sample from the public events API, not a complete contribution history.", "",
         _refresh_label(data), "",
-        theme.picture_markup("activity", "Public repositories, repository stars, followers, sampled public events, and weekly event bars"), "",
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/telemetry-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/telemetry-motion-light.gif"><img src="assets/activity.svg" alt="Public repositories, repository stars, followers, sampled public events, and weekly event bars"></picture>', "",
         theme.picture_markup("language-stats", "Source-byte language shares across original public repositories"), "",
         "Language mix by GitHub-reported bytes: " + _language_summary(data) + ".", "",
         "## Contribution Art", "",
-        "The public event feed does not provide a complete daily contribution calendar, so this profile shows only the weekly groups it can verify.", "",
+        "A decorative Pac-Man moves across the grid. It is not a contribution tracker: the colored cells summarize only the latest verified public PushEvent sample.", "",
+        '<picture><source media="(prefers-color-scheme: dark)" type="image/gif" srcset="assets/contribution-motion.gif"><source media="(prefers-color-scheme: light)" type="image/gif" srcset="assets/contribution-motion-light.gif"><img src="assets/contribution-art.svg" alt="Decorative Pac-Man contribution-style grid labelled as a sampled public event view"></picture>', "",
         "<details><summary>Open the sampled weekly activity trace</summary>", "",
         theme.picture_markup("contribution-art", "Twelve weekly totals of public PushEvents from the recent sampled event feed"), "",
         theme.ACTIVITY_NOTE, "", "</details>", "",
@@ -264,7 +274,7 @@ def render_readme(data: dict[str, Any], portrait_available: bool | None = None) 
         "Repository count and stars are from GitHub’s public repository API and exclude forks and this profile repository. Followers come from the public user endpoint. Language shares use repository language byte totals. PushEvents are grouped into twelve week buckets from the latest public user-events response, which is capped at 100 events.", "", "</details>", "",
         "## Contact", "",
         f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [How this profile is built](SETUP.md)", "",
-        "<sub>One small self-hosted typing GIF is the only looping animation. The portrait, hero, project cards, and telemetry are static SVG/PNG assets. GitHub does not animate SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
+        "<sub>Four compact self-hosted GIFs provide the scan stripe, rotating focus, telemetry reveal, and decorative Pac-Man. Each has a static SVG fallback. GitHub does not reliably animate inline SVG; see <a href=\"https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files\">GitHub image support</a>.</sub>",
     ])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""
