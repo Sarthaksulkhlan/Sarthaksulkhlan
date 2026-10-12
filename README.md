@@ -2,89 +2,102 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hero.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg">
-  <img src="assets/hero.svg" alt="Sarthak Sulkhlan - software, data, and AI engineering">
+  <img src="assets/hero.svg" alt="Sarthak Sulkhlan — software engineering, data science, and AI systems">
 </picture>
 
-## Hello, I'm Sarthak
+**I like making software easier to reason about: follow the signals, understand the system, then improve it.**
 
-My background is B.Tech Computer Science & Engineering (Data Science), and I'm working toward AI engineering and software development. I'm learning Python, Java DSA, generative AI, and software engineering through practical projects.
+[Selected work](#selected-work) · [Engineering](#hands-on-engineering) · [Telemetry](#public-telemetry) · [GitHub](https://github.com/Sarthaksulkhlan)
 
-### Current focus
+## Who I am
 
-- Python and Java problem solving / generative AI and AI applications / reliable software systems
-- Turning project ideas into useful tools, then improving them through implementation and iteration
+I’m studying Computer Science and Engineering (Data Science) and learning by building practical software. My interests sit where application engineering, data, and AI meet: clear interfaces, observable behavior, and systems that are easier to evaluate as they change.
+
+Current learning: `Java problem solving` · `generative AI systems` · `Python`.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
-  <img src="assets/divider.svg" alt="Section divider">
+  <img src="assets/divider.svg" alt="Emerald systems trace section divider">
 </picture>
 
 ## Selected work
 
-<a href="https://github.com/Sarthaksulkhlan/epoch-software.evolution"><strong>EPOCH | Featured</strong></a><br />
-A system evolution platform that tracks software changes, invariants, drift, incidents, and measured counterfactual futures.<br />
-`TypeScript` / `MCP` / `Software evolution`<br />
-_Implemented system; repository documents a live demo._<br />
-[Live site](https://epoch-wj5b.onrender.com/) | [Repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution)
+A small set of projects that explore different engineering problems.
 
-<a href="https://github.com/Sarthaksulkhlan/Asset-Sentinel"><strong>Asset Sentinel | Featured</strong></a><br />
-A Windows fleet monitoring platform that turns device sessions, applications, hardware, and heartbeat telemetry into operational visibility.<br />
-`Python` / `Flask` / `React` / `Windows`<br />
-_Repository describes operational monitoring and dashboard features._<br />
-[Live site](https://assetsentinel.onrender.com) | [Repository](https://github.com/Sarthaksulkhlan/Asset-Sentinel)
+| **01 / SYSTEM EVOLUTION / HACKATHON PROTOTYPE** |
+|:--|
+| **[EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution)**<br>A governed software-evolution workbench: records code changes, checks system invariants, tracks drift and incidents, and measures alternative futures before a person approves a change. The repository describes a prototype built around one watched sample service.<br><br>**Built with** `TypeScript` · `Hono` · `React 19` · `SQLite` · `MCP`<br><br>[Project demo](https://epoch-wj5b.onrender.com/) · [Repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution) |
 
-<a href="https://github.com/Sarthaksulkhlan/Nexis---Starforge"><strong>MatrixCore</strong></a><br />
-An Aura adaptive voice-agent hackathon demo with a browser client and Python LiveKit agent; the repository is titled Nexis / Starforge.<br />
-`TypeScript` / `Python` / `LiveKit` / `Gemini`<br />
-_Hackathon demo; local setup requires external service credentials._<br />
-[Repository](https://github.com/Sarthaksulkhlan/Nexis---Starforge)
+| **02 / ENDPOINT TELEMETRY / FLEET VISIBILITY** |
+|:--|
+| **[Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel)**<br>A Windows monitoring system that sends heartbeat, hardware, session, and foreground-application signals through a Python agent and Flask API into a Supabase PostgreSQL store and React dashboard. Its README documents an end-to-end deployment and a demo using demonstration data.<br><br>**Built with** `Python` · `Flask` · `PostgreSQL` · `React` · `TypeScript`<br><br>[Project demo](https://assetsentinel.onrender.com) · [Repository](https://github.com/Sarthaksulkhlan/Asset-Sentinel) |
 
-[Browse all public repositories](https://github.com/Sarthaksulkhlan?tab=repositories)
+| **03 / VOICE SYSTEMS / HACKATHON DEMO** |
+|:--|
+| **[MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)**<br>An adaptive voice-agent demo with a browser client, an Express service, and a Python LiveKit agent. The documented voice path connects LiveKit, Gemini, Qdrant retrieval, and Rime speech; local use requires external service credentials.<br><br>**Built with** `TypeScript` · `Express` · `Python` · `LiveKit` · `Gemini`<br><br>[Repository](https://github.com/Sarthaksulkhlan/Nexis---Starforge) |
 
-### More experiments
+## Hands-on engineering
 
-<a href="https://github.com/Sarthaksulkhlan/MediKiosk"><strong>MediKiosk</strong></a><br />
-The public repository describes a TypeScript project but has no README or detailed project description to verify its purpose.<br />
-`TypeScript`<br />
-_Early repository; functionality not verified._<br />
-[Repository](https://github.com/Sarthaksulkhlan/MediKiosk)
+These technologies appear in the selected public repositories; this is a project map, not a proficiency ranking.
+
+- **Application interfaces** — `TypeScript` · `React` · `Vite`
+- **Services and APIs** — `Python` · `Flask` · `Hono` · `Express`
+- **Data and persistence** — `SQLite` · `PostgreSQL` · `Supabase`
+- **System integration** — `MCP` · `LiveKit` · `GitHub Actions`
+
+**Learning alongside project work:** `Java problem solving` · `generative AI systems` · `Python`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/project-landscape.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/project-landscape-light.svg">
+  <img src="assets/project-landscape.svg" alt="Three selected project areas: software evolution, endpoint telemetry, and voice interaction">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/divider.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/divider-light.svg">
-  <img src="assets/divider.svg" alt="Section divider">
+  <img src="assets/divider.svg" alt="Emerald systems trace section divider">
 </picture>
 
-## Tools and topics
+## Education & technical activity
 
-**Learning and building** | Python | Java | generative AI | software engineering<br />
-**Used in public projects** | TypeScript | React | Flask | Git
+**B.Tech, Computer Science and Engineering (Data Science)**
 
-## Activity and languages
+EPOCH is a team project built for the IBM Bob 2.0 hackathon; its repository describes the prototype scope and implementation limits.
 
-These visuals use public repository language bytes and the limited public event feed. They don't include private contributions or claim a complete contribution history.
+## Public telemetry
 
-**Last fully successful data refresh:** 2026-10-12 11:30:18 UTC.
+A compact view of public repository metadata and the limited public event sample. No private activity or contribution streaks are inferred.
+
+**Last fully successful data refresh:** 2026-10-12 11:50:42 UTC.
+
+**Repository snapshot:** 4 original public repositories · 2 stars across those repositories.
+
+**Event sample:** 11 public PushEvents returned.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/activity.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg">
-  <img src="assets/activity.svg" alt="Public GitHub push activity by week; public events only">
+  <img src="assets/activity.svg" alt="Public repository count, combined stars, and weekly buckets of sampled public PushEvents">
 </picture>
+
+Activity groups only PushEvents returned by GitHub's public user-events endpoint (up to 100 recent public events). It is a sample, not a contribution history; an empty bucket does not prove there was no GitHub activity.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/language-stats.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/language-stats-light.svg">
-  <img src="assets/language-stats.svg" alt="Language shares across public project repositories, based on GitHub language byte totals">
+  <img src="assets/language-stats.svg" alt="Language byte composition across original public repositories, excluding forks and this profile repository">
 </picture>
 
-**Text summary for narrow screens:** TypeScript 76% / Python 20% / CSS 1% / Other 3%
+**Language mix:** TypeScript 75.7% · Python 20.3% · CSS 1.5% · Other 2.5%.
 
-## Contact
+Language shares use GitHub’s reported source-byte totals across owned, non-fork public repositories. The profile README repository is excluded.
 
-[Find me on GitHub: @Sarthaksulkhlan](https://github.com/Sarthaksulkhlan)
+## Contact & navigation
+
+[GitHub profile](https://github.com/Sarthaksulkhlan) · [All public repositories](https://github.com/Sarthaksulkhlan?tab=repositories)
 
 ---
-<sub>Generated from public GitHub metadata | Theme and profile copy: <code>scripts/theme.py</code></sub>
+<sub>Generated from verified public GitHub metadata · Copy and visual tokens: <code>scripts/theme.py</code></sub>
 <!-- PROFILE:GENERATED:END -->

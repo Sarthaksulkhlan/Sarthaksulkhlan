@@ -1,4 +1,4 @@
-"""Central visual system and verified profile copy for generated assets."""
+"""Central visual system and evidence-based portfolio content."""
 from __future__ import annotations
 
 import re
@@ -7,76 +7,102 @@ USERNAME = "Sarthaksulkhlan"
 NAME = "Sarthak Sulkhlan"
 PROFILE_URL = f"https://github.com/{USERNAME}"
 PALETTE = {
-    "navy": "#101923", "navy_deep": "#0B121A", "slate": "#283747",
-    "blue": "#5A9BD5", "cyan": "#65C7D0", "paper": "#F5F8FA",
-    "white": "#FFFFFF", "ink": "#152331", "muted_dark": "#B4C2CE",
-    "muted_light": "#526474", "border_dark": "#344553",
-    "border_light": "#CFD9E0", "grid_dark": "#283744", "grid_light": "#DEE6EB",
-    "cyan_light": "#087E8B", "blue_light": "#246AA5", "steel_blue": "#8095B5",
-    "ice_blue": "#7BABC0", "steel": "#718A9A", "mist": "#A1B0BA",
+    "bg": "#111714", "bg_deep": "#0C110E", "panel": "#18211C",
+    "panel_alt": "#202B24", "text": "#E7ECE8", "muted": "#AAB8AF",
+    "silver": "#CFD8D2", "mint": "#B8E8CF", "emerald": "#71D3A7",
+    "emerald_deep": "#28694E", "border": "#34473D", "grid": "#26362D",
+    "light_bg": "#F3F7F3", "light_panel": "#FFFFFF", "light_panel_alt": "#E8F0EA",
+    "light_text": "#1B2922", "light_muted": "#52655A", "light_silver": "#50645A",
+    "light_mint": "#2F8A66", "light_emerald": "#176C4D", "light_border": "#CED9D1",
+    "light_grid": "#DEE7E0", "track_dark": "#2A382F", "track_light": "#E0E9E2",
 }
 SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
 WIDTH = 830
-HERO_HEIGHT = 245
-DIVIDER_HEIGHT = 38
-CHART_HEIGHT = 152
-GRID_STEP = 30
+HERO_HEIGHT = 250
+DIVIDER_HEIGHT = 34
+ACTIVITY_HEIGHT = 220
+LANGUAGE_HEIGHT = 250
+LANDSCAPE_HEIGHT = 210
+GRID_STEP = 28
 DARK_MODE_MEDIA = "(prefers-color-scheme: dark)"
 LIGHT_MODE_MEDIA = "(prefers-color-scheme: light)"
 
-# Factual project copy is maintained here; live URLs and language metadata are
-# read from GitHub. A homepage is linked only when present in the public API.
+# Project claims below come from the linked repositories' current README files.
+# Runtime homepage links and repository statistics come from GitHub's public API.
 PROJECTS = [
-    {"repo": "epoch-software.evolution", "name": "EPOCH", "description": "A system evolution platform that tracks software changes, invariants, drift, incidents, and measured counterfactual futures.", "maturity": "Implemented system; repository documents a live demo.", "tags": ["TypeScript", "MCP", "Software evolution"]},
-    {"repo": "Asset-Sentinel", "name": "Asset Sentinel", "description": "A Windows fleet monitoring platform that turns device sessions, applications, hardware, and heartbeat telemetry into operational visibility.", "maturity": "Repository describes operational monitoring and dashboard features.", "tags": ["Python", "Flask", "React", "Windows"]},
-    {"repo": "Nexis---Starforge", "name": "MatrixCore", "description": "An Aura adaptive voice-agent hackathon demo with a browser client and Python LiveKit agent; the repository is titled Nexis / Starforge.", "maturity": "Hackathon demo; local setup requires external service credentials.", "tags": ["TypeScript", "Python", "LiveKit", "Gemini"]},
+    {
+        "repo": "epoch-software.evolution", "name": "EPOCH",
+        "eyebrow": "SYSTEM EVOLUTION / HACKATHON PROTOTYPE",
+        "description": "A governed software-evolution workbench: records code changes, checks system invariants, tracks drift and incidents, and measures alternative futures before a person approves a change. The repository describes a prototype built around one watched sample service.",
+        "stack": ["TypeScript", "Hono", "React 19", "SQLite", "MCP"],
+        "domain": "change → invariants → review",
+    },
+    {
+        "repo": "Asset-Sentinel", "name": "Asset Sentinel",
+        "eyebrow": "ENDPOINT TELEMETRY / FLEET VISIBILITY",
+        "description": "A Windows monitoring system that sends heartbeat, hardware, session, and foreground-application signals through a Python agent and Flask API into a Supabase PostgreSQL store and React dashboard. Its README documents an end-to-end deployment and a demo using demonstration data.",
+        "stack": ["Python", "Flask", "PostgreSQL", "React", "TypeScript"],
+        "domain": "devices → telemetry → operations",
+    },
+    {
+        "repo": "Nexis---Starforge", "name": "MatrixCore",
+        "eyebrow": "VOICE SYSTEMS / HACKATHON DEMO",
+        "description": "An adaptive voice-agent demo with a browser client, an Express service, and a Python LiveKit agent. The documented voice path connects LiveKit, Gemini, Qdrant retrieval, and Rime speech; local use requires external service credentials.",
+        "stack": ["TypeScript", "Express", "Python", "LiveKit", "Gemini"],
+        "domain": "voice → reasoning → response",
+    },
 ]
-ADDITIONAL_PROJECTS = [
-    {"repo": "MediKiosk", "name": "MediKiosk", "description": "The public repository describes a TypeScript project but has no README or detailed project description to verify its purpose.", "maturity": "Early repository; functionality not verified.", "tags": ["TypeScript"]},
+
+LEARNING = ["Java problem solving", "generative AI systems", "Python"]
+CAPABILITIES = [
+    {"name": "Application interfaces", "items": ["TypeScript", "React", "Vite"]},
+    {"name": "Services and APIs", "items": ["Python", "Flask", "Hono", "Express"]},
+    {"name": "Data and persistence", "items": ["SQLite", "PostgreSQL", "Supabase"]},
+    {"name": "System integration", "items": ["MCP", "LiveKit", "GitHub Actions"]},
 ]
+EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
+ACTIVITY_NOTE = (
+    "Activity groups only PushEvents returned by GitHub's public user-events endpoint "
+    "(up to 100 recent public events). It is a sample, not a contribution history; "
+    "an empty bucket does not prove there was no GitHub activity."
+)
 
 
 def hex_to_rgb(value: str) -> tuple[int, int, int]:
-    """Convert a #RRGGBB value to an RGB tuple, rejecting malformed colors."""
+    """Convert a #RRGGBB value to RGB, rejecting malformed colors."""
     if not re.fullmatch(r"#[0-9a-fA-F]{6}", value):
         raise ValueError(f"Expected #RRGGBB color, got {value!r}")
     return tuple(int(value[index:index + 2], 16) for index in (1, 3, 5))  # type: ignore[return-value]
 
 
-def css_vars() -> str:
-    """Return theme tokens as CSS custom properties."""
-    return ":root{" + ";".join(f"--{key.replace('_', '-')}:#{value.lstrip('#')}" for key, value in PALETTE.items()) + "}"
-
-
-def card_params(theme: str = "dark") -> dict[str, str]:
-    """Return accessible SVG card colors for dark or light GitHub themes."""
-    if theme == "dark":
-        return {"bg": PALETTE["navy"], "surface": PALETTE["slate"], "text": PALETTE["white"], "muted": PALETTE["muted_dark"], "border": PALETTE["border_dark"], "grid": PALETTE["grid_dark"], "accent": PALETTE["cyan"], "blue": PALETTE["blue"]}
-    if theme == "light":
-        return {"bg": PALETTE["paper"], "surface": PALETTE["white"], "text": PALETTE["ink"], "muted": PALETTE["muted_light"], "border": PALETTE["border_light"], "grid": PALETTE["grid_light"], "accent": PALETTE["cyan_light"], "blue": PALETTE["blue_light"]}
-    raise ValueError("theme must be 'dark' or 'light'")
-
-
-def validate_theme() -> None:
-    """Fail early if required tokens are missing or malformed."""
-    required = {"navy", "navy_deep", "slate", "blue", "cyan", "paper", "white", "ink", "muted_dark", "muted_light", "border_dark", "border_light", "grid_dark", "grid_light", "cyan_light", "blue_light", "steel_blue", "ice_blue", "steel", "mist"}
-    missing = required - PALETTE.keys()
-    if missing:
-        raise ValueError(f"Missing theme colors: {sorted(missing)}")
-    for color in PALETTE.values():
-        hex_to_rgb(color)
-    if not USERNAME or not NAME or WIDTH > 830 or WIDTH < 360:
-        raise ValueError("Invalid profile identity or SVG dimensions")
-    for mode in ("dark", "light"):
-        card = card_params(mode)
-        foregrounds = ("text", "muted", "accent", "blue")
-        if any(contrast_ratio(card[token], card["bg"]) < 4.5 for token in foregrounds):
-            raise ValueError(f"Card text does not meet WCAG AA contrast in {mode} mode")
+def card_params(mode: str = "dark") -> dict[str, str]:
+    """Return the centralized tokens used by all generated visual instruments."""
+    if mode == "dark":
+        return {
+            "bg": PALETTE["bg"], "bg_deep": PALETTE["bg_deep"],
+            "panel": PALETTE["panel"], "panel_alt": PALETTE["panel_alt"],
+            "text": PALETTE["text"], "muted": PALETTE["muted"],
+            "silver": PALETTE["silver"], "mint": PALETTE["mint"],
+            "accent": PALETTE["emerald"], "accent_deep": PALETTE["emerald_deep"],
+            "border": PALETTE["border"], "grid": PALETTE["grid"],
+            "track": PALETTE["track_dark"],
+        }
+    if mode == "light":
+        return {
+            "bg": PALETTE["light_bg"], "bg_deep": PALETTE["light_bg"],
+            "panel": PALETTE["light_panel"], "panel_alt": PALETTE["light_panel_alt"],
+            "text": PALETTE["light_text"], "muted": PALETTE["light_muted"],
+            "silver": PALETTE["light_silver"], "mint": PALETTE["light_mint"],
+            "accent": PALETTE["light_emerald"], "accent_deep": PALETTE["light_emerald"],
+            "border": PALETTE["light_border"], "grid": PALETTE["light_grid"],
+            "track": PALETTE["track_light"],
+        }
+    raise ValueError("mode must be 'dark' or 'light'")
 
 
 def contrast_ratio(foreground: str, background: str) -> float:
-    """Calculate WCAG relative-luminance contrast ratio for two colors."""
+    """Calculate WCAG relative-luminance contrast ratio."""
     def luminance(color: str) -> float:
         channels = []
         for value in hex_to_rgb(color):
@@ -87,17 +113,29 @@ def contrast_ratio(foreground: str, background: str) -> float:
     return (first + 0.05) / (second + 0.05)
 
 
+def validate_theme() -> None:
+    """Fail on malformed tokens or insufficient foreground contrast."""
+    for color in PALETTE.values():
+        hex_to_rgb(color)
+    for mode in ("dark", "light"):
+        colors = card_params(mode)
+        for token in ("text", "muted", "silver", "accent"):
+            if contrast_ratio(colors[token], colors["bg"]) < 4.5:
+                raise ValueError(f"{token} does not meet WCAG AA contrast in {mode} mode")
+    if not USERNAME or not NAME or WIDTH != 830:
+        raise ValueError("Invalid profile identity or supported SVG dimensions")
+
+
 def picture_markup(asset: str, alt: str) -> str:
-    """Create GitHub-supported theme selection with a static SVG fallback."""
+    """Use GitHub's theme-aware picture pattern with a static SVG fallback."""
     from html import escape
 
     if not re.fullmatch(r"[a-z0-9-]+", asset):
         raise ValueError("Asset name must be a lowercase filename stem")
-    safe_alt = escape(alt, quote=True)
     return (
         "<picture>\n"
         f'  <source media="{DARK_MODE_MEDIA}" srcset="assets/{asset}.svg">\n'
         f'  <source media="{LIGHT_MODE_MEDIA}" srcset="assets/{asset}-light.svg">\n'
-        f'  <img src="assets/{asset}.svg" alt="{safe_alt}">\n'
+        f'  <img src="assets/{asset}.svg" alt="{escape(alt, quote=True)}">\n'
         "</picture>"
     )

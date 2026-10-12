@@ -1,4 +1,4 @@
-"""Render static, self-contained SVG assets from theme.py and public data."""
+"""Render compact, self-hosted SVG instruments from theme tokens and cached data."""
 from __future__ import annotations
 
 import html
@@ -6,21 +6,12 @@ from pathlib import Path
 from typing import Any
 
 from theme import (
-    CHART_HEIGHT,
-    DIVIDER_HEIGHT,
-    GRID_STEP,
-    HERO_HEIGHT,
-    MONO_FONT,
-    NAME,
-    PALETTE,
-    SANS_FONT,
-    WIDTH,
-    card_params,
+    ACTIVITY_HEIGHT, DIVIDER_HEIGHT, HERO_HEIGHT, LANGUAGE_HEIGHT, LANDSCAPE_HEIGHT,
+    MONO_FONT, NAME, PALETTE, PROJECTS, SANS_FONT, WIDTH, card_params,
 )
 
 
 def _document(width: int, height: int, title: str, description: str, content: str) -> str:
-    """Wrap vector content in valid SVG with a static, accessible fallback."""
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc" '
@@ -31,108 +22,174 @@ def _document(width: int, height: int, title: str, description: str, content: st
 
 
 def hero(mode: str = "dark") -> str:
-    """Render one palette-specific profile banner."""
+    """A restrained systems-console banner with a bespoke signal path."""
     c = card_params(mode)
     grid = "".join(
-        f'<line x1="{x}" y1="22" x2="{x}" y2="222" stroke="{c["grid"]}" opacity=".55"/>'
-        for x in range(480, WIDTH + 1, GRID_STEP)
+        f'<path d="M{x} 18V232" stroke="{c["grid"]}"/>'
+        for x in range(28, WIDTH, 28)
+    ) + "".join(
+        f'<path d="M18 {y}H812" stroke="{c["grid"]}"/>'
+        for y in range(26, HERO_HEIGHT, 28)
     )
-    grid += "".join(
-        f'<line x1="480" y1="{y}" x2="830" y2="{y}" stroke="{c["grid"]}" opacity=".55"/>'
-        for y in range(30, 231, GRID_STEP)
-    )
-    content = f'''<rect x="0.5" y="0.5" width="{WIDTH-1}" height="{HERO_HEIGHT-1}" rx="20" fill="{c['bg']}" stroke="{c['border']}"/>
-      <g opacity=".65">{grid}</g>
-      <circle cx="637" cy="119" r="20" fill="{c['surface']}" opacity=".85"/>
-      <path d="M480 182 C555 176 578 99 637 119 S733 201 830 71" fill="none" stroke="{c['blue']}" stroke-width="2" opacity=".85"/>
-      <circle cx="637" cy="119" r="6" fill="{c['accent']}"/><circle cx="637" cy="119" r="13" fill="none" stroke="{c['accent']}" opacity=".45"/>
-      <text x="42" y="57" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="12" letter-spacing="1.4">SOFTWARE / DATA / AI</text>
-      <text x="40" y="116" fill="{c['text']}" font-size="42" font-weight="650">{html.escape(NAME)}</text>
-      <text x="42" y="151" fill="{c['muted']}" font-size="17">Building thoughtful software systems</text>
-      <text x="42" y="181" fill="{c['muted']}" font-size="14">CSE / Data Science / AI engineering / developer tools</text>
-      <text x="42" y="218" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.4">GITHUB.COM/{html.escape(NAME.upper().replace(' ', ''))}</text>'''
-    return _document(WIDTH, HERO_HEIGHT, "Sarthak Sulkhlan - software, data, and AI", "A technical portfolio banner with a static systems diagram motif.", content)
+    nodes = []
+    for index, (x, label, sublabel) in enumerate((
+        (548, "CODE", "changes"), (665, "SIGNALS", "invariants"), (782, "REVIEW", "decisions")
+    )):
+        fill = c["panel_alt"] if index != 1 else c["panel"]
+        nodes.append(
+            f'<rect x="{x-42}" y="93" width="84" height="66" rx="12" fill="{fill}" stroke="{c["border"]}"/>'
+            f'<circle cx="{x}" cy="111" r="4" fill="{c["accent"]}"/>'
+            f'<text x="{x}" y="132" text-anchor="middle" fill="{c["text"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing=".8">{label}</text>'
+            f'<text x="{x}" y="147" text-anchor="middle" fill="{c["muted"]}" font-size="9">{sublabel}</text>'
+        )
+    content = f'''<defs>
+      <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{c['panel']}"/><stop offset="1" stop-color="{c['bg_deep']}"/></linearGradient>
+      <linearGradient id="signal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{c['accent_deep']}"/><stop offset=".52" stop-color="{c['accent']}"/><stop offset="1" stop-color="{c['mint']}"/></linearGradient>
+    </defs>
+    <rect x=".5" y=".5" width="829" height="249" rx="19" fill="url(#surface)" stroke="{c['border']}"/>
+    <g opacity=".48">{grid}</g>
+    <path d="M20 196H810" stroke="{c['border']}"/>
+    <text x="38" y="44" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="11" letter-spacing="2">ENGINEERING / SOFTWARE / DATA</text>
+    <text x="36" y="101" fill="{c['text']}" font-size="39" font-weight="650">{html.escape(NAME)}</text>
+    <text x="39" y="133" fill="{c['silver']}" font-size="16">Software engineering · data science · AI systems</text>
+    <text x="39" y="163" fill="{c['muted']}" font-family="{MONO_FONT}" font-size="11">BUILD → MEASURE → UNDERSTAND → REFINE</text>
+    <path d="M590 127H623 M707 127H740" fill="none" stroke="url(#signal)" stroke-width="2"/>
+    <path d="M510 70H586L596 60L606 80L616 70H810" fill="none" stroke="{c['mint']}" stroke-width="1.5" opacity=".78"/>
+    {''.join(nodes)}
+    <text x="39" y="222" fill="{c['muted']}" font-size="11">Practical tools, deliberate systems, evidence-led iteration</text>
+    <text x="790" y="222" text-anchor="end" fill="{c['accent']}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1">{html.escape(NAME.upper().replace(' ', ''))}</text>'''
+    return _document(WIDTH, HERO_HEIGHT, f"{NAME} — engineering portfolio", "A technical portfolio banner with a signal path from code changes through system evidence to human review.", content)
 
 
 def divider(mode: str = "dark") -> str:
-    """Render a restrained static section divider."""
     c = card_params(mode)
     content = (
-        f'<path d="M0 19H{WIDTH}" stroke="{c["border"]}"/>'
-        f'<path d="M0 19H{WIDTH}" stroke="{c["accent"]}" stroke-width="2" stroke-dasharray="2 24"/>'
-        f'<circle cx="32" cy="19" r="4" fill="{c["blue"]}"/>'
+        f'<path d="M0 17H{WIDTH}" stroke="{c["border"]}"/>'
+        f'<path d="M0 17H{WIDTH}" stroke="{c["accent"]}" stroke-width="1.5" stroke-dasharray="2 22" opacity=".72"/>'
+        f'<circle cx="44" cy="17" r="3.5" fill="{c["accent"]}"/>'
+        f'<circle cx="44" cy="17" r="8" fill="none" stroke="{c["accent"]}" opacity=".25"/>'
     )
-    return _document(WIDTH, DIVIDER_HEIGHT, "Section divider", "A fine technical line separates profile sections.", content)
+    return _document(WIDTH, DIVIDER_HEIGHT, "Systems trace divider", "A fine emerald signal line separates portfolio sections.", content)
+
+
+def landscape(mode: str = "dark", projects: list[dict[str, Any]] | None = None) -> str:
+    """Map three verified project domains to the engineering questions they explore."""
+    c = card_params(mode)
+    projects = projects or PROJECTS
+    cards = []
+    for i, project in enumerate(projects[:3]):
+        name = project["name"].upper()
+        subject = project["domain"]
+        label = project["eyebrow"].split(" / ")[0]
+        y = 54 + i * 47
+        cards.append(
+            f'<text x="26" y="{y+5}" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1">0{i+1}</text>'
+            f'<rect x="58" y="{y-12}" width="235" height="34" rx="8" fill="{c["panel"]}" stroke="{c["border"]}"/>'
+            f'<text x="72" y="{y+1}" fill="{c["text"]}" font-size="12" font-weight="600">{name}</text>'
+            f'<text x="72" y="{y+15}" fill="{c["muted"]}" font-size="10">{subject}</text>'
+            f'<path d="M293 {y+5}H367" stroke="{c["accent"]}" stroke-width="1.4" opacity=".8"/>'
+            f'<circle cx="367" cy="{y+5}" r="3" fill="{c["mint"]}"/>'
+            f'<text x="390" y="{y+9}" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".8">{label}</text>'
+        )
+    content = (
+        f'<rect x=".5" y=".5" width="829" height="{LANDSCAPE_HEIGHT-1}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="24" y="27" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing="1.5">PROJECT LANDSCAPE / THREE DIFFERENT SYSTEMS</text>'
+        + "".join(cards)
+    )
+    return _document(WIDTH, LANDSCAPE_HEIGHT, "Selected project landscape", "A map of three documented projects and the software domains they address: software evolution, endpoint telemetry, and voice interaction.", content)
 
 
 def activity(data: dict[str, Any], mode: str = "dark") -> str:
-    """Render observed public PushEvents; unavailable input is labelled clearly."""
+    """Show repository metadata and public PushEvents returned in the current API sample."""
     c = card_params(mode)
     counts = [0] * 12
-    labels = ["11w", "10w", "9w", "8w", "7w", "6w", "5w", "4w", "3w", "2w", "1w", "now"]
     for index, count in enumerate(data.get("activity_weeks", counts)):
         if index < len(counts):
             counts[index] = max(0, int(count))
     maximum = max(counts) or 1
+    baseline = 178
     bars = []
     for i, count in enumerate(counts):
-        height = 8 + round(58 * count / maximum) if count else 5
-        x = 34 + i * 63
+        x = 35 + i * 63
+        height = max(3, round(42 * count / maximum)) if count else 2
+        color = c["accent"] if count else c["border"]
         bars.append(
-            f'<rect x="{x}" y="{110-height}" width="26" height="{height}" rx="4" '
-            f'fill="{c["blue"] if count else c["border"]}"/>'
-            f'<text x="{x+13}" y="128" text-anchor="middle" fill="{c["muted"]}" font-size="9">{labels[i]}</text>'
+            f'<rect x="{x}" y="{baseline-height}" width="24" height="{height}" rx="3" fill="{color}"/>'
+            f'<text x="{x+12}" y="195" text-anchor="middle" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="9">{11-i}w</text>'
         )
-    summary = f'{sum(counts)} public push events in sampled window' if data.get("events_available", False) else "Public push event data unavailable"
-    content = (
-        f'<rect width="{WIDTH}" height="{CHART_HEIGHT}" rx="14" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="24" y="29" fill="{c["text"]}" font-size="15" font-weight="600">Public repository activity</text>'
-        f'<text x="24" y="48" fill="{c["muted"]}" font-size="11">Weekly buckets / public event snapshot / recent 12 weeks</text>'
-        f'{"".join(bars)}<text x="{WIDTH-20}" y="143" text-anchor="end" fill="{c["muted"]}" font-size="10">{html.escape(summary)}</text>'
+    repo_available = data.get("repos_available", "public_repo_count" in data)
+    repo_count = str(int(data.get("public_repo_count", 0))) if repo_available else "—"
+    stars = str(int(data.get("public_repo_stars", 0))) if repo_available else "—"
+    pushes = int(data.get("public_push_event_count", sum(counts)))
+    availability = data.get("events_available", False)
+    push_value = str(pushes) if availability else "—"
+    sample_caption = (
+        "Observed PushEvents / recent public API sample only"
+        if availability else "Public event sample unavailable / cached buckets shown when present"
     )
-    return _document(WIDTH, CHART_HEIGHT, "Public repository activity", "A twelve week bar chart of observed public push events. Missing data is labelled unavailable.", content)
+    content = (
+        f'<rect x=".5" y=".5" width="829" height="{ACTIVITY_HEIGHT-1}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="24" y="27" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing="1.5">REPOSITORY SIGNAL / PUBLIC DATA</text>'
+        f'<text x="24" y="43" fill="{c["muted"]}" font-size="9">Owned public repositories · profile repository and forks excluded</text>'
+        f'<path d="M276 56V93 M546 56V93" stroke="{c["border"]}"/>'
+        f'<text x="26" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".6">REPOSITORIES</text>'
+        f'<text x="26" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{repo_count}</text>'
+        f'<text x="300" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="10" letter-spacing=".3">STARS ACROSS THESE REPOSITORIES</text>'
+        f'<text x="300" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{stars}</text>'
+        f'<text x="570" y="70" fill="{c["silver"]}" font-family="{MONO_FONT}" font-size="9" letter-spacing=".35">PUSH EVENTS RETURNED</text>'
+        f'<text x="570" y="90" fill="{c["text"]}" font-size="20" font-weight="650">{push_value}</text>'
+        f'<path d="M24 {baseline}H806" stroke="{c["grid"]}"/>{"".join(bars)}'
+        f'<text x="806" y="211" text-anchor="end" fill="{c["muted"]}" font-size="9">{sample_caption}</text>'
+    )
+    return _document(WIDTH, ACTIVITY_HEIGHT, "GitHub public repository telemetry", "Public original repository count, combined repository stars, and a weekly grouping of PushEvents returned by GitHub's recent public event sample. This is not a complete contribution chart.", content)
 
 
 def languages(data: dict[str, Any], mode: str = "dark") -> str:
-    """Render GitHub-reported language byte totals across owned public projects."""
+    """Render GitHub language byte totals with values alongside every bar."""
     c = card_params(mode)
     stats = data.get("languages", {})
-    ranked_all = sorted(((str(name), int(size)) for name, size in stats.items() if int(size) > 0), key=lambda pair: (-pair[1], pair[0]))
-    total = sum(value for _, value in ranked_all)
-    ranked = ranked_all[:6] if len(ranked_all) <= 6 else ranked_all[:5] + [("Other", sum(value for _, value in ranked_all[5:]))]
-    palette = [PALETTE["blue"], PALETTE["cyan"], PALETTE["steel_blue"], PALETTE["ice_blue"], PALETTE["steel"], PALETTE["mist"]]
-    if not ranked:
-        graph = f'<text x="24" y="83" fill="{c["muted"]}" font-size="13">Repository language data is not available yet.</text>'
-    else:
-        x_position = 24
-        bar_parts = []
-        for index, (name, size) in enumerate(ranked):
-            segment = max(1, round(782 * size / total))
-            bar_parts.append(f'<rect x="{x_position}" y="57" width="{segment}" height="12" rx="5" fill="{palette[index]}"/>')
-            x_position += segment
-        legend = []
-        for index, (name, size) in enumerate(ranked):
-            x = 26 + (index % 3) * 260
-            y = 99 + (index // 3) * 25
-            legend.append(
-                f'<circle cx="{x}" cy="{y-4}" r="4" fill="{palette[index]}"/>'
-                f'<text x="{x+12}" y="{y}" fill="{c["text"]}" font-size="12">{html.escape(name)} '
-                f'<tspan fill="{c["muted"]}">{size/total:.0%}</tspan></text>'
-            )
-        graph = "".join(bar_parts + legend)
-    content = (
-        f'<rect width="{WIDTH}" height="{CHART_HEIGHT}" rx="14" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="24" y="29" fill="{c["text"]}" font-size="15" font-weight="600">Languages across public repositories</text>'
-        f'<text x="24" y="45" fill="{c["muted"]}" font-size="10">GitHub byte totals snapshot / all languages / profile repository excluded</text>{graph}'
+    ranked = sorted(
+        ((str(name), int(size)) for name, size in stats.items() if int(size) > 0),
+        key=lambda pair: (-pair[1], pair[0]),
     )
-    return _document(WIDTH, CHART_HEIGHT, "Public repository language breakdown", "Language shares weighted by GitHub-reported source bytes across public project repositories.", content)
+    total = sum(value for _, value in ranked)
+    shown = ranked[:5]
+    if len(ranked) > 5:
+        shown.append(("Other", sum(value for _, value in ranked[5:])))
+    chart = []
+    accents = [c["accent"], c["mint"], c["silver"], c["accent_deep"], c["muted"], c["text"]]
+    if not shown or not data.get("languages_available", bool(ranked)):
+        chart.append(f'<text x="26" y="93" fill="{c["muted"]}" font-size="13">Language totals are unavailable in the current cache.</text>')
+    else:
+        for i, (name, value) in enumerate(shown):
+            y = 80 + i * 27
+            pct = value / total if total else 0
+            bar_width = 510 * pct
+            chart.append(
+                f'<text x="26" y="{y+4}" fill="{c["text"]}" font-size="12" font-weight="600">{html.escape(name)}</text>'
+                f'<rect x="174" y="{y-8}" width="510" height="12" rx="6" fill="{c["track"]}"/>'
+                f'<rect x="174" y="{y-8}" width="{bar_width:.2f}" height="12" rx="6" fill="{accents[i % len(accents)]}"/>'
+                f'<text x="795" y="{y+4}" text-anchor="end" fill="{c["muted"]}" font-family="{MONO_FONT}" font-size="11">{pct:.1%}</text>'
+            )
+    content = (
+        f'<rect x=".5" y=".5" width="829" height="{LANGUAGE_HEIGHT-1}" rx="15" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="24" y="27" fill="{c["accent"]}" font-family="{MONO_FONT}" font-size="11" letter-spacing="1.3">LANGUAGE COMPOSITION / SOURCE BYTES</text>'
+        f'<text x="24" y="45" fill="{c["muted"]}" font-size="10">GitHub language API totals · original public repositories · profile and forks excluded</text>'
+        + "".join(chart)
+    )
+    return _document(WIDTH, LANGUAGE_HEIGHT, "Programming language composition", "Relative language shares from GitHub's language byte totals across owned original public repositories, excluding this profile repository and forks.", content)
 
 
 def write_assets(directory: Path, data: dict[str, Any]) -> None:
-    """Write static dark/light SVG pairs; GitHub selects them in README picture tags."""
+    """Write five carefully composed, static dark/light SVG families."""
     directory.mkdir(parents=True, exist_ok=True)
-    renderers = {"hero": hero, "divider": divider, "activity": activity, "language-stats": languages}
+    renderers = {
+        "hero": lambda mode: hero(mode),
+        "divider": lambda mode: divider(mode),
+        "project-landscape": lambda mode: landscape(mode, PROJECTS),
+        "activity": lambda mode: activity(data, mode),
+        "language-stats": lambda mode: languages(data, mode),
+    }
     for name, renderer in renderers.items():
         for mode, suffix in (("dark", ""), ("light", "-light")):
-            content = renderer(mode=mode) if name in {"hero", "divider"} else renderer(data, mode=mode)
-            (directory / f"{name}{suffix}.svg").write_text(content, encoding="utf-8", newline="\n")
+            (directory / f"{name}{suffix}.svg").write_text(renderer(mode), encoding="utf-8", newline="\n")

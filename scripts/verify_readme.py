@@ -36,9 +36,9 @@ def verify_missing_optional_data() -> None:
             builder.build(offline=True)
             activity_svg = (root / "assets" / "activity.svg").read_text(encoding="utf-8")
             language_svg = (root / "assets" / "language-stats.svg").read_text(encoding="utf-8")
-            if "Public push event data unavailable" not in activity_svg:
+            if "Public event sample unavailable" not in activity_svg:
                 fail("Missing public activity data lacks an unavailable fallback")
-            if "Repository language data is not available yet" not in language_svg:
+            if "Language totals are unavailable in the current cache" not in language_svg:
                 fail("Missing language data lacks an unavailable fallback")
             if "fake" in activity_svg.lower() or "fake" in language_svg.lower():
                 fail("Fallback visual contains fabricated sample data")
@@ -57,6 +57,7 @@ def verify_network_failure_preserves_cache() -> None:
         "events_available": True,
         "activity_weeks": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
         "public_push_event_count": 3,
+        "last_successful_refresh_utc": "2026-01-02T03:04:05Z",
     }
     try:
         builder.request_json = lambda *args, **kwargs: (_ for _ in ()).throw(OSError("simulated offline"))
@@ -82,6 +83,16 @@ def verify_manual_readme_content_is_preserved() -> None:
         builder.README_FILE = original_readme
 
 
+def verify_refresh_workflow_guard() -> None:
+    """Require a write scope only for refresh and a nonempty-diff commit guard."""
+    refresh = (ROOT / ".github" / "workflows" / "refresh.yml").read_text(encoding="utf-8")
+    verify_workflow = (ROOT / ".github" / "workflows" / "verify.yml").read_text(encoding="utf-8")
+    if "permissions:\n  contents: write" not in refresh or "git diff --cached --quiet" not in refresh:
+        fail("Refresh workflow must have explicit write permission and skip empty commits")
+    if "permissions:\n  contents: read" not in verify_workflow:
+        fail("Verification workflow should use read-only repository permissions")
+
+
 def verify() -> None:
     theme.validate_theme()
     readme = README_FILE.read_text(encoding="utf-8")
@@ -96,7 +107,7 @@ def verify() -> None:
             fail("last_successful_refresh_utc must be a valid ISO timestamp")
         if parsed_stamp.tzinfo != dt.timezone.utc or builder._refresh_label(cached_data) not in readme:
             fail("Successful refresh timestamp must be UTC and displayed in the README")
-    expected = {"hero": 1, "divider": 2, "activity": 1, "language-stats": 1}
+    expected = {"hero": 1, "divider": 2, "project-landscape": 1, "activity": 1, "language-stats": 1}
     image_sources = re.findall(r'<source\s+media="([^"]+)"\s+srcset="([^"]+)"\s*/?>', readme)
     image_fallbacks = re.findall(r'<img\s+src="([^"]+)"\s+alt="([^"]*)"\s*/?>', readme)
     if len(image_sources) != sum(expected.values()) * 2 or len(image_fallbacks) != sum(expected.values()):
@@ -137,6 +148,12 @@ def verify() -> None:
         for color in theme.card_params(mode).values():
             if not any(color in path.read_text(encoding="utf-8") for path in paths):
                 fail(f"Theme color {color} for {mode} mode is not represented in generated assets")
+    for project in theme.PROJECTS:
+        expected_url = f"{theme.PROFILE_URL}/{project['repo']}"
+        if expected_url not in readme:
+            fail(f"Selected project link is missing or incorrect: {project['name']}")
+    if any(token in readme.lower() for token in ("friday vig", "gold palette", "top engineer")):
+        fail("README contains reference-only identity or an unsupported status claim")
     for match in re.finditer(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", readme):
         target = match.group(1).split()[0]
         if not target.startswith(("https://", "http://", "mailto:", "#")) and not (ROOT / target).exists():
@@ -149,6 +166,7 @@ def verify() -> None:
     verify_missing_optional_data()
     verify_network_failure_preserves_cache()
     verify_manual_readme_content_is_preserved()
+    verify_refresh_workflow_guard()
     print("Verified theme, README markers/paths/alt text, static SVG safety, theme selection, reproducible build, and missing-data/network fallbacks.")
 
 

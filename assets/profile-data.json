@@ -11,9 +11,9 @@
     0,
     2,
     6,
-    2
+    3
   ],
-  "data_note": "Public repositories and public PushEvent data only; GitHub Events API sampling is limited to recent public events.",
+  "data_note": "Original public repositories exclude forks and this profile repository. Languages use GitHub-reported bytes. Activity groups only PushEvents in the latest public user-event sample (up to 100 events), not complete contribution history.",
   "events_available": true,
   "languages": {
     "Batchfile": 18118,
@@ -26,9 +26,11 @@
     "Python": 541993,
     "TypeScript": 2023272
   },
-  "last_successful_refresh_utc": "2026-10-12T11:30:18Z",
-  "public_push_event_count": 10,
+  "languages_available": true,
+  "last_successful_refresh_utc": "2026-10-12T11:50:42Z",
+  "public_push_event_count": 11,
   "public_repo_count": 4,
+  "public_repo_stars": 2,
   "repos": [
     {
       "description": "Centralized IT Asset Monitoring Tool for Windows PCs, Asset Sentinel turns Windows session, application, hardware, and heartbeat events into a live operational picture\u2014so teams can act on what is true now, not what an inventory sheet remembered.",
@@ -36,6 +38,7 @@
       "html_url": "https://github.com/Sarthaksulkhlan/Asset-Sentinel",
       "language": "Python",
       "name": "Asset-Sentinel",
+      "stargazers_count": 0,
       "updated_at": "2026-10-06T20:24:59Z"
     },
     {
@@ -44,6 +47,7 @@
       "html_url": "https://github.com/Sarthaksulkhlan/epoch-software.evolution",
       "language": "TypeScript",
       "name": "epoch-software.evolution",
+      "stargazers_count": 2,
       "updated_at": "2026-10-01T04:47:39Z"
     },
     {
@@ -52,6 +56,7 @@
       "html_url": "https://github.com/Sarthaksulkhlan/MediKiosk",
       "language": "TypeScript",
       "name": "MediKiosk",
+      "stargazers_count": 0,
       "updated_at": "2026-08-23T05:20:56Z"
     },
     {
@@ -60,7 +65,9 @@
       "html_url": "https://github.com/Sarthaksulkhlan/Nexis---Starforge",
       "language": "TypeScript",
       "name": "Nexis---Starforge",
+      "stargazers_count": 0,
       "updated_at": "2026-08-10T22:42:13Z"
     }
-  ]
+  ],
+  "repos_available": true
 }
