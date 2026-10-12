@@ -48,6 +48,17 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ isLightMode, profile
                 <span className="font-semibold text-right">Data Science & Systems</span>
               </div>
               <div className="flex justify-between">
+                <span className="opacity-70">LinkedIn:</span>
+                <a
+                  href="https://www.linkedin.com/in/sarthak-sulkhlan-909062358"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-emerald-400 hover:underline truncate max-w-[130px]"
+                >
+                  sarthak-sulkhlan
+                </a>
+              </div>
+              <div className="flex justify-between">
                 <span className="opacity-70">Verified Repos:</span>
                 <span className="font-semibold">{profileData?.public_repo_count ?? 4}</span>
               </div>
@@ -109,7 +120,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ isLightMode, profile
                 <div>
                   <h3 className="font-bold text-sm">AI Intern</h3>
                   <p className={`text-xs ${isLightMode ? 'text-[#0D604B]' : 'text-[#8DE0C1]'}`}>
-                    Prajjo HR — Canvas Technologies
+                    Prajjo HR — Kenbox Technologies
                   </p>
                 </div>
                 <div className="flex items-center justify-between text-xs opacity-75 font-mono pt-1">

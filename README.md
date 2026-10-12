@@ -27,7 +27,7 @@
 ## About
 
 <p>
-  🔗 <strong>Connect with me on LinkedIn:</strong> <a href="https://www.linkedin.com/in/sarthaksulkhlan"><strong>linkedin.com/in/sarthaksulkhlan</strong></a>
+  🔗 <strong>Connect with me on LinkedIn:</strong> <a href="https://www.linkedin.com/in/sarthak-sulkhlan-909062358"><strong>www.linkedin.com/in/sarthak-sulkhlan-909062358</strong></a>
 </p>
 
 <table width="100%">
@@ -41,7 +41,7 @@
         <table>
           <tbody>
             <tr><th align="left">Study</th><td>B.Tech, Computer Science and Engineering (Data Science)</td></tr>
-            <tr><th align="left">LinkedIn</th><td><a href="https://www.linkedin.com/in/sarthaksulkhlan">linkedin.com/in/sarthaksulkhlan</a></td></tr>
+            <tr><th align="left">LinkedIn</th><td><a href="https://www.linkedin.com/in/sarthak-sulkhlan-909062358">www.linkedin.com/in/sarthak-sulkhlan-909062358</a></td></tr>
             <tr><th align="left">Interests</th><td>Software engineering · data science · applied AI</td></tr>
             <tr><th align="left">Project work</th><td>Verified software, endpoint telemetry, and voice-agent systems</td></tr>
             <tr><th align="left">Learning</th><td>Java problem solving · Python · generative AI systems</td></tr>
@@ -66,7 +66,7 @@
   <tbody>
     <tr><th align="left">Field</th><th align="left">Details</th></tr>
     <tr><td><strong>Role</strong></td><td>AI Intern</td></tr>
-    <tr><td><strong>Organization</strong></td><td>Prajjo HR — Canvas Technologies</td></tr>
+    <tr><td><strong>Organization</strong></td><td>Prajjo HR — Kenbox Technologies</td></tr>
     <tr><td><strong>Location</strong></td><td>Noida, India</td></tr>
     <tr><td><strong>Duration</strong></td><td>June 2026 – August 2026</td></tr>
     <tr><td><strong>Focus</strong></td><td>Applied AI models, automated workflow integration, and evaluation</td></tr>
@@ -256,7 +256,7 @@ Repository count and stars are from GitHub’s public repository API and exclude
 
 ## Contact
 
-- **LinkedIn:** [linkedin.com/in/sarthaksulkhlan](https://www.linkedin.com/in/sarthaksulkhlan)
+- **LinkedIn:** [www.linkedin.com/in/sarthak-sulkhlan-909062358](https://www.linkedin.com/in/sarthak-sulkhlan-909062358)
 - **GitHub Profile:** [github.com/Sarthaksulkhlan](https://github.com/Sarthaksulkhlan)
 - **Email:** [sarthaksulkhlan2006@gmail.com](mailto:sarthaksulkhlan2006@gmail.com)
 - **All Public Repositories:** [github.com/Sarthaksulkhlan?tab=repositories](https://github.com/Sarthaksulkhlan?tab=repositories)

@@ -1,16 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="830" height="660" viewBox="0 0 830 660" role="img" aria-labelledby="ca-light-title ca-light-desc">
   <title id="ca-light-title">Sarthak Sulkhlan — Contribution Art, Snake &amp; Pac-Man (Light)</title>
-  <desc id="ca-light-desc">Decorative Snake and Pac-Man maze art journeys over a verified GitHub contribution grid in light theme.</desc>
+  <desc id="ca-light-desc">Decorative Snake and Pac-Man maze art journeys over a verified GitHub contribution grid in light theme with live moving animations.</desc>
   <defs>
     <linearGradient id="ca-card-light" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
       <stop offset="100%" stop-color="#F4F8F6"/>
     </linearGradient>
-    <style>
-      .mono { font-family: 'JetBrains Mono', SFMono-Regular, Consolas, monospace; }
-      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    </style>
   </defs>
+
+  <style>
+    .mono { font-family: 'JetBrains Mono', SFMono-Regular, Consolas, monospace; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
 
   <g class="mono" font-size="10" fill="#466058" opacity="0.6">
     <text x="4" y="16">— · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</text>
@@ -36,25 +37,33 @@
         <rect x="630" y="0" width="11" height="11" rx="2" fill="#147B61"/>
         <rect x="690" y="30" width="11" height="11" rx="2" fill="#147B61"/>
       </g>
-      <g>
-        <rect x="450" y="45" width="11" height="11" rx="3" fill="#147B61"/>
-        <rect x="465" y="45" width="11" height="11" rx="3" fill="#0D604B"/>
-        <rect x="465" y="30" width="11" height="11" rx="3" fill="#0D604B"/>
-        <rect x="465" y="15" width="11" height="11" rx="3" fill="#0D604B"/>
-        <rect x="480" y="15" width="11" height="11" rx="4" fill="#0D604B"/>
-        <circle cx="484" cy="18" r="1.2" fill="#FFFFFF"/>
-        <circle cx="488" cy="18" r="1.2" fill="#FFFFFF"/>
+      <!-- Moving Snake -->
+      <g id="live-snake-light">
+        <animateTransform attributeName="transform" type="translate"
+          values="0,0; 45,0; 45,30; 90,30; 90,-15; 135,-15; 135,15; 0,15; 0,0"
+          keyTimes="0; 0.15; 0.3; 0.45; 0.6; 0.75; 0.85; 0.95; 1"
+          dur="7s" repeatCount="indefinite" />
+        <rect x="465" y="15" width="11" height="11" rx="4" fill="#0D604B"/>
+        <circle cx="469" cy="18" r="1.2" fill="#FFFFFF"/>
+        <circle cx="473" cy="18" r="1.2" fill="#FFFFFF"/>
+        <rect x="450" y="15" width="11" height="11" rx="3" fill="#147B61"/>
+        <rect x="435" y="15" width="11" height="11" rx="3" fill="#349B78"/>
+        <rect x="420" y="15" width="11" height="11" rx="3" fill="#55C29C"/>
       </g>
-      <rect x="540" y="0" width="11" height="11" rx="3" fill="#0D604B"/>
+      <!-- Food -->
+      <rect x="540" y="15" width="11" height="11" rx="3" fill="#0D604B">
+        <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
+      </rect>
     </g>
     <g transform="translate(24, 155)">
       <rect width="782" height="6" rx="3" fill="#E2F0EA"/>
-      <rect width="520" height="6" rx="3" fill="#55C29C"/>
-      <rect width="240" height="6" rx="3" fill="#0D604B"/>
+      <rect width="240" height="6" rx="3" fill="#0D604B">
+        <animate attributeName="width" values="120; 680; 120" dur="7s" repeatCount="indefinite" />
+      </rect>
     </g>
   </g>
 
-  <!-- 2. PAC-MAN SECTION -->
+  <!-- 2. PAC-MAN SECTION WITH 5 MOVING CHARACTERS -->
   <g transform="translate(0, 305)">
     <text x="4" y="20" fill="#11231F" class="sans" font-size="16" font-weight="700">▼ Pac-Man — the contribution graph, played</text>
     <g class="mono" font-size="10" fill="#466058" opacity="0.8">
@@ -91,22 +100,46 @@
           <path d="M740 60 h 35"/>
           <path d="M740 95 h 35"/>
         </g>
+        <!-- Pac-Man moving -->
+        <g transform="translate(470, 95)">
+          <animateTransform attributeName="transform" type="translate"
+            values="470,95; 580,95; 580,55; 720,55; 580,55; 470,95"
+            dur="9s" repeatCount="indefinite" />
+          <path d="M 0 0 L 8 -5 A 9 9 0 1 0 8 5 Z" fill="#FACC15">
+            <animate attributeName="d"
+              values="M 0 0 L 8 -5 A 9 9 0 1 0 8 5 Z; M 0 0 L 9 -1 A 9 9 0 1 0 9 1 Z; M 0 0 L 8 -5 A 9 9 0 1 0 8 5 Z"
+              dur="0.3s" repeatCount="indefinite" />
+          </path>
+        </g>
+        <!-- Blinky -->
         <g transform="translate(450, 10)">
+          <animateTransform attributeName="transform" type="translate"
+            values="450,10; 340,10; 340,55; 450,55; 450,10"
+            dur="8s" repeatCount="indefinite" />
           <path d="M-6 -6 A6 6 0 0 1 6 -6 V4 L3 1 L0 4 L-3 1 L-6 4 Z" fill="#EF4444"/>
           <circle cx="-2" cy="-4" r="1.5" fill="#FFFFFF"/>
           <circle cx="2" cy="-4" r="1.5" fill="#FFFFFF"/>
         </g>
+        <!-- Inky -->
         <g transform="translate(402, 58)">
+          <animateTransform attributeName="transform" type="translate"
+            values="402,58; 260,58; 260,95; 402,95; 402,58"
+            dur="9s" repeatCount="indefinite" />
           <path d="M-6 -6 A6 6 0 0 1 6 -6 V4 L3 1 L0 4 L-3 1 L-6 4 Z" fill="#38BDF8"/>
         </g>
+        <!-- Pinky -->
         <g transform="translate(415, 58)">
+          <animateTransform attributeName="transform" type="translate"
+            values="415,58; 415,15; 530,15; 530,58; 415,58"
+            dur="7.5s" repeatCount="indefinite" />
           <path d="M-6 -6 A6 6 0 0 1 6 -6 V4 L3 1 L0 4 L-3 1 L-6 4 Z" fill="#F472B6"/>
         </g>
+        <!-- Clyde -->
         <g transform="translate(428, 58)">
+          <animateTransform attributeName="transform" type="translate"
+            values="428,58; 590,58; 590,95; 428,95; 428,58"
+            dur="8.5s" repeatCount="indefinite" />
           <path d="M-6 -6 A6 6 0 0 1 6 -6 V4 L3 1 L0 4 L-3 1 L-6 4 Z" fill="#FB923C"/>
-        </g>
-        <g transform="translate(470, 95)">
-          <path d="M 0 0 L 8 -5 A 9 9 0 1 0 8 5 Z" fill="#FACC15"/>
         </g>
       </g>
     </g>
