@@ -1,0 +1,11 @@
+{
+  "name": "Sarthak Sulkhlan Profile Studio",
+  "description": "Interactive developer portfolio, systems engineering showcase, and profile telemetry workbench for Sarthak Sulkhlan.",
+  "requestFrame": {
+    "width": 1280,
+    "height": 900
+  },
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
