@@ -161,13 +161,51 @@ def _project_section(project: dict[str, Any], data: dict[str, Any], index: int) 
     stack = " · ".join(f"`{item}`" for item in project["stack"])
     homepage = remote.get("homepage")
     links = [f"[Repository]({url})"]
-    if homepage:
-        demo = homepage if str(homepage).startswith("http") else "https://" + str(homepage)
+    demo_url = project.get("demo_url") or homepage
+    if demo_url:
+        demo = demo_url if str(demo_url).startswith("http") else "https://" + str(demo_url)
         links.insert(0, f"[Project demo]({demo})")
+    title = f"### [{project['name']}]({url})"
+    if index == 1:
+        return [
+            title,
+            "",
+            f"**01 / {project['eyebrow']}**",
+            "",
+            project["description"],
+            "",
+            "`change` → `invariants` → `future comparison` → `human decision`",
+            "",
+            f"**Built with** {stack} · {' · '.join(links)}",
+            "",
+        ]
+    if index == 2:
+        return [
+            title,
+            "",
+            f"> **02 / {project['eyebrow']}**",
+            ">",
+            "> Windows agents → authenticated API → PostgreSQL → fleet dashboard",
+            "",
+            project["description"],
+            "",
+            f"**Built with** {stack}",
+            "",
+            " · ".join(links),
+            "",
+        ]
     return [
-        f"| **0{index} / {project['eyebrow']}** |",
-        "|:--|",
-        f"| **[{project['name']}]({url})**<br>{project['description']}<br><br>**Built with** {stack}<br><br>{' · '.join(links)} |",
+        title,
+        "",
+        f"**03 / {project['eyebrow']}**",
+        "",
+        project["description"],
+        "",
+        "| Voice client | Agent services |",
+        "|:--|:--|",
+        "| Browser UI → Express API | Python LiveKit → Gemini → Qdrant → Rime |",
+        "",
+        f"**Built with** {stack} · {' · '.join(links)}",
         "",
     ]
 
@@ -198,36 +236,55 @@ def render_readme(data: dict[str, Any]) -> str:
     content = [
         theme.picture_markup("hero", "Sarthak Sulkhlan — software engineering, data science, and AI systems"),
         "",
-        "**I like making software easier to reason about: follow the signals, understand the system, then improve it.**",
+        "**I build practical software at the intersection of computer science, data, and AI.**",
         "",
-        "[Selected work](#selected-work) · [Engineering](#hands-on-engineering) · [Telemetry](#public-telemetry) · [GitHub](" + theme.PROFILE_URL + ")",
+        "**Explore** · [About](#who-i-am) · [Hands-on engineering](#hands-on-engineering) · [Selected work](#selected-work) · [Education & activity](#education--technical-activity) · [Telemetry](#public-telemetry) · [Contact](#contact--navigation)",
+        "",
+        "<img src=\"assets/signal.gif\" alt=\"Animated emerald signal node moving along a technical trace\" width=\"830\">",
+        "",
+        "[GitHub profile](" + theme.PROFILE_URL + ") · [Browse my repositories](" + theme.PROFILE_URL + "?tab=repositories) · [Jump to selected work](#selected-work)",
         "",
         "## Who I am",
         "",
-        "I’m studying Computer Science and Engineering (Data Science) and learning by building practical software. My interests sit where application engineering, data, and AI meet: clear interfaces, observable behavior, and systems that are easier to evaluate as they change.",
+        "I’m studying **Computer Science and Engineering (Data Science)** and learning by building. I’m interested in software engineering, data-informed systems, and AI engineering: turning an idea into something people can try, then making its behavior easier to inspect and improve.",
         "",
-        "Current learning: " + " · ".join(f"`{item}`" for item in theme.LEARNING) + ".",
+        theme.CURRENT_FOCUS,
         "",
-        theme.picture_markup("divider", "Emerald systems trace section divider"),
+    ]
+    if (ROOT / theme.PHOTO_PATH).is_file():
+        content.extend([
+            f'<img src="{theme.PHOTO_PATH}" width="176" alt="{theme.PHOTO_ALT}">',
+            "",
+        ])
+    content.extend([
+        "**Currently learning:** " + " · ".join(f"`{item}`" for item in theme.LEARNING) + ".",
+        "",
+        theme.picture_markup("divider", "Fine emerald systems trace section divider"),
         "",
         "## Selected work",
         "",
-        "A small set of projects that explore different engineering problems.",
+        "Three documented projects, each approaching a different systems problem. Project descriptions and stacks are drawn from their public repository READMEs.",
         "",
-    ]
+    ])
     for index, project in enumerate(theme.PROJECTS, start=1):
         content.extend(_project_section(project, data, index))
     content.extend([
         "## Hands-on engineering",
         "",
-        "These technologies appear in the selected public repositories; this is a project map, not a proficiency ranking.",
+        "A project-evidence map, not a proficiency ranking. Technologies below are documented in the linked implementations; items marked learning are current study topics.",
         "",
     ])
     for capability in theme.CAPABILITIES:
-        content.append(f"- **{capability['name']}** — " + " · ".join(f"`{item}`" for item in capability["items"]))
+        content.extend([
+            f"### {capability['name']}",
+            "",
+            " · ".join(f"`{item}`" for item in capability["items"]),
+            "",
+            capability["evidence"],
+            "",
+        ])
     content.extend([
-        "",
-        "**Learning alongside project work:** " + " · ".join(f"`{item}`" for item in theme.LEARNING) + ".",
+        "**Learning alongside project work:** `Java problem solving` · `generative AI systems`.",
         "",
         theme.picture_markup("project-landscape", "Three selected project areas: software evolution, endpoint telemetry, and voice interaction"),
         "",
@@ -237,11 +294,15 @@ def render_readme(data: dict[str, Any]) -> str:
         "",
         f"**{theme.EDUCATION}**",
         "",
-        "EPOCH is a team project built for the IBM Bob 2.0 hackathon; its repository describes the prototype scope and implementation limits.",
+        theme.EDUCATION_DETAIL,
+        "",
+        "**Project activity:** EPOCH is documented as a team prototype built for the IBM Bob 2.0 hackathon. See [the repository](https://github.com/Sarthaksulkhlan/epoch-software.evolution) for its scope and implementation details.",
+        "",
+        "Internships, certificates, and other leadership or campus roles are not listed here because the current verified profile sources do not establish those details.",
         "",
         "## Public telemetry",
         "",
-        "A compact view of public repository metadata and the limited public event sample. No private activity or contribution streaks are inferred.",
+        "A compact view of public repository metadata and the limited public event sample. No private activity, contribution totals, or streaks are inferred.",
         "",
         _refresh_label(data),
         "",
@@ -259,12 +320,21 @@ def render_readme(data: dict[str, Any]) -> str:
         "",
         "Language shares use GitHub’s reported source-byte totals across owned, non-fork public repositories. The profile README repository is excluded.",
         "",
+        "<details>",
+        "<summary>How to read the telemetry</summary>",
+        "",
+        "Repository counts and stars are a cached snapshot from GitHub’s public repository API. Language shares are weighted by source bytes. The activity plot groups PushEvents in the latest public user-events response (up to 100 events) into 12 week buckets; GitHub’s feed is sampled and capped, so this view is not a complete contribution history. A missing bar does not prove no work happened.",
+        "",
+        "</details>",
+        "",
         "## Contact & navigation",
         "",
-        f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories)",
+        f"[GitHub profile]({theme.PROFILE_URL}) · [All public repositories]({theme.PROFILE_URL}?tab=repositories) · [EPOCH](https://github.com/Sarthaksulkhlan/epoch-software.evolution) · [Asset Sentinel](https://github.com/Sarthaksulkhlan/Asset-Sentinel) · [MatrixCore](https://github.com/Sarthaksulkhlan/Nexis---Starforge)",
+        "",
+        "[Back to introduction](#who-i-am)",
         "",
         "---",
-        "<sub>Generated from verified public GitHub metadata · Copy and visual tokens: <code>scripts/theme.py</code></sub>",
+        "<sub>Portfolio telemetry is generated from public GitHub repository metadata and a limited recent event sample. Visual instruments are self-hosted. The signal trace is an animated GIF; SVG illustrations are static with no essential information conveyed by motion.</sub>",
     ])
     body = "\n".join(content).strip()
     existing = README_FILE.read_text(encoding="utf-8") if README_FILE.exists() else ""

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -70,6 +71,70 @@ def divider(mode: str = "dark") -> str:
         f'<circle cx="44" cy="17" r="8" fill="none" stroke="{c["accent"]}" opacity=".25"/>'
     )
     return _document(WIDTH, DIVIDER_HEIGHT, "Systems trace divider", "A fine emerald signal line separates portfolio sections.", content)
+
+
+def signal_gif() -> bytes:
+    """Create a small, looping palette GIF: a signal node travels along a trace."""
+    width, height, frame_count = WIDTH, DIVIDER_HEIGHT, 16
+    dark = card_params("dark")
+    # Transparent canvas works in both GitHub themes; the trace and node remain visible.
+    palette = [
+        (0, 0, 0),
+        tuple(int(dark["border"][i:i + 2], 16) for i in (1, 3, 5)),
+        tuple(int(dark["accent_deep"][i:i + 2], 16) for i in (1, 3, 5)),
+        tuple(int(dark["mint"][i:i + 2], 16) for i in (1, 3, 5)),
+    ]
+    output = bytearray(b"GIF89a")
+    output.extend(struct.pack("<HHBBB", width, height, 0xF1, 0, 0))
+    for color in palette:
+        output.extend(bytes(color))
+    output.extend(b"\x21\xff\x0bNETSCAPE2.0\x03\x01\x00\x00\x00")
+
+    def lzw(indices: list[int]) -> bytes:
+        packed = bytearray()
+        accumulator = bit_count = 0
+        def emit(code: int) -> None:
+            nonlocal accumulator, bit_count
+            accumulator |= code << bit_count
+            bit_count += 3
+            while bit_count >= 8:
+                packed.append(accumulator & 255)
+                accumulator >>= 8
+                bit_count -= 8
+        # Reset before each literal to keep the stream's code width fixed at
+        # three bits. The resulting file is still compact and avoids fragile
+        # code-width boundary behavior across different GIF decoders.
+        for value in indices:
+            emit(4)
+            emit(value)
+        emit(5)
+        if bit_count:
+            packed.append(accumulator & 255)
+        return bytes(packed)
+
+    for frame in range(frame_count):
+        marker_x = 14 + round((width - 28) * frame / (frame_count - 1))
+        pixels = [0] * (width * height)
+        for x in range(width):
+            if x % 24 < 3 or x == width - 1:
+                pixels[17 * width + x] = 1
+            pixels[16 * width + x] = pixels[18 * width + x] = 1
+        for radius, color in ((9, 2), (6, 3), (3, 2)):
+            for x in range(max(0, marker_x - radius), min(width, marker_x + radius + 1)):
+                for y in range(17 - radius, 18 + radius):
+                    if 0 <= y < height and (x - marker_x) ** 2 + (y - 17) ** 2 <= radius ** 2:
+                        pixels[y * width + x] = color
+        output.extend(b"\x21\xf9\x04\x09\x06\x00\x00\x00")
+        output.extend(b"\x2c" + struct.pack("<HHHHB", 0, 0, width, height, 0))
+        compressed = lzw(pixels)
+        output.append(2)
+        for offset in range(0, len(compressed), 255):
+            chunk = compressed[offset:offset + 255]
+            output.append(len(chunk))
+            output.extend(chunk)
+        output.append(0)
+    output.append(0x3B)
+    return bytes(output)
 
 
 def landscape(mode: str = "dark", projects: list[dict[str, Any]] | None = None) -> str:
@@ -181,7 +246,7 @@ def languages(data: dict[str, Any], mode: str = "dark") -> str:
 
 
 def write_assets(directory: Path, data: dict[str, Any]) -> None:
-    """Write five carefully composed, static dark/light SVG families."""
+    """Write static theme-aware SVG instruments and a restrained animated signal GIF."""
     directory.mkdir(parents=True, exist_ok=True)
     renderers = {
         "hero": lambda mode: hero(mode),
@@ -193,3 +258,4 @@ def write_assets(directory: Path, data: dict[str, Any]) -> None:
     for name, renderer in renderers.items():
         for mode, suffix in (("dark", ""), ("light", "-light")):
             (directory / f"{name}{suffix}.svg").write_text(renderer(mode), encoding="utf-8", newline="\n")
+    (directory / "signal.gif").write_bytes(signal_gif())

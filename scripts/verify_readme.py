@@ -42,8 +42,11 @@ def verify_missing_optional_data() -> None:
                 fail("Missing language data lacks an unavailable fallback")
             if "fake" in activity_svg.lower() or "fake" in language_svg.lower():
                 fail("Fallback visual contains fabricated sample data")
+            if "profile-photo.jpeg" in (root / "README.md").read_text(encoding="utf-8"):
+                fail("An absent optional profile photo should be omitted cleanly")
             for path in (root / "assets").glob("*.svg"):
                 ET.parse(path)
+            verify_gif(root / "assets" / "signal.gif")
     finally:
         builder.ROOT, builder.DATA_FILE, builder.README_FILE = original
 
@@ -93,6 +96,55 @@ def verify_refresh_workflow_guard() -> None:
         fail("Verification workflow should use read-only repository permissions")
 
 
+def verify_gif(path: Path) -> None:
+    """Check the animated image's GIF89a container and all frame subblocks."""
+    data = path.read_bytes()
+    if len(data) < 20 or data[:6] != b"GIF89a":
+        fail("signal.gif must be a GIF89a image")
+    width = int.from_bytes(data[6:8], "little")
+    height = int.from_bytes(data[8:10], "little")
+    if width != 830 or height != 34:
+        fail("signal.gif dimensions must match the theme dimensions")
+    packed = data[10]
+    offset = 13 + (3 * (2 ** ((packed & 7) + 1)) if packed & 0x80 else 0)
+    frames = 0
+    while offset < len(data):
+        marker = data[offset]
+        offset += 1
+        if marker == 0x3B:
+            break
+        if marker == 0x21:
+            offset += 1
+            while offset < len(data):
+                size = data[offset]
+                offset += 1
+                if size == 0:
+                    break
+                offset += size
+        elif marker == 0x2C:
+            if offset + 9 > len(data):
+                fail("signal.gif has a truncated image descriptor")
+            descriptor = data[offset:offset + 9]
+            local_flags = descriptor[8]
+            offset += 9
+            if local_flags & 0x80:
+                offset += 3 * (2 ** ((local_flags & 7) + 1))
+            if offset >= len(data):
+                fail("signal.gif is missing an LZW code size")
+            offset += 1
+            while offset < len(data):
+                size = data[offset]
+                offset += 1
+                if size == 0:
+                    break
+                offset += size
+            frames += 1
+        else:
+            fail(f"signal.gif has an unexpected block marker: {marker:#x}")
+    if offset != len(data) or frames < 2 or b"NETSCAPE2.0" not in data:
+        fail("signal.gif must be a complete, looping multi-frame animation")
+
+
 def verify() -> None:
     theme.validate_theme()
     readme = README_FILE.read_text(encoding="utf-8")
@@ -120,6 +172,12 @@ def verify() -> None:
             fail(f"README image is missing alt text: {target}")
         if not (ROOT / target).is_file():
             fail(f"README fallback image target does not exist: {target}")
+    for target in ("assets/profile-photo.jpeg", "assets/signal.gif"):
+        if f'src="{target}"' not in readme or not (ROOT / target).is_file():
+            fail(f"README or repository is missing required visual asset: {target}")
+    if "alt=\"Portrait of Sarthak Sulkhlan\"" not in readme:
+        fail("Profile photo needs descriptive alternative text")
+    verify_gif(ROOT / "assets" / "signal.gif")
     for asset, count in expected.items():
         dark = [item for media, item in image_sources if media == theme.DARK_MODE_MEDIA]
         light = [item for media, item in image_sources if media == theme.LIGHT_MODE_MEDIA]
@@ -158,6 +216,13 @@ def verify() -> None:
         target = match.group(1).split()[0]
         if not target.startswith(("https://", "http://", "mailto:", "#")) and not (ROOT / target).exists():
             fail(f"README link target does not exist: {target}")
+    headings = set()
+    for heading in re.findall(r"^#{1,6}\s+(.+)$", readme, re.M):
+        slug = re.sub(r"[^a-z0-9 -]", "", heading.lower()).replace(" ", "-")
+        headings.add(slug)
+    for target in re.findall(r"(?<!!)\[[^\]]+\]\(#([^)]+)\)", readme):
+        if target not in headings:
+            fail(f"README section link points to a missing heading: #{target}")
     before = {path: digest(path) for path in [README_FILE, *paths]}
     build(offline=True)
     after = {path: digest(path) for path in before}
@@ -167,7 +232,7 @@ def verify() -> None:
     verify_network_failure_preserves_cache()
     verify_manual_readme_content_is_preserved()
     verify_refresh_workflow_guard()
-    print("Verified theme, README markers/paths/alt text, static SVG safety, theme selection, reproducible build, and missing-data/network fallbacks.")
+    print("Verified theme, README markers/paths/alt text/anchors, SVG safety, theme selection, animated GIF structure, reproducible build, and missing-data/network fallbacks.")
 
 
 if __name__ == "__main__":

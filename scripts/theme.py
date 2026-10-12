@@ -19,7 +19,7 @@ PALETTE = {
 SANS_FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 MONO_FONT = "SFMono-Regular, Consolas, monospace"
 WIDTH = 830
-HERO_HEIGHT = 250
+HERO_HEIGHT = 280
 DIVIDER_HEIGHT = 34
 ACTIVITY_HEIGHT = 220
 LANGUAGE_HEIGHT = 250
@@ -34,7 +34,7 @@ PROJECTS = [
     {
         "repo": "epoch-software.evolution", "name": "EPOCH",
         "eyebrow": "SYSTEM EVOLUTION / HACKATHON PROTOTYPE",
-        "description": "A governed software-evolution workbench: records code changes, checks system invariants, tracks drift and incidents, and measures alternative futures before a person approves a change. The repository describes a prototype built around one watched sample service.",
+        "description": "A governed software-evolution workbench for a watched payments service: records approved changes, checks invariants, tracks drift and incidents, and measures alternative futures at a human approval gate. The repository includes a runnable demo and guarded public console.",
         "stack": ["TypeScript", "Hono", "React 19", "SQLite", "MCP"],
         "domain": "change → invariants → review",
     },
@@ -47,6 +47,7 @@ PROJECTS = [
     },
     {
         "repo": "Nexis---Starforge", "name": "MatrixCore",
+        "demo_url": "https://ai.studio/apps/f2d187b6-edd7-4e75-9a39-42f65428df0a",
         "eyebrow": "VOICE SYSTEMS / HACKATHON DEMO",
         "description": "An adaptive voice-agent demo with a browser client, an Express service, and a Python LiveKit agent. The documented voice path connects LiveKit, Gemini, Qdrant retrieval, and Rime speech; local use requires external service credentials.",
         "stack": ["TypeScript", "Express", "Python", "LiveKit", "Gemini"],
@@ -56,12 +57,17 @@ PROJECTS = [
 
 LEARNING = ["Java problem solving", "generative AI systems", "Python"]
 CAPABILITIES = [
-    {"name": "Application interfaces", "items": ["TypeScript", "React", "Vite"]},
-    {"name": "Services and APIs", "items": ["Python", "Flask", "Hono", "Express"]},
-    {"name": "Data and persistence", "items": ["SQLite", "PostgreSQL", "Supabase"]},
-    {"name": "System integration", "items": ["MCP", "LiveKit", "GitHub Actions"]},
+    {"name": "Programming & problem solving", "items": ["TypeScript", "Python", "Java (learning)"], "evidence": "TypeScript and Python appear across selected project repositories; Java is a current learning focus."},
+    {"name": "AI & generative systems", "items": ["Gemini", "MCP", "LiveKit", "Qdrant"], "evidence": "Documented in the MatrixCore and EPOCH project READMEs; explored through project work."},
+    {"name": "Backend, APIs & data", "items": ["Flask", "Hono", "Express", "SQLite", "PostgreSQL", "Supabase"], "evidence": "Used in the Asset Sentinel, EPOCH, and MatrixCore repositories."},
+    {"name": "Frontend & developer tooling", "items": ["React", "Vite", "TypeScript", "GitHub Actions"], "evidence": "Present in the selected project source and this profile's verified build workflow."},
+    {"name": "Systems & integration", "items": ["Windows agent telemetry", "REST APIs", "CI workflows", "service integration"], "evidence": "Capabilities represented by the Asset Sentinel agent/API/dashboard and documented project workflows."},
 ]
 EDUCATION = "B.Tech, Computer Science and Engineering (Data Science)"
+EDUCATION_DETAIL = "Studying Computer Science and Engineering (Data Science); building practical software while developing foundations in data and AI engineering."
+CURRENT_FOCUS = "Building practical systems, understanding their behavior through data, and learning how to make AI-enabled software useful and dependable."
+PHOTO_PATH = "assets/profile-photo.jpeg"
+PHOTO_ALT = "Portrait of Sarthak Sulkhlan"
 ACTIVITY_NOTE = (
     "Activity groups only PushEvents returned by GitHub's public user-events endpoint "
     "(up to 100 recent public events). It is a sample, not a contribution history; "

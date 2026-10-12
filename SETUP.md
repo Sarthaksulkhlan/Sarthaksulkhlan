@@ -1,6 +1,8 @@
 # Profile system setup
 
-This repository builds the profile README and five self-hosted visual instrument families from a single Python configuration. Each family has a static dark SVG and light SVG. `scripts/theme.py` owns the graphite/emerald palette, typography, dimensions, theme media rules, profile copy, project descriptions, and learning map. `scripts/build.py` optionally retrieves public GitHub repository metadata, language byte totals, repository stars, and a sample of recent public PushEvents; `scripts/build_assets.py` renders the SVGs; the builder updates only the README content between `PROFILE:GENERATED` markers. The last response is cached in `assets/profile-data.json`, so an offline build can use the last successful data.
+This repository builds the profile README and self-hosted visual instruments from a single Python configuration. Static SVG families have dark and light variants; `assets/signal.gif` is a small looping emerald signal trace. `scripts/theme.py` owns the graphite/emerald palette, typography, dimensions, theme media rules, profile copy, project descriptions, and learning map. `scripts/build.py` optionally retrieves public GitHub repository metadata, language byte totals, repository stars, and a sample of recent public PushEvents; `scripts/build_assets.py` renders the SVGs and GIF; the builder updates only the README content between `PROFILE:GENERATED` markers. The last response is cached in `assets/profile-data.json`, so an offline build can use the last successful data.
+
+The supplied portrait is stored at `assets/profile-photo.jpeg` (1072×992px, about 1.08:1; displayed at 176px wide without stretching). If you replace it, use your own clear head-and-shoulders image around 800×740px at the same aspect ratio; if the file is absent, the build omits the photo block without failing.
 
 The public REST API needs no personal access token. The scheduled workflow passes its built-in `GITHUB_TOKEN`; the same public endpoints work unauthenticated locally. A token is optional and should be stored as a local environment variable or GitHub Actions secret, never written into the repository. No private contribution data is requested, so no elevated scopes or PAT are needed.
 
@@ -20,7 +22,7 @@ Only the Python standard library is used; `requirements.txt` intentionally has n
 
 ## Theme, projects, and generated copy
 
-Edit the palette, typography, dimensions, theme media rules, name, project descriptions, capability map, or introductory profile copy in `scripts/theme.py`. Generated README layout is in `scripts/build.py`; the hero, systems landscape, telemetry, language composition, and divider illustrations are in `scripts/build_assets.py`. The README uses GitHub's `<picture>` theme pattern to select separate static light/dark files, with a normal image fallback. These visuals use static SVG because animation support is unreliable in GitHub profile READMEs; visual detail and live repository data are generated during refresh instead.
+Edit the palette, typography, dimensions, theme media rules, name, project descriptions, capability map, or introductory profile copy in `scripts/theme.py`. Generated README layout is in `scripts/build.py`; the hero, systems landscape, telemetry, language composition, divider illustrations, and signal animation are in `scripts/build_assets.py`. The README uses GitHub's `<picture>` theme pattern to select separate static light/dark SVG files, with a normal image fallback. GitHub supports GIF images and does not support inline SVG animation, so the moving signal is a self-hosted GIF; the static SVG divider remains available as the clear non-motion design fallback. The hero and charts themselves remain static.
 
 ```powershell
 py -3 scripts/build.py --offline
