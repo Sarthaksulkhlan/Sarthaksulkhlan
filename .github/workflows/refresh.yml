@@ -2,8 +2,8 @@ name: Refresh profile
 
 on:
   schedule:
-    # Daily at 03:17 UTC (08:47 India Standard Time).
-    - cron: "17 3 * * *"
+    # Daily at 15:00 UTC (20:30 India Standard Time).
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 concurrency:
