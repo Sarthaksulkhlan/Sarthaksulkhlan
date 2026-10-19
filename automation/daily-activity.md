@@ -1,3 +1,3 @@
 # Daily automation activity
 
-This log records successful UTC runs of the profile maintenance workflow.
+This log records successful India calendar dates for the profile maintenance workflow.

@@ -2,8 +2,8 @@ name: Refresh profile
 
 on:
   schedule:
-    # Daily at 15:00 UTC (20:30 India Standard Time).
-    - cron: "0 15 * * *"
+    # Daily at 19:00 UTC (00:30 India Standard Time on the following calendar day).
+    - cron: "0 19 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -33,11 +33,11 @@ jobs:
       - name: Record completed daily maintenance
         shell: bash
         run: |
-          run_date="$(date -u +'%F')"
+          india_date="$(TZ=Asia/Kolkata date +'%F')"
           activity_file="automation/daily-activity.md"
 
-          if [[ -f "$activity_file" ]] && grep -Fqx -- "- $run_date: UTC scheduled profile maintenance completed." "$activity_file"; then
-            echo "Daily maintenance was already recorded for $run_date."
+          if [[ -f "$activity_file" ]] && grep -Fqx -- "- $india_date: Asia/Kolkata scheduled profile maintenance completed." "$activity_file"; then
+            echo "Daily maintenance was already recorded for $india_date in Asia/Kolkata."
             exit 0
           fi
 
@@ -50,7 +50,7 @@ jobs:
           EOF
           fi
 
-          printf '\n- %s: UTC scheduled profile maintenance completed.\n' "$run_date" >> "$activity_file"
+          printf '\n- %s: Asia/Kolkata scheduled profile maintenance completed.\n' "$india_date" >> "$activity_file"
           git add "$activity_file"
-          git -c user.name="Sarthak Sulkhlan" -c user.email="24cseds104@jssaten.ac.in" commit -m "chore: record daily profile maintenance for $run_date"
+          git -c user.name="Sarthak Sulkhlan" -c user.email="24cseds104@jssaten.ac.in" commit -m "chore: record daily profile maintenance for $india_date IST"
           git push
