@@ -31,11 +31,11 @@ py -3 scripts/verify_readme.py
 
 ## GitHub Actions and data
 
-`refresh.yml` runs daily at 03:17 UTC (08:47 India Standard Time) and can also be run manually. It uses the built-in `GITHUB_TOKEN`; no secret is required for these public API endpoints. The cache stores account followers, original public repository count/stars, repository language bytes, and the latest public user-events sample. Repository totals exclude forks and this profile repository. Language mix is based on GitHub-reported source bytes. The activity chart groups only PushEvents returned in the latest public event sample (up to 100 events), so it is not a complete contribution history. Failed refreshes retain the last cached values for that source.
+`refresh.yml` runs daily at 03:17 UTC (08:47 India Standard Time) and can also be run manually. It validates the profile application, then records the completed UTC date in `automation/daily-activity.md`. A date already present in that log makes reruns a successful no-op, so the workflow creates at most one automation commit per UTC date. The workflow uses the built-in `GITHUB_TOKEN`; no personal access token or repository secret is required. Its `contents: write` permission is limited to this workflow because it pushes the maintenance commit.
 
-The workflow commits generated changes only when files actually change. To permit those commits, repository Actions workflow permissions must allow read and write access to contents. `verify.yml` runs syntax compilation, theme contrast checks, asset and README validation, workflow YAML checks, outage preservation checks, missing-photo fallback checks, marker preservation, and offline reproducibility checks without requiring network access.
+The workflow records a deterministic maintenance event rather than changing profile content solely to create a commit. The commit uses the profile owner's existing repository email (`24cseds104@jssaten.ac.in`), which must remain associated with the GitHub account for attribution. `verify.yml` has read-only permissions and runs type checking and the production build on pushes and pull requests.
 
-Scheduled runs do not guarantee a personal contribution square. Automation commits are attributed to `github-actions[bot]`; artificial or empty commits are not generated.
+Scheduled runs and valid commits do not guarantee a visible personal contribution square: GitHub evaluates commit email association, the repository’s default branch, repository visibility, and account contribution-display settings.
 
 ## Troubleshooting
 

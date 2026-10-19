@@ -25,20 +25,32 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        run: npm ci || npm install
-      - name: Build and verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm install --no-audit --no-fund
+      - name: Validate profile application
         run: |
           npm run lint
           npm run build
-      - name: Commit generated changes when needed
+      - name: Record completed daily maintenance
         shell: bash
         run: |
-          git add README.md assets/*.svg assets/*.gif assets/*.png assets/profile-data.json
-          if git diff --cached --quiet; then
-            echo "Generated profile is already up to date."
+          run_date="$(date -u +'%F')"
+          activity_file="automation/daily-activity.md"
+
+          if [[ -f "$activity_file" ]] && grep -Fqx -- "- $run_date: UTC scheduled profile maintenance completed." "$activity_file"; then
+            echo "Daily maintenance was already recorded for $run_date."
             exit 0
           fi
-          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "chore: refresh GitHub profile"
+
+          mkdir -p automation
+          if [[ ! -f "$activity_file" ]]; then
+            cat > "$activity_file" <<'EOF'
+          # Daily automation activity
+
+          This log records successful UTC runs of the profile maintenance workflow.
+          EOF
+          fi
+
+          printf '\n- %s: UTC scheduled profile maintenance completed.\n' "$run_date" >> "$activity_file"
+          git add "$activity_file"
+          git -c user.name="Sarthak Sulkhlan" -c user.email="24cseds104@jssaten.ac.in" commit -m "chore: record daily profile maintenance for $run_date"
           git push
