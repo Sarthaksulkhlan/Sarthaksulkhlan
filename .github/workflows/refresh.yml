@@ -52,5 +52,7 @@ jobs:
 
           printf '\n- %s: Asia/Kolkata scheduled profile maintenance completed.\n' "$india_date" >> "$activity_file"
           git add "$activity_file"
-          git -c user.name="Sarthak Sulkhlan" -c user.email="24cseds104@jssaten.ac.in" commit -m "chore: record daily profile maintenance for $india_date IST"
+          commit_timestamp="$(TZ=Asia/Kolkata date '+%Y-%m-%dT%H:%M:%S%z')"
+          GIT_AUTHOR_DATE="$commit_timestamp" GIT_COMMITTER_DATE="$commit_timestamp" \
+            git -c user.name="Sarthak Sulkhlan" -c user.email="24cseds104@jssaten.ac.in" commit -m "chore: record daily profile maintenance for $india_date IST"
           git push
