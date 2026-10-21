@@ -36,7 +36,7 @@ jobs:
           india_date="$(TZ=Asia/Kolkata date +'%F')"
           activity_file="automation/daily-activity.md"
 
-          if [[ -f "$activity_file" ]] && grep -Fqx -- "- $india_date: Asia/Kolkata scheduled profile maintenance completed." "$activity_file"; then
+          if [[ -f "$activity_file" ]] && grep -Eq -- "^- $india_date: (Asia/Kolkata scheduled profile maintenance completed\\.|Profile application validation passed for revision [0-9a-f]{12} during Asia/Kolkata scheduled maintenance\\.)$" "$activity_file"; then
             echo "Daily maintenance was already recorded for $india_date in Asia/Kolkata."
             exit 0
           fi
@@ -50,7 +50,8 @@ jobs:
           EOF
           fi
 
-          printf '\n- %s: Asia/Kolkata scheduled profile maintenance completed.\n' "$india_date" >> "$activity_file"
+          validated_revision="$(git rev-parse --short=12 HEAD)"
+          printf '\n- %s: Profile application validation passed for revision %s during Asia/Kolkata scheduled maintenance.\n' "$india_date" "$validated_revision" >> "$activity_file"
           git add "$activity_file"
           commit_timestamp="$(TZ=Asia/Kolkata date '+%Y-%m-%dT%H:%M:%S%z')"
           GIT_AUTHOR_DATE="$commit_timestamp" GIT_COMMITTER_DATE="$commit_timestamp" \
